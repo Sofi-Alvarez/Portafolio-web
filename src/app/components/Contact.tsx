@@ -1,0 +1,111 @@
+import { motion } from "motion/react";
+import { Linkedin, FileDown, Mail } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
+import sofiaPhoto from "../../imports/foto_sofia.jpeg";
+import cvFile from "../../imports/CV_Sofia_Alvarez_UX_UI.pdf";
+
+export function Contact() {
+  const handleLinkedIn = () => {
+    window.open("https://www.linkedin.com/in/sof%C3%ADa-%C3%A1lvarez-20/", "_blank");
+  };
+
+  const handleResume = () => {
+    // Open PDF directly — works both in localhost and production
+    window.open(cvFile, "_blank");
+  };
+
+  return (
+    <section id="contact" className="py-16 md:py-24 bg-white dark:bg-gray-900">
+      <div className="max-w-4xl mx-auto px-6 lg:px-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h2 className="text-4xl lg:text-5xl mb-4 text-gray-800 dark:text-gray-100">
+            Trabajemos Juntos
+          </h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300">
+            ¿Tienes un proyecto en mente? Me encantaría conocer más sobre él
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="bg-gradient-to-br from-[#025959]/5 to-[#FF8300]/5 dark:from-[#025959]/10 dark:to-[#FF8300]/10 rounded-2xl p-8 md:p-12 shadow-xl"
+        >
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            {/* Profile Image */}
+            <div className="relative flex-shrink-0">
+              <div className="w-40 h-40 rounded-2xl overflow-hidden shadow-2xl">
+                <img
+                  src={sofiaPhoto}
+                  alt="Sofía Álvarez"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-green-500 rounded-full border-4 border-white flex items-center justify-center">
+                <div className="w-3 h-3 bg-white rounded-full"></div>
+              </div>
+            </div>
+
+            {/* Info */}
+            <div className="flex-1 text-center md:text-left">
+              <h3 className="text-3xl text-gray-800 dark:text-gray-100 mb-2">Sofía Álvarez</h3>
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-1">UX/UI Designer</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-6">Buenos Aires, Argentina</p>
+
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleLinkedIn}
+                  className="flex items-center justify-center gap-2 px-6 py-3 bg-[#025959] text-white rounded-lg hover:bg-[#025959]/90 transition-colors shadow-lg"
+                >
+                  <Linkedin className="w-5 h-5" />
+                  <span>Conectar</span>
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleResume}
+                  className="flex items-center justify-center gap-2 px-6 py-3 bg-[#FF8300] text-white rounded-lg hover:bg-[#FF8300]/90 transition-colors shadow-lg"
+                >
+                  <FileDown className="w-5 h-5" />
+                  <span>Obtener currículum</span>
+                </motion.button>
+              </div>
+
+              {/* Social Links */}
+              <div className="flex gap-4 mt-6 justify-center md:justify-start">
+                <a
+                  href="mailto:alvarez.sofib@gmail.com"
+                  className="w-10 h-10 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
+                  aria-label="Email"
+                >
+                  <Mail className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                </a>
+                <a
+                  href="https://wa.me/571160285989"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-green-50 dark:hover:bg-gray-600 transition-colors"
+                  aria-label="WhatsApp"
+                >
+                  <FaWhatsapp style={{ width: "1.25rem", height: "1.25rem", color: "#25D366" }} />
+                </a>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
