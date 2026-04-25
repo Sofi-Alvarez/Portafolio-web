@@ -18,6 +18,7 @@ export default defineConfig({
     dedupe: ['react', 'react-dom'],
   },
   build: {
+    assetsInlineLimit: 100_000_000, // inline all assets (SVG, PNG, JPG) into the bundle
     rollupOptions: {
       output: {
         inlineDynamicImports: true,

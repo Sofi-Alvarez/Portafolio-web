@@ -15,7 +15,10 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-16 md:py-24 bg-white dark:bg-gray-900">
+    <section id="contact" className="bg-white dark:bg-gray-900">
+      {/* Banda separadora — ancho completo de pantalla */}
+      <div className="w-full h-5" style={{ background: "linear-gradient(to right, rgba(2,89,89,0.12), rgba(255,131,0,0.18), rgba(2,89,89,0.12))" }} />
+      <div className="py-16 md:py-24">
       <div className="max-w-4xl mx-auto px-6 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -76,6 +79,9 @@ export function Contact() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleResume}
+                  data-ga-action="download_cv"
+                  data-ga-category="CTA"
+                  data-ga-label="Obtener currículum"
                   className="flex items-center justify-center gap-2 px-6 py-3 bg-[#FF8300] text-white rounded-lg hover:bg-[#FF8300]/90 transition-colors shadow-lg"
                 >
                   <FileDown className="w-5 h-5" />
@@ -93,7 +99,7 @@ export function Contact() {
                   <Mail className="w-5 h-5 text-gray-600 dark:text-gray-300" />
                 </a>
                 <a
-                  href="https://wa.me/571160285989"
+                  href="https://wa.me/541160285989"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-green-50 dark:hover:bg-gray-600 transition-colors"
@@ -105,6 +111,7 @@ export function Contact() {
             </div>
           </div>
         </motion.div>
+      </div>
       </div>
     </section>
   );

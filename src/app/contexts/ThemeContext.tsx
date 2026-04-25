@@ -8,19 +8,11 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [isDark, setIsDark] = useState(() => {
-    // Check localStorage first
-    const saved = localStorage.getItem("theme");
-    if (saved) {
-      return saved === "dark";
-    }
-    // Check system preference
-    return window.matchMedia("(prefers-color-scheme: dark)").matches;
-  });
+  // Always start in Light Mode — ignore localStorage and system preference
+  const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    // Update localStorage and document class
-    localStorage.setItem("theme", isDark ? "dark" : "light");
+    // Only update document class — never persist theme to localStorage
     if (isDark) {
       document.documentElement.classList.add("dark");
     } else {

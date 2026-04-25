@@ -2,13 +2,18 @@
 @import './tailwind.css';
 @import './theme.css';
 
-/* Slick Carousel Styles */
-@import 'slick-carousel/slick/slick.css';
-@import 'slick-carousel/slick/slick-theme.css';
-
 /* Smooth Scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* Hide scrollbar utility — used in carousels */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE / Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;             /* Chrome / Safari */
 }
 
 /* Custom Scrollbar */

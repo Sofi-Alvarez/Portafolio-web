@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Menu, X, Moon, Sun } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useTheme } from "../contexts/ThemeContext";
@@ -8,22 +8,13 @@ import logo2dark from "../../imports/logo2dark.svg";
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const menuItems = [
-    { label: "Inicio", href: "#home" },
-    { label: "Sobre mi", href: "#about" },
-    { label: "Proyectos", href: "#projects" },
-    { label: "Valoraciones", href: "#feedback" },
-    { label: "Contacto", href: "#contact" },
+    { label: "Inicio",      href: "#home"     },
+    { label: "Proyectos",   href: "#projects" },
+    { label: "Sobre mí",    href: "#about"    },
+    // { label: "Valoraciones",href: "#feedback" }, // oculta hasta completar contenido
+    { label: "Contacto",    href: "#contact"  },
   ];
 
   const scrollToSection = (href: string) => {
@@ -36,19 +27,17 @@ export function Navbar() {
 
   return (
     <>
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled 
-            ? "bg-white dark:bg-gray-800 shadow-md" 
-            : "bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm"
-        }`}
-      >
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 shadow-md transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 lg:h-20">
             {/* Logo */}
-            <a href="#home" className="flex items-center">
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="flex items-center"
+              aria-label="Ir al inicio"
+            >
               <img src={isDark ? logo2dark : logo2} alt="Sofía Álvarez" className="w-10 h-10 object-contain" />
-            </a>
+            </button>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
