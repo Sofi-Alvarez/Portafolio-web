@@ -75,18 +75,19 @@ export function Contact() {
                   <span>Conectar</span>
                 </motion.button>
 
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleResume}
-                  data-ga-action="download_cv"
-                  data-ga-category="CTA"
-                  data-ga-label="Obtener currículum"
-                  className="flex items-center justify-center gap-2 px-6 py-3 bg-[#FF8300] text-white rounded-lg hover:bg-[#FF8300]/90 transition-colors shadow-lg"
-                >
+                <motion.a
+                href="/CV_Sofia_Alvarez_UX_UI.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                data-ga-action="download_cv"
+                data-ga-category="CTA"
+                data-ga-label="Obtener currículum"
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-[#FF8300] text-white rounded-lg hover:bg-[#FF8300]/90 transition-colors shadow-lg">
                   <FileDown className="w-5 h-5" />
                   <span>Obtener currículum</span>
-                </motion.button>
+</motion.a>
               </div>
 
               {/* Social Links */}
