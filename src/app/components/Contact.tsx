@@ -76,7 +76,7 @@ export function Contact() {
                 </motion.button>
 
                 <motion.a
-                href="/CV_Sofia_Alvarez_UX_UI.pdf"
+                href="/CV_Sofia_Alvarez_UX_UI.pdf#view=FitV"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
