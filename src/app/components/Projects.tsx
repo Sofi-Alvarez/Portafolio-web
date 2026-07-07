@@ -9,6 +9,15 @@ import bookiePort  from "../../imports/Bookiecont.svg";
 import bankPort    from "../../imports/Masbankcont.svg";
 import vibeDesign1 from "../../imports/Portfolio vibe-design1.jpg";
 
+/* Milestone aún no tiene capturas propias — placeholder hasta reemplazar por la imagen real */
+const milestonePort = `data:image/svg+xml,${encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360">
+  <rect width="480" height="360" fill="#E2E2EF"/>
+  <path transform="translate(240,150)" d="M0 -58c-46 0-75 35-75 75 0 35 23 58 35 81l-11 46h102l-11-46c12-23 35-46 35-81 0-40-29-75-75-75z" fill="#4A4E78" opacity="0.9"/>
+  <text x="240" y="270" font-family="Manrope, sans-serif" font-size="20" font-weight="700" fill="#4A4E78" text-anchor="middle">Milestone</text>
+  <text x="240" y="294" font-family="Manrope, sans-serif" font-size="12" fill="#4A4E78" opacity="0.65" text-anchor="middle">Vista previa próximamente</text>
+</svg>`)}`;
+
 /* ══════════════════════════════════════════════════════════
    TOOL DEFINITIONS
 ══════════════════════════════════════════════════════════ */
@@ -44,6 +53,17 @@ interface ProjectDef {
 }
 
 const PROJECTS: ProjectDef[] = [
+  {
+    slug: "/case-study/milestone",
+    title: "Milestone — Registro financiero sin ansiedad",
+    badge: "Design Thinking + Vibe-Coding",
+    role: "UX/UI Designer + Vibe-Coding",
+    description:
+      "Una app de registro financiero, sin conectar bancos reales, diseñada para el momento en que alguien vuelve a ocuparse de su plata — sin castigarla por haberse ido. Research, testing con bugs reales y producto vivo, en solitario.",
+    image: milestonePort,
+    tools: ["Figma", "ClaudeCode", "Lovable", "PenLine"],
+    accentColor: "#4A4E78",
+  },
   {
     slug: "/case-study/iupi",
     title: "IUPI — Fintech de ahorro e inversiones",
@@ -360,7 +380,7 @@ function TertiaryCard({ project, index }: { project: ProjectDef; index: number }
    SECTION EXPORT
 ══════════════════════════════════════════════════════════ */
 export function Projects() {
-  const [iupi, portfolio, bank, bookie] = PROJECTS;
+  const [milestone, iupi, portfolio, bank, bookie] = PROJECTS;
 
   return (
     <section id="projects" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800">
@@ -384,17 +404,20 @@ export function Projects() {
 
         <div className="flex flex-col gap-6 md:gap-8">
 
-          {/* Row 1 — Primary hero: IUPI */}
-          <PrimaryCard project={iupi} index={0} />
+          {/* Row 1 — Primary hero: Milestone */}
+          <PrimaryCard project={milestone} index={0} />
 
-          {/* Row 2 — Secondary 2-col: Portfolio + Mas+ Bank */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch">
-            <SecondaryCard project={portfolio} index={1} />
-            <SecondaryCard project={bank}      index={2} />
+          {/* Row 2 — Secondary: IUPI */}
+          <div className="max-w-3xl mx-auto w-full">
+            <SecondaryCard project={iupi} index={1} />
           </div>
 
-          {/* Row 3 — Tertiary compact: Bookie */}
-          <TertiaryCard project={bookie} index={3} />
+          {/* Row 3 — Tertiary compact, apiladas: Portfolio + Mas+ Bank + Bookie */}
+          <div className="flex flex-col gap-6 md:gap-8">
+            <TertiaryCard project={portfolio} index={2} />
+            <TertiaryCard project={bank}      index={3} />
+            <TertiaryCard project={bookie}    index={4} />
+          </div>
 
         </div>
       </div>

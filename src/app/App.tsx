@@ -15,6 +15,7 @@ import { IUPICaseStudy } from "./components/ui/IUPICaseStudy";
 import { BookieCaseStudy } from "./components/ui/BookieCaseStudy";
 import { BankCaseStudy } from "./components/ui/BankCaseStudy";
 import { PortfolioCaseStudy } from "./components/ui/PortfolioCaseStudy";
+import { MilestoneCaseStudy } from "./components/ui/MilestoneCaseStudy";
 import { useAnalytics } from "../hooks/useAnalytics";
 
 function MainPage() {
@@ -70,6 +71,7 @@ function AnimatedRoutes() {
           <Route path="/case-study/bookie"  element={<PageTransition><BookieCaseStudy /></PageTransition>} />
           <Route path="/case-study/+bank"      element={<PageTransition><BankCaseStudy /></PageTransition>} />
           <Route path="/case-study/portfolio" element={<PageTransition><PortfolioCaseStudy /></PageTransition>} />
+          <Route path="/case-study/milestone" element={<PageTransition><MilestoneCaseStudy /></PageTransition>} />
         </Routes>
       </AnimatePresence>
     </div>

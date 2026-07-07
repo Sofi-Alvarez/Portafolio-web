@@ -92,21 +92,28 @@ function ToolBadge(tool: ToolItem) {
   );
 }
 
-function NavPill({ step }: { step: Step }) {
+function NavPill({ step, active }: { step: Step; active: boolean }) {
   const [hov, setHov] = useState(false);
   const { isDark } = useTheme();
+  const on = active || hov;
   return (
     <motion.button
       whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
       onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       onClick={() => scrollTo(step.id)}
-      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 flex-shrink-0"
+      aria-current={active ? "true" : undefined}
+      className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-200 flex-shrink-0"
       style={{
-        background: hov ? isDark ? "rgba(78,207,207,0.12)" : "rgba(2,89,89,0.10)" : "transparent",
-        color: hov ? isDark ? "#4ecfcf" : "#025959" : isDark ? "#9ca3af" : "#6b7280",
+        background: on ? isDark ? "rgba(78,207,207,0.12)" : "rgba(2,89,89,0.10)" : "transparent",
+        color: on ? isDark ? "#4ecfcf" : "#025959" : isDark ? "#9ca3af" : "#6b7280",
+        fontWeight: active ? 700 : 500,
       }}
     >
       <step.Icon className="w-3.5 h-3.5" />{step.label}
+      {active && (
+        <motion.span layoutId="bookie-nav-active-dot" className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
+          style={{ background: isDark ? "#4ecfcf" : "#025959" }} />
+      )}
     </motion.button>
   );
 }
@@ -116,6 +123,7 @@ function CaseStudyNav({ showPills, title }: { showPills: boolean; title: string 
   const { isDark, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeId, setActiveId] = useState(STEPS[0].id);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 40);
@@ -129,6 +137,22 @@ function CaseStudyNav({ showPills, title }: { showPills: boolean; title: string 
     window.addEventListener("scroll", h, { passive: true, once: true });
     return () => window.removeEventListener("scroll", h);
   }, [menuOpen]);
+
+  /* Trackea qué sección está en viewport para resaltarla en el nav */
+  useEffect(() => {
+    const h = () => {
+      const y = window.scrollY + 110;
+      let current = STEPS[0].id;
+      for (const s of STEPS) {
+        const el = document.getElementById(s.id);
+        if (el && el.offsetTop <= y) current = s.id;
+      }
+      setActiveId(current);
+    };
+    h();
+    window.addEventListener("scroll", h, { passive: true });
+    return () => window.removeEventListener("scroll", h);
+  }, []);
 
   return (
     <>
@@ -155,7 +179,7 @@ function CaseStudyNav({ showPills, title }: { showPills: boolean; title: string 
               <AnimatePresence mode="wait">
                 {showPills ? (
                   <motion.div key="pills" initial={{ opacity:0, y:-8 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:-8 }} transition={{ duration:.25 }} className="flex gap-1">
-                    {STEPS.map((s) => <NavPill key={s.id} step={s} />)}
+                    {STEPS.map((s) => <NavPill key={s.id} step={s} active={activeId === s.id} />)}
                   </motion.div>
                 ) : (
                   <motion.span key="label" initial={{ opacity:0, y:8 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:8 }} transition={{ duration:.2 }}
@@ -228,22 +252,33 @@ function CaseStudyNav({ showPills, title }: { showPills: boolean; title: string 
                 <p className="px-3 pt-1 pb-2 text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-600">
                   Caso de Estudio · {title}
                 </p>
-                {STEPS.map((s, i) => (
-                  <motion.button
-                    key={s.id}
-                    initial={{ opacity: 0, x: -8 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.15, delay: i * 0.04 }}
-                    onClick={() => { scrollTo(s.id); setMenuOpen(false); }}
-                    className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm text-gray-600 dark:text-gray-300 hover:bg-[#025959]/6 hover:text-[#025959] dark:hover:bg-[#4ecfcf]/8 dark:hover:text-[#4ecfcf] transition-colors group"
-                  >
-                    <span className="text-[10px] font-mono text-gray-300 dark:text-gray-600 w-5 flex-shrink-0">{s.num}</span>
-                    <span className="w-6 h-6 rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0 group-hover:bg-[#025959]/10 dark:group-hover:bg-[#4ecfcf]/10 transition-colors">
-                      <s.Icon className="w-3.5 h-3.5 text-[#025959] dark:text-[#4ecfcf]" />
-                    </span>
-                    <span className="font-medium">{s.label}</span>
-                  </motion.button>
-                ))}
+                {STEPS.map((s, i) => {
+                  const active = activeId === s.id;
+                  return (
+                    <motion.button
+                      key={s.id}
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.15, delay: i * 0.04 }}
+                      onClick={() => { scrollTo(s.id); setMenuOpen(false); }}
+                      aria-current={active ? "true" : undefined}
+                      className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm transition-colors group ${
+                        active
+                          ? "text-[#025959] dark:text-[#4ecfcf] bg-[#025959]/6 dark:bg-[#4ecfcf]/10"
+                          : "text-gray-600 dark:text-gray-300 hover:bg-[#025959]/6 hover:text-[#025959] dark:hover:bg-[#4ecfcf]/8 dark:hover:text-[#4ecfcf]"
+                      }`}
+                    >
+                      <span className={`text-[10px] font-mono w-5 flex-shrink-0 ${active ? "text-[#025959] dark:text-[#4ecfcf]" : "text-gray-300 dark:text-gray-600"}`}>{s.num}</span>
+                      <span className={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
+                        active ? "bg-[#025959]/10 dark:bg-[#4ecfcf]/15" : "bg-gray-100 dark:bg-gray-800 group-hover:bg-[#025959]/10 dark:group-hover:bg-[#4ecfcf]/10"
+                      }`}>
+                        <s.Icon className="w-3.5 h-3.5 text-[#025959] dark:text-[#4ecfcf]" />
+                      </span>
+                      <span className={active ? "font-bold" : "font-medium"}>{s.label}</span>
+                      {active && <span className="ml-auto w-1.5 h-1.5 rounded-full flex-shrink-0 bg-[#025959] dark:bg-[#4ecfcf]" />}
+                    </motion.button>
+                  );
+                })}
               </div>
             </motion.div>
           )}
