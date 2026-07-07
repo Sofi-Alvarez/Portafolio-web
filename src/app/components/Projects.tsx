@@ -8,15 +8,7 @@ import iupiPort   from "../../imports/iupicont.svg";
 import bookiePort  from "../../imports/Bookiecont.svg";
 import bankPort    from "../../imports/Masbankcont.svg";
 import vibeDesign1 from "../../imports/Portfolio vibe-design1.jpg";
-
-/* Milestone aún no tiene capturas propias — placeholder hasta reemplazar por la imagen real */
-const milestonePort = `data:image/svg+xml,${encodeURIComponent(`
-<svg xmlns="http://www.w3.org/2000/svg" width="480" height="360" viewBox="0 0 480 360">
-  <rect width="480" height="360" fill="#E2E2EF"/>
-  <path transform="translate(240,150)" d="M0 -58c-46 0-75 35-75 75 0 35 23 58 35 81l-11 46h102l-11-46c12-23 35-46 35-81 0-40-29-75-75-75z" fill="#4A4E78" opacity="0.9"/>
-  <text x="240" y="270" font-family="Manrope, sans-serif" font-size="20" font-weight="700" fill="#4A4E78" text-anchor="middle">Milestone</text>
-  <text x="240" y="294" font-family="Manrope, sans-serif" font-size="12" fill="#4A4E78" opacity="0.65" text-anchor="middle">Vista previa próximamente</text>
-</svg>`)}`;
+import milestonePort from "../../imports/portadam2.png";
 
 /* ══════════════════════════════════════════════════════════
    TOOL DEFINITIONS
