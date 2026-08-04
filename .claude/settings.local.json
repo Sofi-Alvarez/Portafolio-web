@@ -114,7 +114,9 @@
       "Bash(node /c/Users/Sofia/AppData/Local/Temp/claude/D--Dise-o-UX-UI-Portafolio-web/99a7f3c0-a49c-4f3c-b0b2-8bc5905b5504/scratchpad/unescape.js /c/Users/Sofia/AppData/Local/Temp/claude/D--Dise-o-UX-UI-Portafolio-web/99a7f3c0-a49c-4f3c-b0b2-8bc5905b5504/scratchpad/mvp_content.txt /c/Users/Sofia/AppData/Local/Temp/claude/D--Dise-o-UX-UI-Portafolio-web/99a7f3c0-a49c-4f3c-b0b2-8bc5905b5504/scratchpad/mvp_readable.txt)",
       "Bash(node /c/Users/Sofia/AppData/Local/Temp/claude/D--Dise-o-UX-UI-Portafolio-web/99a7f3c0-a49c-4f3c-b0b2-8bc5905b5504/scratchpad/unescape.js /c/Users/Sofia/AppData/Local/Temp/claude/D--Dise-o-UX-UI-Portafolio-web/99a7f3c0-a49c-4f3c-b0b2-8bc5905b5504/scratchpad/hmw_line177.txt /c/Users/Sofia/AppData/Local/Temp/claude/D--Dise-o-UX-UI-Portafolio-web/99a7f3c0-a49c-4f3c-b0b2-8bc5905b5504/scratchpad/hmw_readable.txt)",
       "Bash(find \"/c/Users/Sofia/AppData/Local/Temp\" -maxdepth 3 -iname \"*.png\" -newermt \"-10 minutes\" 2>/dev/null | head -20)",
-      "Bash(find \"C:/Users/Sofia/.claude\" -maxdepth 4 -iname \"*.png\" -newermt \"-15 minutes\" 2>/dev/null | head -20 *)"
+      "Bash(find \"C:/Users/Sofia/.claude\" -maxdepth 4 -iname \"*.png\" -newermt \"-15 minutes\" 2>/dev/null | head -20 *)",
+      "mcp__9ec917af-039e-4d39-8065-2624866e3462__get_figma_skill",
+      "mcp__9ec917af-039e-4d39-8065-2624866e3462__get_metadata"
     ]
   }
 }

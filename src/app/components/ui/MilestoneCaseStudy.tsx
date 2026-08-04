@@ -1,39 +1,27 @@
-import { ElementType, useEffect, useRef, useState } from "react";
+/**
+ * MilestoneCaseStudy — case study de Milestone.
+ * Header sticky con menú (índice del caso de estudio + navegación general)
+ * y barra de progreso de lectura. Cada etapa del proceso (Discover, Define,
+ * Ideate, Prototipar, Testing) usa un explorador con stepper horizontal
+ * que filtra entre sus distintas vistas.
+ */
+import { ElementType, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useNavigate } from "react-router";
 import {
-  ArrowLeft, ArrowRight, ExternalLink, Moon, Sun, ChevronDown,
+  ArrowLeft, ArrowRight, ExternalLink, Moon, Sun, X, Menu,
   Users, Search, Lightbulb, Layers, CheckCircle,
-  PenLine, Sparkles, ShieldAlert, HeartHandshake, Wallet,
+  PenLine, Info, Compass, Route,
 } from "lucide-react";
-import { MilestoneBenchmarkingUX } from "./MilestoneBenchmarkingUX";
-import { MilestoneInterviewNotes } from "./MilestoneInterviewNotes";
-import { MilestonePersonaPainMap } from "./MilestonePersonaPainMap";
-import { MilestonePainCycle } from "./MilestonePainCycle";
-import { MilestoneHMW } from "./MilestoneHMW";
-import { MilestoneUserJourney } from "./MilestoneUserJourney";
-import { MilestoneMVPScope } from "./MilestoneMVPScope";
-import { MilestoneSitemap } from "./MilestoneSitemap";
-import { MilestoneUserFlow } from "./MilestoneUserFlow";
-import { SiFlutter, SiFirebase, SiFigma } from "react-icons/si";
+import { MilestoneDiscoverExplorer } from "./MilestoneDiscoverExplorer";
+import { MilestoneDefineExplorer } from "./MilestoneDefineExplorer";
+import { MilestoneIdeateExplorer } from "./MilestoneIdeateExplorer";
+import { MilestonePrototypeExplorer } from "./MilestonePrototypeExplorer";
+import { MilestoneTestingExplorer } from "./MilestoneTestingExplorer";
+import { SiFlutter, SiFirebase } from "react-icons/si";
 import { useTheme } from "../../contexts/ThemeContext";
 import logo2     from "../../../imports/logo2.svg";
 import logo2dark from "../../../imports/logo2dark.svg";
-import wireframeInicio       from "../../../imports/Inicio (B&N Lo-Fi).png";
-import wireframeRegistrar    from "../../../imports/Registrar (B&N Lo-Fi).png";
-import wireframeActividad    from "../../../imports/Actividad (B&N Lo-Fi).png";
-import wireframeDetalle      from "../../../imports/Detalle (B&N Lo-Fi).png";
-import wireframeEstadisticas from "../../../imports/Estadísticas (B&N Lo-Fi).png";
-import wireframeMetas        from "../../../imports/Metas (B&N Lo-Fi).png";
-import wireframePresupuesto  from "../../../imports/Presupuesto (B&N Lo-Fi).png";
-import wireframePerfil       from "../../../imports/Perfil (B&N Lo-Fi).png";
-import metasSection      from "../../../imports/Section - Ahorro.png";
-import metasActivas      from "../../../imports/Metas activas.png";
-import metasLogradas     from "../../../imports/Metas logradas.png";
-import metaDetalle       from "../../../imports/Vista detalle meta activa.png";
-import metaCrear         from "../../../imports/Crear meta.png";
-import metaEditar        from "../../../imports/Editar meta.png";
-import metaCreada        from "../../../imports/Meta creada.png";
 
 /* ─── Brand tokens (reales, de lib/theme/app_theme.dart vía ui_inventory.html) ── */
 const BRAND = {
@@ -44,7 +32,7 @@ const BRAND = {
 
 const MILESTONE_APP_URL = "https://milestone-cc9af.web.app/";
 
-/* ─── Steps (mismo Design Thinking de 5 etapas que el resto de los case studies) ── */
+/* ─── Steps (nav de proceso, 5 etapas) ── */
 interface Step { id: string; num: string; label: string; Icon: ElementType; }
 const STEPS: Step[] = [
   { id: "empatizar",  num: "01", label: "Discover",   Icon: Users },
@@ -52,6 +40,20 @@ const STEPS: Step[] = [
   { id: "idear",      num: "03", label: "Ideate",     Icon: Lightbulb },
   { id: "prototipar", num: "04", label: "Prototipar", Icon: Layers },
   { id: "prueba",     num: "05", label: "Testing",    Icon: CheckCircle },
+];
+
+/* ─── Índice completo — 8 secciones para el sheet ── */
+interface IndexSection { id: string; label: string; Icon: ElementType; }
+const INDEX_SECTIONS: IndexSection[] = [
+  { id: "inicio",      label: "Portada",        Icon: Info },
+  { id: "resumen",     label: "El proyecto",    Icon: Info },
+  { id: "metodologia", label: "Metodología",    Icon: Route },
+  { id: "empatizar",   label: "Discover",       Icon: Users },
+  { id: "definir",     label: "Define",         Icon: Search },
+  { id: "idear",       label: "Ideate",         Icon: Lightbulb },
+  { id: "prototipar",  label: "Prototipar",     Icon: Layers },
+  { id: "prueba",      label: "Testing",        Icon: CheckCircle },
+  { id: "reflexion",   label: "Reflexión final",Icon: Compass },
 ];
 
 type LocalTool =
@@ -67,7 +69,7 @@ const LOCAL_TOOLS: LocalTool[] = [
   { type: "icon", Icon: PenLine, label: "Lápiz y Papel", color: BRAND.secondary },
 ];
 
-/* ─── Helpers compartidos (duplicados a propósito, mismo patrón que los demás case studies) ── */
+/* ─── Helpers compartidos ── */
 function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -102,45 +104,136 @@ function LocalToolBadge({ tool }: { tool: LocalTool }) {
   );
 }
 
-function NavPill({ step, active }: { step: Step; active: boolean }) {
-  const [hov, setHov] = useState(false);
-  const on = active || hov;
+/* ─── Barra de progreso de lectura ── */
+function ReadingProgressBar() {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const h = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(scrollable > 0 ? Math.min(100, Math.max(0, (window.scrollY / scrollable) * 100)) : 0);
+    };
+    h();
+    window.addEventListener("scroll", h, { passive: true });
+    window.addEventListener("resize", h);
+    return () => { window.removeEventListener("scroll", h); window.removeEventListener("resize", h); };
+  }, []);
   return (
-    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: .95 }}
-      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-      onClick={() => scrollTo(step.id)}
-      aria-current={active ? "true" : undefined}
-      className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-200 flex-shrink-0"
-      style={{ background: on ? `${BRAND.primary}1a` : "transparent", color: on ? BRAND.primary : "#6b7280", fontWeight: active ? 700 : 500 }}>
-      <step.Icon className="w-3.5 h-3.5" />{step.label}
-      {active && (
-        <motion.span layoutId="milestone-nav-active-dot" className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full" style={{ background: BRAND.primary }} />
-      )}
-    </motion.button>
+    <div className="absolute left-0 right-0 bottom-0 h-[2.5px] bg-gray-100 dark:bg-gray-800 overflow-hidden">
+      <motion.div className="h-full" style={{ background: `linear-gradient(90deg, ${BRAND.primary}, ${BRAND.secondary})`, width: `${progress}%` }}
+        transition={{ duration: 0.1, ease: "linear" }} />
+    </div>
   );
 }
 
-function CaseStudyNav({ showPills, title }: { showPills: boolean; title: string }) {
+/* ─── Menú hamburguesa: sheet con 2 niveles de jerarquía —
+   1) Navegación general del sitio (volver al inicio, cambiar tema) — mayor jerarquía
+   2) Índice del caso de estudio actual — encabezado con el nombre del caso
+      (lleva a la portada) + sus secciones internas ── */
+function IndexSheet({ open, onClose, activeId, isDark, toggleTheme, title }: {
+  open: boolean; onClose: () => void; activeId: string; isDark: boolean; toggleTheme: () => void; title: string;
+}) {
+  const navigate = useNavigate();
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div key="index-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }} className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm" onClick={onClose} />
+          <motion.div key="index-sheet" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed top-0 right-0 bottom-0 z-[61] w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto"
+            role="dialog" aria-modal="true" aria-label="Menú del caso de estudio">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-gray-800">
+              <p className="text-lg font-bold text-gray-800 dark:text-gray-100">Menú</p>
+              <button onClick={onClose} aria-label="Cerrar menú"
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
+
+            {/* ── Nivel 1: navegación general del sitio ── */}
+            <div className="p-3">
+              <button onClick={() => { onClose(); navigate("/"); }}
+                className="flex items-center gap-3 w-full px-4 py-3.5 rounded-xl text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                <span className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-gray-100 dark:bg-gray-800">
+                  <ArrowLeft className="w-4 h-4" style={{ color: BRAND.primary }} />
+                </span>
+                <p className="text-sm font-medium text-gray-800 dark:text-gray-100">Volver al inicio</p>
+              </button>
+              <button onClick={toggleTheme}
+                className="flex items-center gap-3 w-full px-4 py-3.5 rounded-xl text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                <span className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-gray-100 dark:bg-gray-800">
+                  {isDark
+                    ? <Sun className="w-4 h-4" style={{ color: BRAND.secondary }} />
+                    : <Moon className="w-4 h-4" style={{ color: BRAND.primary }} />}
+                </span>
+                <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
+                  {isDark ? "Modo claro" : "Modo oscuro"}
+                </p>
+              </button>
+            </div>
+
+            {/* ── Nivel 2: índice del caso de estudio actual ── */}
+            <div className="p-3 border-t border-gray-100 dark:border-gray-800">
+              {/* Nombre del caso de estudio — encabezado del grupo + link a la portada */}
+              <button onClick={() => { scrollTo(INDEX_SECTIONS[0].id); onClose(); }}
+                aria-current={activeId === INDEX_SECTIONS[0].id ? "true" : undefined}
+                className="flex items-center justify-between w-full px-4 py-3 rounded-xl text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                <div>
+                  <p className="text-base font-bold text-gray-800 dark:text-gray-100">{title}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">Ir a la portada</p>
+                </div>
+                <ExternalLink className="w-4 h-4 text-gray-300 dark:text-gray-600 flex-shrink-0" />
+              </button>
+
+              {/* Secciones internas del caso de estudio — anidadas bajo el nombre */}
+              <div className="mt-1">
+                {INDEX_SECTIONS.slice(1).map((s, i) => {
+                  const active = activeId === s.id;
+                  return (
+                    <motion.button key={s.id} initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.18, delay: i * 0.03 }}
+                      onClick={() => { scrollTo(s.id); onClose(); }}
+                      aria-current={active ? "true" : undefined}
+                      className={`flex items-center gap-3 w-full pl-7 pr-4 py-3 rounded-xl text-left transition-colors group ${
+                        active ? "" : "hover:bg-gray-50 dark:hover:bg-gray-800"
+                      }`}
+                      style={active ? { background: `${BRAND.primary}0f` } : undefined}>
+                      <span className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${active ? "" : "bg-gray-100 dark:bg-gray-800"}`}
+                        style={active ? { background: `${BRAND.primary}1a` } : undefined}>
+                        <s.Icon className="w-3.5 h-3.5" style={{ color: BRAND.primary }} />
+                      </span>
+                      <div className="flex-1">
+                        <p className={`text-sm ${active ? "font-bold" : "font-medium"} text-gray-800 dark:text-gray-100`}>{s.label}</p>
+                      </div>
+                      {active && <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: BRAND.primary }} />}
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function CaseStudyNav({ title }: { title: string }) {
   const navigate = useNavigate(), { isDark, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeId, setActiveId] = useState(STEPS[0].id);
+  const [indexOpen, setIndexOpen] = useState(false);
+  const [activeId, setActiveId] = useState(INDEX_SECTIONS[0].id);
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
   useEffect(() => {
-    if (!menuOpen) return;
-    const h = () => setMenuOpen(false);
-    window.addEventListener("scroll", h, { passive: true, once: true });
-    return () => window.removeEventListener("scroll", h);
-  }, [menuOpen]);
-  useEffect(() => {
     const h = () => {
       const y = window.scrollY + 110;
-      let current = STEPS[0].id;
-      for (const s of STEPS) {
+      let current = INDEX_SECTIONS[0].id;
+      for (const s of INDEX_SECTIONS) {
         const el = document.getElementById(s.id);
         if (el && el.offsetTop <= y) current = s.id;
       }
@@ -164,98 +257,23 @@ function CaseStudyNav({ showPills, title }: { showPills: boolean; title: string 
             <img src={isDark ? logo2dark : logo2} alt="Sofia Alvarez" className="w-9 h-9 object-contain" />
           </motion.button>
 
-          <div className="flex items-center gap-2">
-            <div className="hidden md:flex items-center gap-1">
-              <AnimatePresence mode="wait">
-                {showPills ? (
-                  <motion.div key="pills" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: .25 }} className="flex gap-1">
-                    {STEPS.map((s) => <NavPill key={s.id} step={s} active={activeId === s.id} />)}
-                  </motion.div>
-                ) : (
-                  <motion.span key="label" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
-                    transition={{ duration: .2 }}
-                    className="text-xs px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                    Caso de Estudio · {title}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </div>
-            <AnimatePresence>
-              {showPills && (
-                <motion.button key="mb-trig" initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.92 }} transition={{ duration: 0.2 }}
-                  onClick={() => setMenuOpen((v) => !v)}
-                  className={`md:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all duration-200 ${
-                    menuOpen
-                      ? "border-[#4A4E78]/50 bg-[#4A4E78]/8 text-[#4A4E78] dark:border-[#C3C4E8]/40 dark:text-[#C3C4E8]"
-                      : "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/70 text-gray-500 dark:text-gray-400"
-                  }`}
-                  aria-label="Menu de secciones" aria-expanded={menuOpen}>
-                  <span>Proceso</span>
-                  <motion.span animate={{ rotate: menuOpen ? 180 : 0 }} transition={{ duration: 0.2 }} className="flex items-center">
-                    <ChevronDown className="w-3.5 h-3.5" />
-                  </motion.span>
-                </motion.button>
-              )}
-            </AnimatePresence>
-          </div>
+          <span className="hidden sm:inline-block text-xs px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+            Caso de Estudio · {title}
+          </span>
 
-          <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: .9 }} onClick={toggleTheme}
-            className="p-2 rounded-lg hover:bg-[#4A4E78]/10 dark:hover:bg-[#4A4E78]/30 transition-colors" aria-label="Toggle theme">
-            <AnimatePresence mode="wait">
-              {isDark
-                ? <motion.div key="sun" initial={{ opacity: 0, rotate: -90 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: 90 }} transition={{ duration: .2 }}><Sun className="w-5 h-5" style={{ color: BRAND.secondary }} /></motion.div>
-                : <motion.div key="moon" initial={{ opacity: 0, rotate: 90 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: -90 }} transition={{ duration: .2 }}><Moon className="w-5 h-5" style={{ color: BRAND.primary }} /></motion.div>
-              }
-            </AnimatePresence>
+          {/* Botón hamburguesa — a la derecha del todo; reemplaza al Proceso, no se oculta ni cambia al scrollear */}
+          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+            onClick={() => setIndexOpen(true)}
+            aria-label="Abrir menú"
+            className="flex items-center justify-center w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/70 text-gray-500 dark:text-gray-400 hover:border-[#4A4E78]/40 hover:text-[#4A4E78] dark:hover:text-[#C3C4E8] transition-colors">
+            <Menu className="w-4 h-4" />
           </motion.button>
         </div>
 
-        <AnimatePresence>
-          {menuOpen && showPills && (
-            <motion.div key="mb-drop" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.18, ease: "easeOut" }}
-              className="md:hidden border-t border-gray-100 dark:border-gray-800 bg-white/97 dark:bg-gray-900/97 backdrop-blur-md">
-              <div className="px-3 py-2">
-                <p className="px-3 pt-1 pb-2 text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-600">
-                  Caso de Estudio · {title}
-                </p>
-                {STEPS.map((s, i) => {
-                  const active = activeId === s.id;
-                  return (
-                    <motion.button key={s.id} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.15, delay: i * 0.04 }}
-                      onClick={() => { scrollTo(s.id); setMenuOpen(false); }}
-                      aria-current={active ? "true" : undefined}
-                      className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm transition-colors group ${
-                        active ? "" : "text-gray-600 dark:text-gray-300 hover:bg-[#4A4E78]/6 hover:text-[#4A4E78] dark:hover:text-[#C3C4E8]"
-                      }`}
-                      style={active ? { color: BRAND.primary, background: `${BRAND.primary}0d` } : undefined}>
-                      <span className={`text-[10px] font-mono w-5 flex-shrink-0 ${active ? "" : "text-gray-300 dark:text-gray-600"}`}
-                        style={active ? { color: BRAND.primary } : undefined}>{s.num}</span>
-                      <span className={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${active ? "" : "bg-gray-100 dark:bg-gray-800 group-hover:bg-[#4A4E78]/10"}`}
-                        style={active ? { background: `${BRAND.primary}1a` } : undefined}>
-                        <s.Icon className="w-3.5 h-3.5" style={{ color: BRAND.primary }} />
-                      </span>
-                      <span className={active ? "font-bold" : "font-medium"}>{s.label}</span>
-                      {active && <span className="ml-auto w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: BRAND.primary }} />}
-                    </motion.button>
-                  );
-                })}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <ReadingProgressBar />
       </motion.nav>
 
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div key="backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }} className="fixed inset-0 z-40 md:hidden"
-            onClick={() => setMenuOpen(false)} />
-        )}
-      </AnimatePresence>
+      <IndexSheet open={indexOpen} onClose={() => setIndexOpen(false)} activeId={activeId} isDark={isDark} toggleTheme={toggleTheme} title={title} />
     </>
   );
 }
@@ -316,239 +334,7 @@ function SectionLabel({ text, accent = false }: { text: string; accent?: boolean
   );
 }
 
-/* ─── Diagrama: proceso vibe-coding aplicado a Milestone ─────────────────── */
-function VibeCodingMilestoneDiagram() {
-  const { isDark } = useTheme();
-  const bg     = isDark ? "#1f2937" : "#f9fafb";
-  const txt    = isDark ? "#e5e7eb" : "#1f2937";
-  const muted  = isDark ? "#6b7280" : "#9ca3af";
-  const lineClr = isDark ? "rgba(195,196,232,0.32)" : "rgba(74,78,120,0.22)";
-
-  const steps = [
-    { x:  54, label: "Diseño UI",    sub: "Metas en\nmedia-fi",     color: BRAND.secondary },
-    { x: 162, label: "Prompt Eng.",  sub: "Pantalla → \nprompt exacto", color: "#CC785C" },
-    { x: 270, label: "Claude Code",  sub: "Flutter +\nFirebase",     color: BRAND.primary },
-    { x: 378, label: "UAT propio",   sub: "flutter analyze\n+ build web", color: BRAND.primary },
-    { x: 486, label: "Testing real", sub: "Maze +\n5 sesiones",      color: BRAND.tertiary },
-  ];
-
-  return (
-    <svg viewBox="0 0 540 140" className="w-full h-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="540" height="140" rx="12" fill={bg} />
-      {steps.slice(0, -1).map((s, i) => (
-        <line key={i} x1={s.x + 26} y1={46} x2={steps[i + 1].x - 26} y2={46} stroke={lineClr} strokeWidth="2" />
-      ))}
-      {steps.map((s) => (
-        <g key={s.label}>
-          <circle cx={s.x} cy={46} r={26} fill={`${s.color}22`} stroke={s.color} strokeWidth="1.5" />
-          <text x={s.x} y={42} textAnchor="middle" fontSize="7.2" fontWeight="700" fill={s.color}>{s.label}</text>
-          {s.sub.split("\n").map((line, i) => (
-            <text key={i} x={s.x} y={53 + i * 9} textAnchor="middle" fontSize="6" fill={muted}>{line}</text>
-          ))}
-        </g>
-      ))}
-      <path d="M 486 72 Q 486 108 270 108 Q 54 108 54 72" stroke={lineClr} strokeWidth="1" fill="none" strokeDasharray="5 4" />
-      <text x="270" y="120" textAnchor="middle" fontSize="6.5" fill={muted}>9 iteraciones desplegadas a producción</text>
-      <text x="270" y="134" textAnchor="middle" fontSize="6.5" fill={isDark ? "#374151" : "#d1d5db"} letterSpacing="1.2">
-        DE PANTALLA DISEÑADA A PRODUCTO VIVO
-      </text>
-    </svg>
-  );
-}
-
-/* ─── Figma prototype embed (Testing / Maze) — desktop iframe, mobile CTA ── */
-const FIGMA_PROTOTYPE_EMBED_URL = "https://embed.figma.com/proto/tyqQYxiMCd4pXPxLjvSynJ/Milestone---Testing-Maze?page-id=0%3A1&node-id=26-74&viewport=249%2C-40%2C0.29&scaling=scale-down&content-scaling=fixed&starting-point-node-id=26%3A74&embed-host=share";
-const FIGMA_PROTOTYPE_URL = "https://www.figma.com/proto/tyqQYxiMCd4pXPxLjvSynJ/Milestone---Testing-Maze?page-id=0%3A1&node-id=26-74";
-
-function FigmaPrototypeEmbed() {
-  return (
-    <>
-      {/* Desktop: iframe embed */}
-      <div className="hidden md:block rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm bg-black/5 dark:bg-black/20">
-        <div className="relative w-full" style={{ aspectRatio: "800 / 450" }}>
-          <iframe
-            className="absolute inset-0 w-full h-full"
-            style={{ border: "1px solid rgba(0,0,0,0.1)" }}
-            src={FIGMA_PROTOTYPE_EMBED_URL}
-            allowFullScreen
-          />
-        </div>
-      </div>
-      {/* Mobile: CTA button */}
-      <div className="md:hidden flex flex-col items-center justify-center gap-4 p-10 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-        <SiFigma className="w-8 h-8" style={{ color: "#F24E1E" }} />
-        <p className="text-sm font-semibold text-gray-700 dark:text-gray-200 text-center">
-          Prototipo navegable — Milestone · Testing Maze
-        </p>
-        <motion.a
-          href={FIGMA_PROTOTYPE_URL}
-          target="_blank" rel="noopener noreferrer"
-          whileHover={{ scale: 1.05, boxShadow: `0 8px 30px ${BRAND.primary}4d` }}
-          whileTap={{ scale: .97 }}
-          className="inline-flex items-center gap-2 px-8 py-3 text-white rounded-xl font-medium shadow-lg"
-          style={{ background: BRAND.primary }}
-        >
-          Ver prototipo en Figma →
-        </motion.a>
-      </div>
-    </>
-  );
-}
-
-/* ─── Wireframe carousel — mismo patrón que IUPICaseStudy, scroll-snap + flechas ── */
-interface WireframeItem { src: string; caption: string }
-
-function WireframeCarousel({ items }: { items: WireframeItem[] }) {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const { isDark } = useTheme();
-
-  const handleScroll = () => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const idx = Math.round(el.scrollLeft / el.clientWidth);
-    setActiveIdx(Math.max(0, Math.min(idx, items.length - 1)));
-  };
-
-  const scrollToIndex = (i: number) => {
-    const clamped = Math.max(0, Math.min(i, items.length - 1));
-    scrollRef.current?.scrollTo({ left: clamped * (scrollRef.current.clientWidth), behavior: "smooth" });
-    setActiveIdx(clamped);
-  };
-
-  const prev = () => scrollToIndex(activeIdx - 1);
-  const next = () => scrollToIndex(activeIdx + 1);
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowLeft")  { e.preventDefault(); prev(); }
-    if (e.key === "ArrowRight") { e.preventDefault(); next(); }
-  };
-
-  const arrowBase =
-    "absolute top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full shadow-md transition-all duration-200 focus:outline-none focus:ring-2";
-  const arrowEnabled = isDark
-    ? "bg-gray-700 hover:bg-gray-600 text-gray-200"
-    : "bg-white hover:bg-gray-50 text-gray-600";
-  const arrowDisabled = "opacity-30 pointer-events-none";
-
-  return (
-    <div
-      className="relative"
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-      aria-label="Carrusel de wireframes"
-      role="region"
-      style={{ "--tw-ring-color": BRAND.primary } as React.CSSProperties}
-    >
-      {/* Previous arrow */}
-      <button
-        onClick={prev}
-        aria-label="Wireframe anterior"
-        className={`${arrowBase} left-1 ${activeIdx === 0 ? arrowDisabled : arrowEnabled}`}
-      >
-        <ArrowLeft className="w-4 h-4" />
-      </button>
-
-      {/* Next arrow */}
-      <button
-        onClick={next}
-        aria-label="Wireframe siguiente"
-        className={`${arrowBase} right-1 ${activeIdx === items.length - 1 ? arrowDisabled : arrowEnabled}`}
-      >
-        <ArrowRight className="w-4 h-4" />
-      </button>
-
-      {/* Scrollable track */}
-      <div
-        ref={scrollRef}
-        onScroll={handleScroll}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide mx-10"
-        style={{ scrollBehavior: "smooth" }}
-      >
-        {items.map(({ src, caption }, i) => (
-          <div
-            key={caption}
-            className="snap-center flex-shrink-0 w-full px-1"
-            role="group"
-            aria-label={`Wireframe ${i + 1} de ${items.length}: ${caption}`}
-          >
-            <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
-              <div className="w-full bg-gray-50 dark:bg-gray-700 flex items-center justify-center p-6">
-                <img src={src} alt={caption} className="w-full h-auto object-contain max-h-80 md:max-h-96" />
-              </div>
-              <div className="px-4 py-3 border-t border-gray-100 dark:border-gray-700">
-                <p className="text-xs font-medium text-gray-500 dark:text-gray-400">{caption}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Dot indicators + counter */}
-      <div className="flex flex-col items-center gap-3 mt-4">
-        <div className="flex items-center gap-2" role="tablist" aria-label="Navegación de wireframes">
-          {items.map((_, i) => (
-            <button
-              key={i}
-              role="tab"
-              aria-selected={activeIdx === i}
-              aria-label={`Ir a wireframe ${i + 1}`}
-              onClick={() => scrollToIndex(i)}
-              className="rounded-full transition-all duration-300 focus:outline-none focus:ring-2"
-              style={{
-                width: activeIdx === i ? 24 : 8, height: 8,
-                background: activeIdx === i ? BRAND.primary : (isDark ? "#4b5563" : "#d1d5db"),
-              }}
-            />
-          ))}
-        </div>
-        <p className="text-xs text-gray-400 dark:text-gray-500" aria-live="polite">
-          {activeIdx + 1} / {items.length}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/* ─── Wireframes lo-fi (blanco y negro) — 8 pantallas del flujo completo ── */
-const WIREFRAMES: Array<{ label: string; src: string }> = [
-  { label: "Inicio",        src: wireframeInicio },
-  { label: "Registrar",     src: wireframeRegistrar },
-  { label: "Actividad",     src: wireframeActividad },
-  { label: "Detalle",       src: wireframeDetalle },
-  { label: "Estadísticas",  src: wireframeEstadisticas },
-  { label: "Metas",         src: wireframeMetas },
-  { label: "Presupuesto",   src: wireframePresupuesto },
-  { label: "Perfil",        src: wireframePerfil },
-];
-
-/* ─── Metas — flujo construido con el UI Kit de Material Design 3 ────────── */
-const METAS_M3: Array<{ label: string; src: string }> = [
-  { label: "Ahorro (sección)",       src: metasSection },
-  { label: "Metas activas",          src: metasActivas },
-  { label: "Detalle de meta activa", src: metaDetalle },
-  { label: "Crear meta",             src: metaCrear },
-  { label: "Editar meta",            src: metaEditar },
-  { label: "Meta creada",            src: metaCreada },
-  { label: "Metas logradas",         src: metasLogradas },
-];
-
-/* ─── Findings → fix → deploy (9 iteraciones reales de producción) ───────── */
-const FINDINGS: Array<{ sev: "Crítico" | "Alto" | "Medio"; issue: string; fix: string }> = [
-  { sev: "Crítico", issue: "Meta de $20.000 se marcaba \"lograda\" con un aporte de $5.000", fix: "Corrección del cálculo de progreso de metas — integridad de datos" },
-  { sev: "Crítico", issue: "Faltaba la etiqueta meta viewport en la versión web", fix: "Sin ella, cualquier celular real mostraba el mockup decorativo de teléfono" },
-  { sev: "Alto",    issue: "Botón \"+\" de la barra de navegación solo respondía en la mitad de su círculo", fix: "Ampliación del área táctil del FAB" },
-  { sev: "Alto",    issue: "Los formularios no mostraban errores de validación", fix: "Feedback visual de error agregado a los campos" },
-  { sev: "Alto",    issue: "Campos \"tocar para editar\" solo reaccionaban sobre el ícono", fix: "Área de toque extendida a toda la fila" },
-  { sev: "Medio",   issue: "Teclado numérico no registraba el tecleo del monto en Maze", fix: "Resuelto pagando Figma Pro sobre la marcha, durante el propio testing" },
-  { sev: "Medio",   issue: "Interacción rota en la última pantalla del prototipo", fix: "Corregida en caliente durante la recolección de datos" },
-  { sev: "Medio",   issue: "Animación de logro no aparecía en una de las sesiones", fix: "Bug confirmado y corregido" },
-  { sev: "Bajo",    issue: "Varios ajustes de consistencia visual entre pantallas", fix: "Alineación de espaciados y radios al UI Kit documentado" },
-];
-const SEV_COLOR: Record<string, string> = { "Crítico": BRAND.error, "Alto": BRAND.warning, "Medio": BRAND.secondary, "Bajo": "#9CA3AF" };
-
-/* ─── Hero — mismo lenguaje visual (gradiente + blobs) que los demás case
-   studies, pero centrado y sin mockup de dispositivo (aún no hay capturas). ── */
+/* ─── Hero ── */
 const HERO_TAGS = ["Solo designer", "Design Thinking + Vibe-coding", "Mobile app"];
 
 const HERO_STYLES = `
@@ -578,11 +364,8 @@ function MilestoneHero() {
   };
 
   return (
-    <section
-      aria-label="Presentación del caso de estudio"
-      className="relative overflow-hidden pt-28 md:pt-32 pb-20 md:pb-24"
-      style={bgStyle}
-    >
+    <section id="inicio" aria-label="Presentación del caso de estudio"
+      className="relative overflow-hidden pt-28 md:pt-32 pb-20 md:pb-24 scroll-mt-20" style={bgStyle}>
       <style>{HERO_STYLES}</style>
 
       <div aria-hidden="true" className="pointer-events-none absolute -top-32 -left-20 h-[420px] w-[420px] rounded-full blur-3xl"
@@ -595,62 +378,49 @@ function MilestoneHero() {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="inline-flex items-center gap-2 rounded-full border bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm px-4 py-1.5 text-sm font-medium mb-8"
-          style={{ borderColor: `${BRAND.primary}4d`, color }}
-        >
+          style={{ borderColor: `${BRAND.primary}4d`, color }}>
           Caso de Estudio · Milestone
         </motion.span>
 
         <motion.h1
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] text-gray-900 dark:text-gray-100"
-        >
+          className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] text-gray-900 dark:text-gray-100">
           Milestone – <span style={{ color }}>App de registro financiero</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-6 text-lg sm:text-xl max-w-xl mx-auto text-gray-500 dark:text-gray-400 leading-relaxed"
-        >
+          className="mt-6 text-lg sm:text-xl max-w-xl mx-auto text-gray-500 dark:text-gray-400 leading-relaxed">
           Una app de finanzas personales pensada para dar tranquilidad, no para exigir control.
         </motion.p>
 
         <div className="mt-8 flex flex-wrap justify-center gap-2">
           {HERO_TAGS.map((tag, i) => (
-            <motion.span
-              key={tag}
-              initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
+            <motion.span key={tag} initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: 0.24 + i * 0.06 }}
               className="rounded-full border px-4 py-1.5 text-sm font-medium"
-              style={{ borderColor: `${BRAND.primary}4d`, background: isDark ? `${BRAND.primary}26` : `${BRAND.primary}14`, color }}
-            >
+              style={{ borderColor: `${BRAND.primary}4d`, background: isDark ? `${BRAND.primary}26` : `${BRAND.primary}14`, color }}>
               {tag}
             </motion.span>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3"
-        >
-          <motion.a
-            href={MILESTONE_APP_URL} target="_blank" rel="noopener noreferrer"
+          className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <motion.a href={MILESTONE_APP_URL} target="_blank" rel="noopener noreferrer"
             whileHover={{ y: -2, boxShadow: `0 12px 32px ${BRAND.primary}55` }} whileTap={{ scale: 0.97 }}
-            transition={{ duration: 0.18 }}
-            style={{ background: BRAND.primary }}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold text-sm shadow-lg"
-          >
+            transition={{ duration: 0.18 }} style={{ background: BRAND.primary }}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold text-sm shadow-lg">
             Ir a Milestone
             <ExternalLink className="w-4 h-4" />
           </motion.a>
-          <motion.button
-            onClick={() => scrollTo("empatizar")}
+          <motion.button onClick={() => scrollTo("empatizar")}
             whileHover={{ y: -2, borderColor: color, color }} whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.18 }}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-semibold text-sm"
-          >
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-semibold text-sm">
             Conocer proceso
           </motion.button>
         </motion.div>
@@ -664,28 +434,18 @@ function MilestoneHero() {
 ═══════════════════════════════════════════════════════════ */
 export function MilestoneCaseStudy() {
   const navigate = useNavigate();
-  const processSectionRef = useRef<HTMLDivElement>(null);
-  const [showPills, setShowPills] = useState(false);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
-  useEffect(() => {
-    const handle = () => {
-      if (!processSectionRef.current) return;
-      setShowPills(processSectionRef.current.getBoundingClientRect().top <= 64);
-    };
-    window.addEventListener("scroll", handle, { passive: true });
-    return () => window.removeEventListener("scroll", handle);
-  }, []);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-      <CaseStudyNav showPills={showPills} title="Milestone" />
+      <CaseStudyNav title="Milestone" />
 
       {/* ── HERO ────────────────────────────────────────────────── */}
       <MilestoneHero />
 
       {/* ── DESCRIPCIÓN + FICHA ─────────────────────────────────── */}
-      <section className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800">
+      <section id="resumen" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           <FadeSection>
             <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
@@ -777,7 +537,7 @@ export function MilestoneCaseStudy() {
       </section>
 
       {/* ── PROCESO ─────────────────────────────────────────────── */}
-      <section ref={processSectionRef} className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800 scroll-mt-16">
+      <section id="metodologia" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           <FadeSection className="text-center mb-12">
             <SectionLabel text="Metodología" accent />
@@ -806,32 +566,9 @@ export function MilestoneCaseStudy() {
             </p>
           </FadeSection>
 
-          {/* Notas de entrevista — handoff Claude Design */}
+          {/* Explorador filtrable — Entrevistas / Benchmark / Personas / Dolores */}
           <FadeSection delay={.05}>
-            <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
-              <MilestoneInterviewNotes />
-            </div>
-          </FadeSection>
-
-          {/* Benchmarking UX — handoff Claude Design */}
-          <FadeSection delay={.07}>
-            <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
-              <MilestoneBenchmarkingUX />
-            </div>
-          </FadeSection>
-
-          {/* Persona + Mapa de dolores — handoff Claude Design */}
-          <FadeSection delay={.08}>
-            <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
-              <MilestonePersonaPainMap />
-            </div>
-          </FadeSection>
-
-          {/* Círculo de dolor — hallazgo central, handoff Claude Design */}
-          <FadeSection delay={.1}>
-            <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
-              <MilestonePainCycle />
-            </div>
+            <MilestoneDiscoverExplorer />
           </FadeSection>
         </div>
       </section>
@@ -843,36 +580,17 @@ export function MilestoneCaseStudy() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 space-y-12">
           <FadeSection>
             <SectionLabel text="02 · Define" accent />
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">How Might We, sin encerrarse en un solo ángulo</h2>
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">Tres piezas, un MVP con foco</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
-              Con los insights validados, la definición se hizo con How Might We, pero evitando el sesgo de pensar todo desde un solo ángulo: cada insight se trabajó en cuatro versiones —optimista, restrictiva, sistémica y disruptiva— apoyándose en IA justamente para no quedarse encerrada en una sola perspectiva al ser la única persona detrás del proyecto.
+              Con los dolores mapeados, definir no fue armar una lista de features: fue decidir qué versión de Milestone merecía construirse primero, con evidencia y no por intuición. How Might We tradujo los tres dolores más críticos en preguntas de diseño accionables, evitando la trampa de resolver todo desde un solo ángulo al ser una sola persona detrás del proyecto.
             </p>
-            <div className="rounded-xl border p-4 mt-4 max-w-2xl" style={{ borderColor: `${BRAND.secondary}30`, background: `${BRAND.secondary}0d` }}>
-              <p className="text-gray-700 dark:text-gray-200 text-sm italic">
-                "¿Cómo considerar distintas opiniones siendo una sola persona?" — diario de proceso, entrada de HMW
-              </p>
-            </div>
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed mt-3">
+              El journey map de Sol —de la frustración inicial al hábito sostenido— mostró en qué momento exacto el producto tenía que intervenir. Cruzando esas dos piezas quedó un alcance claro: una app de registro, no una billetera, con el cierre emocional como diferencial frente a Wallet y Spendee.
+            </p>
           </FadeSection>
 
-          {/* HMW — handoff Claude Design */}
           <FadeSection delay={.05}>
-            <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
-              <MilestoneHMW />
-            </div>
-          </FadeSection>
-
-          {/* User Journey — handoff Claude Design */}
-          <FadeSection delay={.07}>
-            <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
-              <MilestoneUserJourney />
-            </div>
-          </FadeSection>
-
-          {/* Alcance del MVP — handoff Claude Design */}
-          <FadeSection delay={.09}>
-            <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
-              <MilestoneMVPScope />
-            </div>
+            <MilestoneDefineExplorer />
           </FadeSection>
         </div>
       </section>
@@ -886,52 +604,15 @@ export function MilestoneCaseStudy() {
             <SectionLabel text="03 · Ideate" />
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">La decisión que se revisó al chocar con evidencia</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
-              La arquitectura de la información no se inventó en un sitemap de escritorio: se construyó con card sorting abierto en Useberry, con usuarios reales agrupando las funcionalidades a su manera. El análisis de esa matriz de similitud reveló clusters naturales, y sobre esos clusters se generó el sitemap con el MCP de Claude en Figma, bajo supervisión y prompts propios.
+              La arquitectura de información no salió de un sitemap armado a criterio propio: nació de un card sorting abierto en Useberry, con personas reales agrupando funcionalidades a su manera. Ese primer sitemap todavía tenía "Aprender" como sección propia — pero al bajarlo a wireframes lo-fi esa decisión chocó con el research: nadie había pedido estudiar, habían pedido entender en el momento. La sección se disolvió en tips contextuales dentro de otros flujos.
             </p>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed mt-3">
-              Ese primer sitemap todavía tenía "Aprender" como sección propia. Fue al pasar a los wireframes lo-fi —a mano y con Stitch— cuando esa decisión se puso en tensión con el research: la gente había pedido aprender, pero ninguna había pedido una sección de estudio.{" "}
-              <strong className="text-gray-800 dark:text-gray-100">La sección se disolvió en tips contextuales dentro de otros flujos.</strong>
+              Con la arquitectura ya puesta a prueba, el flujo completo se mapeó paso a paso en Figma —desde el primer registro hasta el hábito sostenido— y quedó un navegador final de cinco piezas: Home, Ahorro, Registrar, Historial y Perfil, con el Home rediseñado para invitar a definir una meta en lugar de mostrar números en rojo. Las 8 pantallas del flujo se bocetaron en baja fidelidad, a mano y con Stitch para ganar velocidad, validando estructura antes de invertir en color.
             </p>
           </FadeSection>
 
-          {/* Sitemap — handoff Claude Design */}
-          <FadeSection delay={.06}>
-            <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
-              <MilestoneSitemap />
-            </div>
-          </FadeSection>
-
-          <FadeSection delay={.08}>
-            <div className="rounded-xl border p-4 max-w-2xl" style={{ borderColor: `${BRAND.secondary}30`, background: `${BRAND.secondary}0d` }}>
-              <p className="text-gray-700 dark:text-gray-200 text-sm italic">
-                "Empecé a mano, pero tardaba mucho para los tiempos que estaba buscando. Necesitaba agilidad. Ahí me presentaron Stitch." — diario de proceso, Wireframe lo-fi + IA
-              </p>
-            </div>
-          </FadeSection>
-
-          <FadeSection delay={.1}>
-            <div className="border-l-4 rounded-r-xl p-5" style={{ borderColor: BRAND.primary, background: `${BRAND.primary}08` }}>
-              <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: BRAND.primary }}>Navegador final</p>
-              <p className="text-gray-700 dark:text-gray-200 font-medium">
-                Home · Ahorro (Metas + Presupuestos) · Registrar · Historial (vista lista + vista gráfica) · Perfil/Configuración. El Home se rediseñó para que, en lugar de números en rojo, lo primero que viera la persona fuera una invitación a definir una meta.
-              </p>
-            </div>
-          </FadeSection>
-
-          {/* User Flow — handoff Claude Design */}
-          <FadeSection delay={.12}>
-            <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
-              <MilestoneUserFlow />
-            </div>
-          </FadeSection>
-
-          {/* Wireframes lo-fi */}
-          <FadeSection delay={.14}>
-            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-1">Wireframes lo-fi</h3>
-            <p className="text-gray-500 dark:text-gray-400 text-sm mb-5 max-w-2xl">
-              Con el sitemap y el flujo definidos, las pantallas principales —Home, Registrar y Metas— se bocetaron primero en baja fidelidad, en blanco y negro: la estructura y la jerarquía se validan antes de invertir en color y branding. Las 8 pantallas del flujo completo se resolvieron con este mismo criterio.
-            </p>
-            <WireframeCarousel items={WIREFRAMES.map((w) => ({ src: w.src, caption: w.label }))} />
+          <FadeSection delay={.05}>
+            <MilestoneIdeateExplorer />
           </FadeSection>
         </div>
       </section>
@@ -942,204 +623,18 @@ export function MilestoneCaseStudy() {
       <section id="prototipar" className="py-16 md:py-20 scroll-mt-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 space-y-12">
           <FadeSection>
-            <SectionLabel text="04 · Prototipar — Diseño UI" accent />
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">Branding a propósito no financiero</h2>
+            <SectionLabel text="04 · Prototipar" accent />
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">De pantalla diseñada a producto vivo</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
-              El branding se definió liviano y a propósito no financiero: paleta, tipografía y tokens pensados para que la app se sienta menos como un banco y más como un acompañante. El UI Kit se construyó sobre Material Design 3 en Figma, con personalizaciones propias.
+              El branding se pensó a propósito no financiero: paleta y tipografía que alejaran a Milestone de la estética bancaria tradicional, construidas sobre un UI Kit de Material Design 3 con personalizaciones propias. En vez de subir las 30-40 pantallas de la app a alta fidelidad antes de saber si algo funcionaba, se priorizó un solo flujo completo —Metas de ahorro, el que ya se sabía que se iba a testear— para sentar ahí un sistema de componentes real; el resto se resolvió más rápido con Stitch.
             </p>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed mt-3">
-              A partir de los wireframes lo-fi, el foco pasó a crear componentes reutilizables basados en Material Design: en vez de subir las 30-40 pantallas de la app a alta fidelidad antes de saber si algo funcionaba, se priorizó construir con el UI Kit de M3 un solo flujo completo —Metas de ahorro, el que se sabía que se iba a testear— sentando ahí las bases del sistema de componentes real. El resto de las pantallas se resolvió con Stitch, más rápido pero sin ese mismo nivel de sistema.
+              El salto de pantalla diseñada a producto vivo pasó por un ejercicio explícito de prompt engineering: traducir cada pantalla de Figma a una instrucción que Claude Code pudiera ejecutar sin ambigüedad, construyendo con Flutter y Firebase. El prototipo de testing se armó al revés de lo habitual —del código ya desarrollado a Figma, con el MCP de Claude— y antes de exponerlo a nadie hubo una etapa de UAT propio que detectó a tiempo un ícono roto que hubiera arruinado la credibilidad del prototipo en Maze.
             </p>
           </FadeSection>
 
-          {/* Metas — flujo construido con el UI Kit M3 */}
           <FadeSection delay={.05}>
-            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-1">Metas, construido con el UI Kit de M3</h3>
-            <p className="text-gray-500 dark:text-gray-400 text-sm mb-5 max-w-2xl">
-              El flujo completo de ahorro en alta fidelidad, componente por componente: de la sección Ahorro a una meta creada, editada y lograda.
-            </p>
-            <WireframeCarousel items={METAS_M3.map((m) => ({ src: m.src, caption: m.label }))} />
-          </FadeSection>
-
-          {/* Paleta + Tipografía + Sistema de componentes (M3, ui_inventory.html) */}
-          <div className="grid md:grid-cols-2 gap-8">
-
-            {/* ── Paleta de color ── */}
-            <FadeSection delay={.06}>
-              <div className="rounded-3xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-6 shadow-sm h-full">
-                <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: BRAND.primary }}>Paleta de color</p>
-
-                <div className="flex gap-3 mb-4">
-                  {[
-                    { hex: BRAND.primary,   name: "Primary",   role: "CTAs, nav activa, foco" },
-                    { hex: BRAND.secondary, name: "Secondary", role: "Gastos, acentos cálidos" },
-                    { hex: BRAND.tertiary,  name: "Tertiary",  role: "Ingresos, metas, logros" },
-                  ].map(({ hex, name, role }) => (
-                    <motion.div key={hex} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }} transition={{ duration: .4 }} className="flex-1 flex flex-col gap-2">
-                      <div className="w-full h-16 rounded-2xl shadow-md" style={{ backgroundColor: hex }} />
-                      <p className="text-xs font-semibold text-gray-800 dark:text-gray-100">{name}</p>
-                      <p className="text-[10px] font-mono text-gray-400 dark:text-gray-500">{hex}</p>
-                      <p className="text-[10px] text-gray-400 dark:text-gray-500">{role}</p>
-                    </motion.div>
-                  ))}
-                </div>
-
-                <div className="flex gap-2 mt-2">
-                  {[
-                    { hex: BRAND.error,   name: "Error" },
-                    { hex: BRAND.warning, name: "Warning" },
-                    { hex: "#2E6B41",     name: "Success" },
-                    { hex: "#FFFFFF",     name: "Surface" },
-                  ].map(({ hex, name }) => (
-                    <motion.div key={hex} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
-                      viewport={{ once: true }} transition={{ duration: .35 }} className="flex-1 flex flex-col gap-1">
-                      <div className="w-full h-8 rounded-xl border border-gray-200 dark:border-gray-600" style={{ backgroundColor: hex }} />
-                      <p className="text-[10px] text-center text-gray-400 dark:text-gray-500">{name}</p>
-                    </motion.div>
-                  ))}
-                </div>
-
-                <div className="mt-5 h-12 rounded-2xl shadow-inner" style={{ background: `linear-gradient(135deg, ${BRAND.primary} 0%, ${BRAND.secondary} 55%, ${BRAND.tertiary} 100%)` }} />
-                <p className="mt-2 text-[10px] text-center text-gray-400 dark:text-gray-500 italic">HitoColors — lib/theme/app_theme.dart</p>
-              </div>
-            </FadeSection>
-
-            {/* ── Tipografía ── */}
-            <FadeSection delay={.08}>
-              <div className="rounded-3xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-6 shadow-sm h-full">
-                <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: BRAND.primary }}>Tipografía — Manrope</p>
-
-                <div className="space-y-5">
-                  {[
-                    { label: "Display — 36/700",  sample: "Milestone",              cls: "text-4xl font-black tracking-tight", border: BRAND.secondary, meta: "Manrope · 700 · 36px" },
-                    { label: "Headline — 28/700",  sample: "Tu plata, en orden",     cls: "text-2xl font-bold",                 border: BRAND.primary,   meta: "Manrope · 700 · 28px" },
-                    { label: "Body — 16/400",       sample: "Registrá un gasto en menos de 10 segundos.", cls: "text-sm leading-relaxed font-normal", border: "#9CA3AF", meta: "Manrope · 400 · 16px · 1.6 lh" },
-                    { label: "Label — 14/500",      sample: "META SEMANAL",           cls: "text-xs font-semibold uppercase tracking-widest", border: "#D1D5DB", meta: "Manrope · 500 · 14px" },
-                  ].map(({ label, sample, cls, border, meta }, i) => (
-                    <motion.div key={label} initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }} transition={{ duration: .45, delay: i * .08 }}
-                      className="pl-4" style={{ borderLeft: `4px solid ${border}` }}>
-                      <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">{label}</p>
-                      <p className={`${cls} text-gray-900 dark:text-gray-50`} style={{ fontFamily: "Manrope, sans-serif" }}>{sample}</p>
-                      <p className="text-[10px] font-mono text-gray-400 mt-1">{meta}</p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </FadeSection>
-
-            {/* ── Sistema de componentes (M3, de ui_inventory.html) ── */}
-            <FadeSection delay={.1} className="md:col-span-2">
-              <div className="rounded-3xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-6 shadow-sm">
-                <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: BRAND.primary }}>
-                  Sistema de componentes · UI Inventory (Material Design 3)
-                </p>
-
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                  {[
-                    { level: "Buttons",          count: "10", color: BRAND.primary,   items: ["FilledButton", "OutlinedButton", "TextButton", "IconButton"] },
-                    { level: "Inputs",           count: "9",  color: BRAND.secondary, items: ["HitoToggle", "Amount Field", "Category Picker", "Date Picker"] },
-                    { level: "Cards",            count: "11", color: BRAND.tertiary,  items: ["GoalCardShell (3 estados)", "TotalSavedCard", "IconStatCard"] },
-                    { level: "Modals / Sheets",  count: "6",  color: BRAND.primary,   items: ["CategoryPickerSheet", "TransactionDetailSheet", "ConfirmDialog"] },
-                    { level: "Snackbars",        count: "2",  color: BRAND.secondary, items: ["AppToast (informativo)", "SnackBar (error)"] },
-                    { level: "Navigation",       count: "2",  color: BRAND.tertiary,  items: ["HitoBottomNavBar", "AppBar (Registrar)"] },
-                    { level: "Lists / Tiles",    count: "3",  color: BRAND.primary,   items: ["Goal / Budget item", "Scheduled payment item"] },
-                    { level: "Custom Widgets",   count: "18", color: BRAND.secondary, items: ["ProgressRing", "SkeletonBox", "CardStrikeThrough"] },
-                  ].map(({ level, count, color, items }, i) => (
-                    <motion.div key={level} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }} transition={{ duration: .4, delay: i * .07 }}
-                      className="rounded-2xl overflow-hidden shadow-sm">
-                      <div className="px-4 py-3 flex items-center justify-between" style={{ backgroundColor: color }}>
-                        <p className="text-xs font-bold uppercase tracking-wide text-white">{level}</p>
-                        <span className="text-[10px] font-bold bg-white/25 text-white px-1.5 py-0.5 rounded-full">{count}</span>
-                      </div>
-                      <div className="bg-white dark:bg-gray-700 px-4 py-3 space-y-1.5">
-                        {items.map((item) => (
-                          <div key={item} className="flex items-center gap-2">
-                            <div className="w-1.5 h-1.5 rounded-full bg-gray-300 dark:bg-gray-500 flex-shrink-0" />
-                            <p className="text-xs text-gray-600 dark:text-gray-300">{item}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                <p className="mt-5 text-xs text-gray-400 dark:text-gray-500 italic text-center">
-                  61 variantes documentadas en <code className="font-mono">ui_inventory.html</code>, reconstruidas con los tokens reales de <code className="font-mono">lib/theme/app_theme.dart</code>.
-                </p>
-              </div>
-            </FadeSection>
-
-          </div>
-
-          {/* Principios aplicados */}
-          <FadeSection delay={.12}>
-            <div className="rounded-2xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 p-8">
-              <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-5">Principios aplicados</p>
-              <div className="grid sm:grid-cols-2 gap-5">
-                {[
-                  { Icon: HeartHandshake, title: "Acompañante, no institución", desc: "Paleta y tono alejados a propósito de la estética bancaria tradicional." },
-                  { Icon: Wallet,         title: "Registra, no maneja",         desc: "Sin conexión bancaria real: el usuario carga lo que quiere registrar." },
-                  { Icon: Layers,         title: "Material Design 3",           desc: "Tokens de color, spacing y radios documentados y consistentes." },
-                  { Icon: Sparkles,       title: "Componentes, no pantallas sueltas", desc: "El flujo de Metas se construyó con el UI Kit de M3 para sentar un sistema real." },
-                ].map(({ Icon, title, desc }) => (
-                  <div key={title} className="flex gap-3">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${BRAND.primary}18` }}>
-                      <Icon className="w-4 h-4" style={{ color: BRAND.primary }} />
-                    </div>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{title}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </FadeSection>
-
-          {/* Vibe-coding */}
-          <FadeSection delay={.08}>
-            <SectionLabel text="04 · Prototipar — Vibe-coding" accent />
-            <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-3">De pantalla diseñada a producto vivo</h3>
-            <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
-              Antes de escribir el primer prompt de desarrollo, hubo un ejercicio explícito de prompt engineering: traducir cada pantalla y flujo diseñado en Figma a una descripción que Claude Code pudiera ejecutar sin ambigüedad. El build se hizo con Claude Code, Flutter y Firebase —Flutter porque representaba mejor el lenguaje visual de Material Design de Google, Firebase por experiencia previa— con onboarding sin contraseña, por Magic Link.
-            </p>
-            <div className="rounded-xl border p-4 mt-4 max-w-2xl" style={{ borderColor: `${BRAND.primary}25`, background: `${BRAND.primary}08` }}>
-              <p className="text-gray-700 dark:text-gray-200 text-sm italic">
-                "Pude desarrollar la aplicación completa, todos los flujos, incluso pantallas que tal vez no había considerado aún, ya que al explicarle la IA podía reutilizar mis propios componentes y armar el flujo faltante — eso agilizó bastante." — diario de proceso, Claude + Lovable + Stitch
-              </p>
-            </div>
-          </FadeSection>
-
-          <FadeSection delay={.1}>
-            <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
-              <VibeCodingMilestoneDiagram />
-            </div>
-          </FadeSection>
-
-          {/* Interactive prototype */}
-          <FadeSection delay={.11}>
-            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Probá el prototipo (testing en Maze)</h3>
-            <p className="text-gray-500 dark:text-gray-400 text-sm mb-4 max-w-2xl">
-              Posteriormente se construyó un prototipo de alta fidelidad para la etapa de testing, del flujo de registro de gastos e ingresos. Estas pantallas nunca se diseñaron en Figma: Maze necesitaba un prototipo navegable ahí para poder testear, así que la alta fidelidad se construyó a partir del código del producto ya desarrollado y se trasladó a Figma con el MCP de Claude —el camino inverso al habitual, de código a diseño.
-            </p>
-            <FigmaPrototypeEmbed />
-          </FadeSection>
-
-          {/* UAT propio */}
-          <FadeSection delay={.12}>
-            <div className="rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700 p-6 bg-white dark:bg-gray-900">
-              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: BRAND.primary }}>UAT propio — antes de exponer a usuarios reales</p>
-              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
-                Antes de exponer nada a una persona real, hubo una etapa de verificación propia del producto: revisar que lo construido funcionara y se viera como se había diseñado. La incidencia más crítica fue el prototipo de Figma Make con los íconos rotos al subirlo a Maze —se veían como palabras sueltas, y el prototipo perdía toda credibilidad como "una app real".
-              </p>
-              <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
-                Migrar a Figma Design y reconstruir las interacciones a mano (con ayuda del MCP de Claude) no estaba en el plan original, pero era la única forma de llegar a un prototipo testeable. Detectarlo a tiempo evitó testear un prototipo "roto" que hubiera contaminado los resultados con fricción que no era real.
-              </p>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">📸 Captura lado a lado (ícono roto vs. corregido) — pendiente de reemplazo por la imagen real.</p>
-            </div>
+            <MilestonePrototypeExplorer />
           </FadeSection>
         </div>
       </section>
@@ -1153,101 +648,15 @@ export function MilestoneCaseStudy() {
             <SectionLabel text="05 · Testing" />
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">Dos estudios complementarios</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
-              El plan de testing se diseñó como dos estudios complementarios: un test no moderado en Maze, enfocado en registrar un gasto o ingreso —la tarea de uso diario— y un test moderado 1:1, de cinco sesiones, enfocado en Metas, por ser el flujo con más variedad de componentes y más jerarquía visual en el Home.
+              El plan de testing se armó como dos estudios complementarios: un test no moderado en Maze sobre el registro diario de gastos e ingresos, y cinco sesiones moderadas 1:1 sobre Metas, el flujo con más componentes y jerarquía visual del producto. Los resultados validaron la apuesta —6.55/7 de facilidad percibida en Metas y 88.9% de éxito en el registro diario sin ayuda de nadie— pero lo más valioso no fueron los números, sino lo que las sesiones moderadas destaparon.
+            </p>
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed mt-3">
+              Ahí apareció el hallazgo crítico del proyecto: una meta de $20.000 se marcaba como "lograda" tras un aporte de solo $5.000, un bug de integridad de datos que hubiera validado exactamente la desconfianza que todo el research había identificado como el enemigo del hábito. Cada hallazgo se llevó a severidad, fix y deploy —9 iteraciones reales, cada una verificada con flutter analyze y flutter build antes de publicarse.
             </p>
           </FadeSection>
 
-          {/* Stats */}
           <FadeSection delay={.05}>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-5 text-center">
-              {[
-                { val: "17/20",  label: "tarea-sesiones",  sub: "directas o con ayuda mínima (Metas)" },
-                { val: "6.55/7", label: "facilidad SEQ",   sub: "promedio en las 5 sesiones moderadas" },
-                { val: "88.9%",  label: "éxito en Maze",   sub: "registro diario, sin ayuda de nadie" },
-                { val: "9",      label: "fixes a producción", sub: "verificados con flutter analyze/build" },
-              ].map(({ val, label, sub }) => (
-                <motion.div key={label} whileHover={{ scale: 1.04 }}
-                  className="rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-5 shadow-sm">
-                  <p className="text-3xl font-black mb-1" style={{ color: BRAND.primary }}>{val}</p>
-                  <p className="text-gray-800 dark:text-gray-100 font-semibold text-xs">{label}</p>
-                  <p className="text-gray-400 text-[11px] mt-0.5">{sub}</p>
-                </motion.div>
-              ))}
-            </div>
-          </FadeSection>
-
-          {/* Participants + moments */}
-          <FadeSection delay={.07}>
-            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Sesiones moderadas — Agustina, Carina, Imanol, Hernán y Rodolfo</h3>
-            <div className="grid md:grid-cols-3 gap-5">
-              <div className="rounded-2xl border-2 p-5" style={{ borderColor: `${BRAND.error}40`, background: `${BRAND.error}08` }}>
-                <div className="flex items-center gap-2 mb-2">
-                  <ShieldAlert className="w-5 h-5" style={{ color: BRAND.error }} />
-                  <p className="text-xs font-bold uppercase tracking-widest" style={{ color: BRAND.error }}>Hallazgo crítico</p>
-                </div>
-                <p className="text-gray-700 dark:text-gray-200 text-sm italic mb-2">
-                  "En realidad la meta la toma como que eran 20, cuando yo le puse 20.000. Y ahora al agregar 5.000 la toma como lograda la meta." — Hernán
-                </p>
-                <p className="text-gray-500 dark:text-gray-400 text-xs">Una meta de $20.000 se marcó como "lograda" tras un aporte de solo $5.000 — el bug de mayor prioridad de todo el proyecto.</p>
-              </div>
-              <div className="rounded-2xl border p-5" style={{ borderColor: `${BRAND.warning}40`, background: `${BRAND.warning}0d` }}>
-                <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: BRAND.warning }}>Confusión de arquitectura</p>
-                <p className="text-gray-700 dark:text-gray-200 text-sm italic mb-2">
-                  "Meta es llegar a los 20.000 y presupuesto lo que puedo gastar por mes." — Carina
-                </p>
-                <p className="text-gray-500 dark:text-gray-400 text-xs">Carina, sin experiencia previa armando una meta de ahorro, entró por "Presupuesto" en lugar de "Metas".</p>
-              </div>
-              <div className="rounded-2xl border p-5" style={{ borderColor: `${BRAND.tertiary}40`, background: `${BRAND.tertiary}0d` }}>
-                <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: BRAND.tertiary }}>Momento genuino</p>
-                <p className="text-gray-700 dark:text-gray-200 text-sm italic mb-2">
-                  "Es un poco como esa sensación cuando es tu cumpleaños... es como ese festejo por algo propio." — Agustina
-                </p>
-                <p className="text-gray-500 dark:text-gray-400 text-xs">Al llegar al 100% de su meta y ver la animación de logro, la reacción fue espontánea — justo el cierre emocional que el research había identificado como ausente.</p>
-              </div>
-            </div>
-          </FadeSection>
-
-          {/* Maze stats */}
-          <FadeSection delay={.08}>
-            <div className="rounded-2xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-6">
-              <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-3">Test no moderado — Maze, flujo de registro diario</h3>
-              <div className="grid sm:grid-cols-3 gap-4 text-sm">
-                <p className="text-gray-600 dark:text-gray-300"><strong className="text-gray-800 dark:text-gray-100">88.9%</strong> de éxito · <strong className="text-gray-800 dark:text-gray-100">11.1%</strong> de abandono</p>
-                <p className="text-gray-600 dark:text-gray-300">Duración promedio: <strong className="text-gray-800 dark:text-gray-100">89.6s</strong> (dentro del rango esperado)</p>
-                <p className="text-gray-600 dark:text-gray-300">Facilidad percibida: <strong className="text-gray-800 dark:text-gray-100">2.0/7</strong> (1 = muy fácil) · nadie la calificó como difícil</p>
-              </div>
-              <p className="text-gray-500 dark:text-gray-400 text-xs mt-3">El toggle Ingreso/Gasto se validó como claro; la fricción real se concentró en dos problemas técnicos del prototipo, resueltos en caliente durante la propia recolección.</p>
-            </div>
-          </FadeSection>
-
-          {/* Findings timeline */}
-          <FadeSection delay={.1}>
-            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Hallazgo → severidad → fix → deploy</h3>
-            <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left bg-gray-50 dark:bg-gray-800">
-                    <th className="px-4 py-3 text-gray-500 dark:text-gray-400 font-semibold text-xs uppercase tracking-wider">Severidad</th>
-                    <th className="px-4 py-3 text-gray-500 dark:text-gray-400 font-semibold text-xs uppercase tracking-wider">Hallazgo</th>
-                    <th className="px-4 py-3 text-gray-500 dark:text-gray-400 font-semibold text-xs uppercase tracking-wider">Fix desplegado</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {FINDINGS.map(({ sev, issue, fix }, i) => (
-                    <tr key={issue} className={i % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800/60"}>
-                      <td className="px-4 py-3">
-                        <span className="px-2 py-0.5 rounded-full text-xs font-semibold text-white" style={{ background: SEV_COLOR[sev] }}>{sev}</span>
-                      </td>
-                      <td className="px-4 py-3 text-gray-700 dark:text-gray-200 text-xs">{issue}</td>
-                      <td className="px-4 py-3 text-gray-500 dark:text-gray-400 text-xs">{fix}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
-              9 pantallas/componentes iterados con justificación, cada uno verificado con <code className="font-mono">flutter analyze</code> y <code className="font-mono">flutter build web</code> antes de publicarse.
-            </p>
+            <MilestoneTestingExplorer />
           </FadeSection>
         </div>
       </section>
@@ -1255,7 +664,7 @@ export function MilestoneCaseStudy() {
       {/* ══════════════════════════════════════════════════════════
           LO QUE ESTE PROYECTO ME DEJA
       ══════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-20 bg-gray-50 dark:bg-gray-800">
+      <section id="reflexion" className="py-16 md:py-20 bg-gray-50 dark:bg-gray-800 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 space-y-10">
           <FadeSection>
             <SectionLabel text="Reflexión final" accent />
@@ -1266,11 +675,19 @@ export function MilestoneCaseStudy() {
           </FadeSection>
 
           <FadeSection delay={.06}>
-            <div className="rounded-2xl border-l-4 p-5" style={{ borderColor: BRAND.secondary, background: `${BRAND.secondary}0d` }}>
-              <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: BRAND.secondary }}>Roadmap</p>
-              <p className="text-gray-700 dark:text-gray-200">
-                Feedback visual inmediato tras cada aporte a una meta · vista de historial de metas cumplidas · reforzar en el onboarding que Milestone registra plata, no la maneja · simulador de ahorro y gamificación (Fase 2, ya definidos desde Define).
-              </p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: BRAND.secondary }}>Roadmap</p>
+            <div className="flex flex-wrap gap-2">
+              {[
+                "Feedback visual inmediato tras cada aporte a una meta",
+                "Vista de historial de metas cumplidas",
+                "Reforzar en el onboarding que Milestone registra plata, no la maneja",
+                "Simulador de ahorro y gamificación (Fase 2, ya definidos desde Define)",
+              ].map((item) => (
+                <span key={item} className="px-3.5 py-2 rounded-full text-sm font-medium border"
+                  style={{ borderColor: `${BRAND.secondary}40`, color: BRAND.secondary, background: `${BRAND.secondary}0d` }}>
+                  {item}
+                </span>
+              ))}
             </div>
           </FadeSection>
 
@@ -1366,7 +783,7 @@ export function MilestoneCaseStudy() {
       ══════════════════════════════════════════ */}
       <footer className="py-6 bg-gray-900 dark:bg-gray-950 text-center">
         <p className="text-gray-400 dark:text-gray-500 text-sm">
-          © 2026 Sofía Álvarez. Hecho con ♥ usando Claude Code
+          © 2026 Sofía Álvarez. Hecho con ♥ usando Claude Code — VERSIÓN DE PRUEBA
         </p>
       </footer>
     </div>
