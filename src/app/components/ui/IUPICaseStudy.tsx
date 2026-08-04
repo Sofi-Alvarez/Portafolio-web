@@ -2,16 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useNavigate } from "react-router";
 import {
-  ArrowLeft, ArrowRight, Moon, Sun, ChevronDown,
+  ArrowLeft, ArrowRight,
   Users, Search, Lightbulb, Layers, CheckCircle,
-  TrendingUp, Award, PenLine,
+  TrendingUp, Award, PenLine, Info, Route,
 } from "lucide-react";
 import { SiFigma, SiNotion, SiJira } from "react-icons/si";
 import { useTheme } from "../../contexts/ThemeContext";
 import { CaseStudyHero } from "./CaseStudyHero";
+import { CaseStudyMenuNav, type CaseStudyIndexSection } from "./CaseStudyMenuNav";
 import iupiPort from "../../../imports/iupi port.jpg";
-import logo2 from "../../../imports/logo2.svg";
-import logo2dark from "../../../imports/logo2dark.svg";
 import iupiExploracion from "../../../imports/iupi-exploracion.svg";
 import iupiErrores from "../../../imports/iupi-errores.svg";
 import iupiOnboarding from "../../../imports/iupi-onboarding.svg";
@@ -111,247 +110,15 @@ function ToolBadge(tool: ToolItem) {
 }
 
 /* ════════════════════════════════════════════════════════════
-   STICKY NAV
+   ÍNDICE — para el menú hamburguesa compartido (CaseStudyMenuNav)
 ════════════════════════════════════════════════════════════ */
-function NavPill({ step, active }: { step: Step; active: boolean }) {
-  const [hov, setHov] = useState(false);
-  const { isDark } = useTheme();
-  const on = active || hov;
-  return (
-    <motion.button
-      whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-      onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-      onClick={() => scrollTo(step.id)}
-      aria-current={active ? "true" : undefined}
-      className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs whitespace-nowrap transition-all duration-200 flex-shrink-0"
-      style={{
-        background: on
-          ? isDark ? "rgba(78,207,207,0.12)" : "rgba(2,89,89,0.10)"
-          : "transparent",
-        color: on
-          ? isDark ? "#4ecfcf" : "#025959"
-          : isDark ? "#9ca3af" : "#6b7280",
-        fontWeight: active ? 700 : 500,
-      }}
-    >
-      <step.Icon className="w-3.5 h-3.5" />
-      {step.label}
-      {active && (
-        <motion.span layoutId="iupi-nav-active-dot" className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
-          style={{ background: isDark ? "#4ecfcf" : "#025959" }} />
-      )}
-    </motion.button>
-  );
-}
-
-function CaseStudyNav({ showPills }: { showPills: boolean }) {
-  const navigate = useNavigate();
-  const { isDark, toggleTheme } = useTheme();
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeId, setActiveId] = useState(STEPS[0].id);
-
-  useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", h, { passive: true });
-    return () => window.removeEventListener("scroll", h);
-  }, []);
-
-  /* Cierra el menú al hacer scroll en mobile */
-  useEffect(() => {
-    if (!menuOpen) return;
-    const h = () => setMenuOpen(false);
-    window.addEventListener("scroll", h, { passive: true, once: true });
-    return () => window.removeEventListener("scroll", h);
-  }, [menuOpen]);
-
-  /* Trackea qué sección está en viewport para resaltarla en el nav */
-  useEffect(() => {
-    const h = () => {
-      const y = window.scrollY + 110;
-      let current = STEPS[0].id;
-      for (const s of STEPS) {
-        const el = document.getElementById(s.id);
-        if (el && el.offsetTop <= y) current = s.id;
-      }
-      setActiveId(current);
-    };
-    h();
-    window.addEventListener("scroll", h, { passive: true });
-    return () => window.removeEventListener("scroll", h);
-  }, []);
-
-  return (
-    <>
-      <motion.nav
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-white/95 dark:bg-gray-900/95 shadow-md backdrop-blur-md"
-            : "bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm"
-        }`}
-      >
-        {/* main row */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between h-16">
-
-          {/* logo → home */}
-          <motion.button
-            whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.95 }}
-            onClick={() => navigate("/")}
-            className="flex items-center gap-2"
-            aria-label="Ir al inicio"
-          >
-            <img src={isDark ? logo2dark : logo2} alt="Sofía Álvarez" className="w-9 h-9 object-contain" />
-          </motion.button>
-
-          {/* center */}
-          <div className="flex items-center gap-2">
-            {/* Desktop: pills / label */}
-            <div className="hidden md:flex items-center gap-1">
-              <AnimatePresence mode="wait">
-                {showPills ? (
-                  <motion.div key="pills"
-                    initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25 }}
-                    className="flex gap-1"
-                  >
-                    {STEPS.map((s) => <NavPill key={s.id} step={s} active={activeId === s.id} />)}
-                  </motion.div>
-                ) : (
-                  <motion.span key="label"
-                    initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.2 }}
-                    className="text-xs px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400"
-                  >
-                    Caso de Estudio · IUPI
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Mobile: secondary dropdown trigger */}
-            <AnimatePresence>
-              {showPills && (
-                <motion.button
-                  key="mobile-trigger"
-                  initial={{ opacity: 0, scale: 0.92 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.92 }}
-                  transition={{ duration: 0.2 }}
-                  onClick={() => setMenuOpen((v) => !v)}
-                  className={`md:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-medium transition-all duration-200 ${
-                    menuOpen
-                      ? "border-[#025959]/50 bg-[#025959]/8 text-[#025959] dark:border-[#4ecfcf]/40 dark:text-[#4ecfcf] dark:bg-[#4ecfcf]/8"
-                      : "border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/70 text-gray-500 dark:text-gray-400"
-                  }`}
-                  aria-label="Menú de secciones"
-                  aria-expanded={menuOpen}
-                >
-                  <span>Proceso</span>
-                  <motion.span
-                    animate={{ rotate: menuOpen ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="flex items-center"
-                  >
-                    <ChevronDown className="w-3.5 h-3.5" />
-                  </motion.span>
-                </motion.button>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* dark mode toggle */}
-          <motion.button
-            whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
-            onClick={toggleTheme}
-            className="p-2 rounded-lg hover:bg-[#025959]/10 dark:hover:bg-[#025959]/30 transition-colors"
-            aria-label="Toggle theme"
-          >
-            <AnimatePresence mode="wait">
-              {isDark ? (
-                <motion.div key="sun"
-                  initial={{ opacity: 0, rotate: -90 }} animate={{ opacity: 1, rotate: 0 }}
-                  exit={{ opacity: 0, rotate: 90 }} transition={{ duration: 0.2 }}
-                >
-                  <Sun className="w-5 h-5 text-[#FF8300]" />
-                </motion.div>
-              ) : (
-                <motion.div key="moon"
-                  initial={{ opacity: 0, rotate: 90 }} animate={{ opacity: 1, rotate: 0 }}
-                  exit={{ opacity: 0, rotate: -90 }} transition={{ duration: 0.2 }}
-                >
-                  <Moon className="w-5 h-5 text-[#025959]" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
-        </div>
-
-        {/* Mobile dropdown */}
-        <AnimatePresence>
-          {menuOpen && showPills && (
-            <motion.div
-              key="mobile-dropdown"
-              initial={{ opacity: 0, y: -6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
-              className="md:hidden border-t border-gray-100 dark:border-gray-800 bg-white/97 dark:bg-gray-900/97 backdrop-blur-md"
-            >
-              <div className="px-3 py-2">
-                <p className="px-3 pt-1 pb-2 text-[10px] font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-600">
-                  Caso de Estudio · IUPI
-                </p>
-                {STEPS.map((s, i) => {
-                  const active = activeId === s.id;
-                  return (
-                    <motion.button
-                      key={s.id}
-                      initial={{ opacity: 0, x: -8 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.15, delay: i * 0.04 }}
-                      onClick={() => { scrollTo(s.id); setMenuOpen(false); }}
-                      aria-current={active ? "true" : undefined}
-                      className={`flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm transition-colors group ${
-                        active
-                          ? "text-[#025959] dark:text-[#4ecfcf] bg-[#025959]/6 dark:bg-[#4ecfcf]/10"
-                          : "text-gray-600 dark:text-gray-300 hover:bg-[#025959]/6 hover:text-[#025959] dark:hover:bg-[#4ecfcf]/8 dark:hover:text-[#4ecfcf]"
-                      }`}
-                    >
-                      <span className={`text-[10px] font-mono w-5 flex-shrink-0 ${active ? "text-[#025959] dark:text-[#4ecfcf]" : "text-gray-300 dark:text-gray-600"}`}>{s.num}</span>
-                      <span className={`w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors ${
-                        active ? "bg-[#025959]/10 dark:bg-[#4ecfcf]/15" : "bg-gray-100 dark:bg-gray-800 group-hover:bg-[#025959]/10 dark:group-hover:bg-[#4ecfcf]/10"
-                      }`}>
-                        <s.Icon className="w-3.5 h-3.5 text-[#025959] dark:text-[#4ecfcf]" />
-                      </span>
-                      <span className={active ? "font-bold" : "font-medium"}>{s.label}</span>
-                      {active && <span className="ml-auto w-1.5 h-1.5 rounded-full flex-shrink-0 bg-[#025959] dark:bg-[#4ecfcf]" />}
-                    </motion.button>
-                  );
-                })}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.nav>
-
-      {/* Backdrop para cerrar al tocar fuera */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            key="backdrop"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="fixed inset-0 z-40 md:hidden"
-            onClick={() => setMenuOpen(false)}
-          />
-        )}
-      </AnimatePresence>
-    </>
-  );
-}
+const INDEX_SECTIONS: CaseStudyIndexSection[] = [
+  { id: "inicio",      label: "IUPI",         Icon: Info },
+  { id: "resumen",     label: "El proyecto",  Icon: Info },
+  { id: "metodologia", label: "Metodología",  Icon: Route },
+  ...STEPS.map((s) => ({ id: s.id, label: s.label, Icon: s.Icon })),
+  { id: "impacto",     label: "Impacto",      Icon: TrendingUp },
+];
 
 /* ════════════════════════════════════════════════════════════
    DIAGRAMA HORIZONTAL (stepper)
@@ -578,46 +345,37 @@ function WireframeCarousel({ items }: { items: WireframeItem[] }) {
 export function IUPICaseStudy() {
   const { isDark } = useTheme();
   const navigate = useNavigate();
-  const processSectionRef = useRef<HTMLDivElement>(null);
-  const [showPills, setShowPills] = useState(false);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  useEffect(() => {
-    const handle = () => {
-      if (!processSectionRef.current) return;
-      setShowPills(processSectionRef.current.getBoundingClientRect().top <= 64);
-    };
-    window.addEventListener("scroll", handle, { passive: true });
-    return () => window.removeEventListener("scroll", handle);
-  }, []);
-
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-      <CaseStudyNav showPills={showPills} />
+      <CaseStudyMenuNav title="IUPI" sections={INDEX_SECTIONS} primaryColor="#025959" secondaryColor="#FF8300" />
 
       {/* ══════════════════════════════════════════
           1. HERO
       ══════════════════════════════════════════ */}
-      <CaseStudyHero
-        badgeLabel="Caso de Estudio · IUPI"
-        titlePrefix="IUPI –"
-        titleAccent="Ahorro e Inversiones"
-        description="Una experiencia fintech pensada para incluir financieramente a la población argentina: simple, segura y amigable, incluso en un contexto económico complejo."
-        tags={["UX/UI Designer", "Fintech", "2024"]}
-        image={iupiPort}
-        imageAlt="Pantalla de la app IUPI"
-        imageMobile1={iupi1}
-        imageMobile2={iupi2}
-        brandColor="#004AAC"
-        brandColorDark="#60a5fa"
-        variant="phones"
-      />
+      <div id="inicio">
+        <CaseStudyHero
+          badgeLabel="Caso de Estudio · IUPI"
+          titlePrefix="IUPI –"
+          titleAccent="Ahorro e Inversiones"
+          description="Una experiencia fintech pensada para incluir financieramente a la población argentina: simple, segura y amigable, incluso en un contexto económico complejo."
+          tags={["UX/UI Designer", "Fintech", "2024"]}
+          image={iupiPort}
+          imageAlt="Pantalla de la app IUPI"
+          imageMobile1={iupi1}
+          imageMobile2={iupi2}
+          brandColor="#004AAC"
+          brandColorDark="#60a5fa"
+          variant="phones"
+        />
+      </div>
 
       {/* ══════════════════════════════════════════
           2. DESCRIPCIÓN GENERAL + FICHA
       ══════════════════════════════════════════ */}
-      <section className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800">
+      <section id="resumen" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           <FadeSection>
             <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
@@ -717,7 +475,7 @@ export function IUPICaseStudy() {
       {/* ══════════════════════════════════════════
           4. DIAGRAMA DE PROCESO
       ══════════════════════════════════════════ */}
-      <section ref={processSectionRef} className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800 scroll-mt-16">
+      <section id="metodologia" className="py-16 md:py-24 bg-gray-50 dark:bg-gray-800 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
           <FadeSection className="text-center mb-12">
             <SectionLabel text="Metodología" accent />
@@ -1630,7 +1388,7 @@ export function IUPICaseStudy() {
       {/* ══════════════════════════════════════════
           10. IMPACTO (card sobre fondo neutro)
       ══════════════════════════════════════════ */}
-      <section className="py-16 md:py-20 bg-gray-50 dark:bg-gray-800">
+      <section id="impacto" className="py-16 md:py-20 bg-gray-50 dark:bg-gray-800 scroll-mt-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <FadeSection>
             <div className="rounded-3xl px-8 py-12 md:px-14 md:py-14 text-center bg-[#025959]">
