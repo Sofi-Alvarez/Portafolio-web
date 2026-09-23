@@ -134,7 +134,7 @@ export function Hero() {
             color: isDark ? "#4ecfcf" : "#025959",
           }}
         >
-          ✦ Product Designer · Disponible para proyectos
+          ✦ Product Designer · Disponible
         </motion.span>
 
         {/* Greeting */}

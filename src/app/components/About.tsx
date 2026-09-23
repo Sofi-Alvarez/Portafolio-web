@@ -82,13 +82,13 @@ export function About() {
                 </div>
                 <div className="flex flex-wrap gap-2 justify-center">
                   <span className="px-3 py-1 bg-[#025959] text-white rounded-full text-sm">
-                    Product Design
-                  </span>
-                  <span className="px-3 py-1 bg-[#FF8300] text-gray-800 rounded-full text-sm">
                     Design Engineering
                   </span>
-                  <span className="px-3 py-1 bg-[#025959] text-white rounded-full text-sm">
+                  <span className="px-3 py-1 bg-[#FF8300] text-gray-800 rounded-full text-sm">
                     AI-First
+                  </span>
+                  <span className="px-3 py-1 bg-[#025959] text-white rounded-full text-sm">
+                    Accesibilidad
                   </span>
                 </div>
               </div>
