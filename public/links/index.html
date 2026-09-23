@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#025959">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Sofía Álvarez · Links</title>
+<meta name="description" content="Sofía Álvarez, Product Designer. Portfolio, LinkedIn y CV.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --brand-teal: #025959;
+    --brand-teal-hover: #037070;
+    --brand-orange: #ff8300;
+    --brand-orange-ink: #a84f00;
+    --teal-text: #025959;
+    --ground: #f8fefe;
+    --surface: #ffffff;
+    --border: #e6eeee;
+    --text-strong: #1f2937;
+    --text-body: #4b5563;
+    --text-muted: #6b7280;
+    --tint-teal: rgba(2, 89, 89, .10);
+    --tint-orange: rgba(255, 131, 0, .12);
+    --badge-border: rgba(2, 89, 89, .25);
+    --badge-bg: rgba(2, 89, 89, .08);
+    --mesh-teal: rgba(2, 89, 89, .14);
+    --mesh-orange: rgba(255, 131, 0, .12);
+    --photo-ring: #ffffff;
+    --shadow-cta: 0 10px 28px rgba(2, 89, 89, .30);
+    --shadow-cta-hover: 0 14px 32px rgba(2, 89, 89, .40);
+    --shadow-row: 0 1px 2px rgba(17, 24, 39, .05);
+    --shadow-row-hover: 0 8px 24px rgba(2, 89, 89, .12);
+    --focus: #025959;
+    --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { min-height: 100%; }
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.625;
+    color: var(--text-body);
+    background:
+      radial-gradient(60% 45% at 12% 6%, var(--mesh-teal), transparent 62%),
+      radial-gradient(55% 40% at 95% 0%, var(--mesh-orange), transparent 60%),
+      var(--ground);
+    background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+    padding-inline: 20px;
+    padding-block: 40px 28px;
+  }
+
+  .card {
+    max-width: 420px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 28px;
+  }
+
+  .identity { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+
+  .photo { position: relative; width: 132px; height: 132px; }
+  .photo img {
+    width: 132px; height: 132px; border-radius: 50%;
+    object-fit: cover; display: block;
+    border: 4px solid var(--photo-ring);
+    box-shadow: 0 12px 32px rgba(2, 89, 89, .22);
+  }
+  .photo .status {
+    position: absolute; right: 8px; bottom: 8px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #15803d; border: 3px solid var(--photo-ring);
+  }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 500; line-height: 1;
+    color: var(--teal-text);
+    background: var(--badge-bg);
+    border: 1px solid var(--badge-border);
+    border-radius: 9999px;
+    padding: 8px 14px;
+  }
+  .badge .spark { color: var(--brand-orange); }
+
+  h1 {
+    margin: 0;
+    font-size: 34px; line-height: 1.08; font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-strong);
+    text-wrap: balance;
+  }
+  .role {
+    margin: -6px 0 0;
+    font-size: 18px; font-weight: 600;
+    color: var(--teal-text);
+  }
+  .pitch {
+    margin: 0;
+    max-width: 32ch;
+    font-size: 16px;
+    color: var(--text-body);
+    text-wrap: balance;
+  }
+  .hand { position: relative; white-space: nowrap; color: var(--text-strong); font-weight: 600; }
+  .hand svg {
+    position: absolute; left: -2%; bottom: -7px; width: 104%; height: 10px;
+    overflow: visible; pointer-events: none;
+  }
+  .hand path { fill: none; stroke: var(--brand-orange); stroke-width: 3; stroke-linecap: round; }
+
+  .actions { width: 100%; display: flex; flex-direction: column; gap: 12px; }
+
+  .cta {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; min-height: 58px;
+    padding: 16px 28px;
+    border-radius: 9999px;
+    background: var(--brand-teal);
+    color: #ffffff;
+    font-size: 17px; font-weight: 600; text-decoration: none;
+    box-shadow: var(--shadow-cta);
+    transition: transform .2s var(--ease-brand), background-color .2s var(--ease-brand), box-shadow .2s var(--ease-brand);
+  }
+  .cta:hover { background: var(--brand-teal-hover); transform: translateY(-2px); box-shadow: var(--shadow-cta-hover); }
+  .cta:active { transform: scale(.97); }
+  .cta svg { width: 20px; height: 20px; }
+
+  .row {
+    display: flex; align-items: center; gap: 14px;
+    width: 100%; min-height: 64px;
+    padding: 12px 16px 12px 12px;
+    border-radius: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-row);
+    text-decoration: none; text-align: left;
+    transition: transform .2s var(--ease-brand), box-shadow .2s var(--ease-brand);
+  }
+  .row:hover { transform: translateY(-2px); box-shadow: var(--shadow-row-hover); }
+  .row:active { transform: scale(.98); }
+  .tile {
+    flex: none; width: 40px; height: 40px; border-radius: 12px;
+    display: grid; place-items: center;
+  }
+  .tile svg { width: 20px; height: 20px; }
+  .tile.teal { background: var(--tint-teal); color: var(--teal-text); }
+  .tile.orange { background: var(--tint-orange); color: var(--brand-orange-ink); }
+  .row-text { flex: 1; display: flex; flex-direction: column; line-height: 1.3; min-width: 0; }
+  .row-title { font-size: 16px; font-weight: 600; color: var(--text-strong); }
+  .row-meta { font-size: 13px; color: var(--text-muted); }
+  .row .go { flex: none; width: 18px; height: 18px; color: var(--text-muted); transition: transform .2s var(--ease-brand); }
+  .row:hover .go { transform: translate(2px, -2px); }
+
+  a:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+
+  footer {
+    font-size: 13px; color: var(--text-muted);
+    display: flex; flex-direction: column; gap: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+
+<main class="card">
+  <section class="identity" aria-labelledby="nombre">
+    <span class="badge"><span class="spark" aria-hidden="true">✦</span> Nos vemos en Nerdearla 2026</span>
+    <div class="photo">
+      <img src="/links/sofia.jpg" alt="Sofía Álvarez" width="132" height="132">
+      <span class="status" aria-hidden="true"></span>
+    </div>
+    <h1 id="nombre">Sofía Álvarez</h1>
+    <p class="role">Product Designer</p>
+    <p class="pitch">Diseño productos fintech que se entienden
+      <span class="hand">sin explicación<svg viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8 Q50,2 100,7 T198,6"/></svg></span>.</p>
+  </section>
+
+  <nav class="actions" aria-label="Links de Sofía">
+    <a class="cta" href="https://www.linkedin.com/in/sof%C3%ADa-%C3%A1lvarez-20/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+      Conectar en LinkedIn
+    </a>
+
+    <a class="row" href="https://sofia-alvarez-ux-iu.vercel.app/CV_Sofia_Alvarez_UX_UI.pdf#view=FitV" target="_blank" rel="noopener">
+      <span class="tile orange" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
+      </span>
+      <span class="row-text">
+        <span class="row-title">Obtener currículum</span>
+        <span class="row-meta">Se abre en PDF</span>
+      </span>
+      <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+    </a>
+
+    <a class="row" href="https://sofia-alvarez-ux-iu.vercel.app/" target="_blank" rel="noopener">
+      <span class="tile teal" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
+      </span>
+      <span class="row-text">
+        <span class="row-title">Ver portfolio</span>
+        <span class="row-meta">Casos de fintech y mobile</span>
+      </span>
+      <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+    </a>
+  </nav>
+
+  <footer>
+    <span>Fintech · Mobile · Accesibilidad</span>
+    <span>© 2026 Sofía Álvarez</span>
+  </footer>
+</main>
+</body>
+</html>
