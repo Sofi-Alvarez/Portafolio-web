@@ -37,7 +37,7 @@ export function About() {
           >
             <h2 className="text-4xl lg:text-5xl mb-6 text-gray-800 dark:text-gray-100">Sobre mí</h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-              Soy diseñadora UX/UI con formación en Artes Visuales y Pedagogía. Mi enfoque nace
+              Soy Product Designer con formación en Artes Visuales y Pedagogía. Mi enfoque nace
               de un lugar poco común: mis experiencias trabajando con personas con necesidades
               diversas me enseñaron que una interfaz realmente buena no necesita explicación.
             </p>
@@ -82,13 +82,13 @@ export function About() {
                 </div>
                 <div className="flex flex-wrap gap-2 justify-center">
                   <span className="px-3 py-1 bg-[#025959] text-white rounded-full text-sm">
-                    UX Design
+                    Product Design
                   </span>
-                  <span className="px-3 py-1 bg-[#FF8300] text-white rounded-full text-sm">
-                    UI Design
+                  <span className="px-3 py-1 bg-[#FF8300] text-gray-800 rounded-full text-sm">
+                    Design Engineering
                   </span>
                   <span className="px-3 py-1 bg-[#025959] text-white rounded-full text-sm">
-                    Research
+                    AI-First
                   </span>
                 </div>
               </div>
