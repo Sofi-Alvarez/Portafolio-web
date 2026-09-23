@@ -60,7 +60,7 @@ export function Contact() {
             {/* Info */}
             <div className="flex-1 text-center md:text-left">
               <h3 className="text-3xl text-gray-800 dark:text-gray-100 mb-2">Sofía Álvarez</h3>
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-1">UX/UI Designer</p>
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-1">Product Designer</p>
               <p className="text-gray-500 dark:text-gray-400 mb-6">Buenos Aires, Argentina</p>
 
               {/* Buttons */}

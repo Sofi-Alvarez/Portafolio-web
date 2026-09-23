@@ -134,7 +134,7 @@ export function Hero() {
             color: isDark ? "#4ecfcf" : "#025959",
           }}
         >
-          ✦ UX/UI Designer · Disponible para proyectos
+          ✦ Product Designer · Disponible
         </motion.span>
 
         {/* Greeting */}
@@ -157,8 +157,8 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.18, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
-          Una diseñadora{" "}
-          <span style={{ color: "#025959" }}>UX/UI</span>{" "}
+          Una{" "}
+          <span style={{ color: "#025959" }}>Product Designer</span>{" "}
           creando experiencias digitales{" "}
           {/* "excepcionales" with SVG hand-drawn underline */}
           <span className="relative inline-block" style={{ color: "#FF8300" }}>
