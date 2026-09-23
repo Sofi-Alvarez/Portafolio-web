@@ -3,227 +3,80 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#025959">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#f8fefe">
+<meta name="description" content="Sofía Álvarez, Product Designer. LinkedIn, CV y portfolio.">
 <title>Sofía Álvarez · Links</title>
-<meta name="description" content="Sofía Álvarez, Product Designer. Portfolio, LinkedIn y CV.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <style>
-  :root {
-    color-scheme: light;
-    --brand-teal: #025959;
-    --brand-teal-hover: #037070;
-    --brand-orange: #ff8300;
-    --brand-orange-ink: #a84f00;
-    --teal-text: #025959;
-    --ground: #f8fefe;
-    --surface: #ffffff;
-    --border: #e6eeee;
-    --text-strong: #1f2937;
-    --text-body: #4b5563;
-    --text-muted: #6b7280;
-    --tint-teal: rgba(2, 89, 89, .10);
-    --tint-orange: rgba(255, 131, 0, .12);
-    --badge-border: rgba(2, 89, 89, .25);
-    --badge-bg: rgba(2, 89, 89, .08);
-    --mesh-teal: rgba(2, 89, 89, .14);
-    --mesh-orange: rgba(255, 131, 0, .12);
-    --photo-ring: #ffffff;
-    --shadow-cta: 0 10px 28px rgba(2, 89, 89, .30);
-    --shadow-cta-hover: 0 14px 32px rgba(2, 89, 89, .40);
-    --shadow-row: 0 1px 2px rgba(17, 24, 39, .05);
-    --shadow-row-hover: 0 8px 24px rgba(2, 89, 89, .12);
-    --focus: #025959;
-    --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
-    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  }
-
-  * { box-sizing: border-box; }
-  html, body { min-height: 100%; }
-  body {
-    margin: 0;
-    font-family: var(--font-sans);
-    font-size: 16px;
-    line-height: 1.625;
-    color: var(--text-body);
-    background:
-      radial-gradient(60% 45% at 12% 6%, var(--mesh-teal), transparent 62%),
-      radial-gradient(55% 40% at 95% 0%, var(--mesh-orange), transparent 60%),
-      var(--ground);
-    background-attachment: fixed;
-    -webkit-font-smoothing: antialiased;
-    padding-inline: 20px;
-    padding-block: 40px 28px;
-  }
-
-  .card {
-    max-width: 420px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 28px;
-  }
-
-  .identity { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-
-  .photo { position: relative; width: 132px; height: 132px; }
-  .photo img {
-    width: 132px; height: 132px; border-radius: 50%;
-    object-fit: cover; display: block;
-    border: 4px solid var(--photo-ring);
-    box-shadow: 0 12px 32px rgba(2, 89, 89, .22);
-  }
-  .photo .status {
-    position: absolute; right: 8px; bottom: 8px;
-    width: 20px; height: 20px; border-radius: 50%;
-    background: #15803d; border: 3px solid var(--photo-ring);
-  }
-
-  .badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 13px; font-weight: 500; line-height: 1;
-    color: var(--teal-text);
-    background: var(--badge-bg);
-    border: 1px solid var(--badge-border);
-    border-radius: 9999px;
-    padding: 8px 14px;
-  }
-  .badge .spark { color: var(--brand-orange); }
-
-  h1 {
-    margin: 0;
-    font-size: 34px; line-height: 1.08; font-weight: 800;
-    letter-spacing: -0.02em;
-    color: var(--text-strong);
-    text-wrap: balance;
-  }
-  .role {
-    margin: -6px 0 0;
-    font-size: 18px; font-weight: 600;
-    color: var(--teal-text);
-  }
-  .pitch {
-    margin: 0;
-    max-width: 32ch;
-    font-size: 16px;
-    color: var(--text-body);
-    text-wrap: balance;
-  }
-  .hand { position: relative; white-space: nowrap; color: var(--text-strong); font-weight: 600; }
-  .hand svg {
-    position: absolute; left: -2%; bottom: -7px; width: 104%; height: 10px;
-    overflow: visible; pointer-events: none;
-  }
-  .hand path { fill: none; stroke: var(--brand-orange); stroke-width: 3; stroke-linecap: round; }
-
-  .actions { width: 100%; display: flex; flex-direction: column; gap: 12px; }
-
-  .cta {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    width: 100%; min-height: 58px;
-    padding: 16px 28px;
-    border-radius: 9999px;
-    background: var(--brand-teal);
-    color: #ffffff;
-    font-size: 17px; font-weight: 600; text-decoration: none;
-    box-shadow: var(--shadow-cta);
-    transition: transform .2s var(--ease-brand), background-color .2s var(--ease-brand), box-shadow .2s var(--ease-brand);
-  }
-  .cta:hover { background: var(--brand-teal-hover); transform: translateY(-2px); box-shadow: var(--shadow-cta-hover); }
-  .cta:active { transform: scale(.97); }
-  .cta svg { width: 20px; height: 20px; }
-
-  .row {
-    display: flex; align-items: center; gap: 14px;
-    width: 100%; min-height: 64px;
-    padding: 12px 16px 12px 12px;
-    border-radius: 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-row);
-    text-decoration: none; text-align: left;
-    transition: transform .2s var(--ease-brand), box-shadow .2s var(--ease-brand);
-  }
-  .row:hover { transform: translateY(-2px); box-shadow: var(--shadow-row-hover); }
-  .row:active { transform: scale(.98); }
-  .tile {
-    flex: none; width: 40px; height: 40px; border-radius: 12px;
-    display: grid; place-items: center;
-  }
-  .tile svg { width: 20px; height: 20px; }
-  .tile.teal { background: var(--tint-teal); color: var(--teal-text); }
-  .tile.orange { background: var(--tint-orange); color: var(--brand-orange-ink); }
-  .row-text { flex: 1; display: flex; flex-direction: column; line-height: 1.3; min-width: 0; }
-  .row-title { font-size: 16px; font-weight: 600; color: var(--text-strong); }
-  .row-meta { font-size: 13px; color: var(--text-muted); }
-  .row .go { flex: none; width: 18px; height: 18px; color: var(--text-muted); transition: transform .2s var(--ease-brand); }
-  .row:hover .go { transform: translate(2px, -2px); }
-
-  a:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
-
-  footer {
-    font-size: 13px; color: var(--text-muted);
-    display: flex; flex-direction: column; gap: 2px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
-  }
+body{margin:0;font-family:"Inter",ui-sans-serif,system-ui,sans-serif;color:#4b5563;background:#f8fefe}
+a{color:#025959}a:hover{color:#037070}
+.cta{transition:transform .2s cubic-bezier(0.22,1,0.36,1),background-color .2s,box-shadow .2s}
+.cta:hover{transform:translateY(-2px);background-color:#037070 !important;box-shadow:0 14px 32px rgba(2,89,89,.40) !important}
+.row{transition:transform .2s cubic-bezier(0.22,1,0.36,1),box-shadow .2s}
+.row:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(2,89,89,.12) !important}
+a:focus-visible{outline:2px solid #025959;outline-offset:3px}
+.blob{transform-box:fill-box;transform-origin:center;animation:flota ease-in-out infinite alternate}
+.b1{animation-duration:12s}.b2{animation-duration:10s;animation-delay:-3s}.b3{animation-duration:9s;animation-delay:-5s}
+@keyframes flota{from{transform:translate(0,0) scale(1)}to{transform:translate(8px,-8px) scale(1.06)}}
+@media (prefers-reduced-motion: reduce){.blob{animation:none}}
+html{-webkit-text-size-adjust:100%}
 </style>
 </head>
 <body>
-
-
-<main class="card">
-  <section class="identity" aria-labelledby="nombre">
-    <span class="badge"><span class="spark" aria-hidden="true">✦</span> Nos vemos en Nerdearla 2026</span>
-    <div class="photo">
-      <img src="/links/sofia.jpg" alt="Sofía Álvarez" width="132" height="132">
-      <span class="status" aria-hidden="true"></span>
-    </div>
-    <h1 id="nombre">Sofía Álvarez</h1>
-    <p class="role">Product Designer</p>
-    <p class="pitch">Diseño productos fintech que se entienden
-      <span class="hand">sin explicación<svg viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8 Q50,2 100,7 T198,6"/></svg></span>.</p>
-  </section>
-
-  <nav class="actions" aria-label="Links de Sofía">
-    <a class="cta" href="https://www.linkedin.com/in/sof%C3%ADa-%C3%A1lvarez-20/" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-      Conectar en LinkedIn
-    </a>
-
-    <a class="row" href="https://sofia-alvarez-ux-iu.vercel.app/CV_Sofia_Alvarez_UX_UI.pdf#view=FitV" target="_blank" rel="noopener">
-      <span class="tile orange" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
-      </span>
-      <span class="row-text">
-        <span class="row-title">Obtener currículum</span>
-        <span class="row-meta">Se abre en PDF</span>
-      </span>
-      <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
-    </a>
-
-    <a class="row" href="https://sofia-alvarez-ux-iu.vercel.app/" target="_blank" rel="noopener">
-      <span class="tile teal" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></svg>
-      </span>
-      <span class="row-text">
-        <span class="row-title">Ver portfolio</span>
-        <span class="row-meta">Casos de fintech y mobile</span>
-      </span>
-      <svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
-    </a>
-  </nav>
-
-  <footer>
-    <span>Fintech · Mobile · Accesibilidad</span>
-    <span>© 2026 Sofía Álvarez</span>
-  </footer>
+<main id="links" style="position: relative; width: 100%; max-width: 440px; margin: 0 auto; min-height: 100vh; min-height: 100dvh; box-sizing: border-box; padding: 48px 24px 32px; background: #f8fefe; display: flex; flex-direction: column; align-items: center; text-align: center; overflow: hidden;">
+<div aria-hidden="true" style="position: absolute; left: 0; top: 0; width: 100%; height: 240px; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 56%, transparent 100%); mask-image: linear-gradient(to bottom, #000 0%, #000 56%, transparent 100%);">
+<svg width="100%" height="240" viewBox="0 0 390 240" preserveAspectRatio="none" style="display: block;">
+<defs>
+<filter id="manchaBlur" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="28"></feGaussianBlur></filter>
+<filter id="brilloBlur" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="12"></feGaussianBlur></filter>
+</defs>
+<g filter="url(#manchaBlur)">
+<ellipse class="blob b1" cx="16" cy="96" rx="104" ry="136" fill="#025959" fill-opacity="0.55"></ellipse>
+<ellipse class="blob b2" cx="136" cy="40" rx="120" ry="64" fill="#8fd3b6" fill-opacity="0.55"></ellipse>
+<ellipse cx="176" cy="160" rx="128" ry="40" fill="#c9d6ec" fill-opacity="0.6"></ellipse>
+<ellipse class="blob b3" cx="336" cy="104" rx="80" ry="64" fill="#ff8300" fill-opacity="0.55"></ellipse>
+</g>
+<path filter="url(#brilloBlur)" d="M-32,176 C64,96 160,56 256,48 C320,40 352,24 424,-8 L424,56 C352,72 280,96 208,120 C128,144 64,184 -32,232 Z" fill="#ffffff" fill-opacity="0.9"></path>
+</svg>
+</div>
+<section style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 24px;">
+<span style="display: inline-flex; align-items: center; gap: 8px; height: 32px; box-sizing: border-box; padding: 0 16px; font-size: 13px; line-height: 16px; font-weight: 500; color: #025959; background: rgba(255,255,255,.72); border: 1px solid rgba(2,89,89,.24); border-radius: 9999px;"><span style="color: #ff8300;" aria-hidden="true">✦</span>Nos vemos en Nerdearla 2026</span>
+<div style="position: relative; width: 136px; height: 136px;">
+<img src="/links/sofia.jpg" alt="Sofía Álvarez" style="width: 136px; height: 136px; box-sizing: border-box; border-radius: 50%; object-fit: cover; display: block; border: 4px solid #ffffff; box-shadow: 0 16px 32px rgba(2,89,89,.24);">
+<span aria-hidden="true" style="position: absolute; right: 8px; bottom: 8px; width: 24px; height: 24px; box-sizing: border-box; border-radius: 50%; background: #15803d; border: 4px solid #ffffff;"></span>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 16px;">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+<h1 style="margin: 0; font-size: 40px; line-height: 48px; font-weight: 800; letter-spacing: -0.025em; color: #1f2937;">Sofía Álvarez</h1>
+<p style="margin: 0; font-size: 18px; line-height: 24px; font-weight: 600; color: #025959">Product Designer</p>
+</div>
+<p style="margin: 0; max-width: 296px; font-size: 16px; line-height: 24px; color: #4b5563; text-wrap: balance;">Diseño productos digitales <span style="white-space: nowrap;">end-to-end</span>, con IA y <span style="position: relative; white-space: nowrap; color: #1f2937; font-weight: 600;">con criterio<svg viewBox="0 0 200 10" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; left: -2%; bottom: -8px; width: 104%; height: 8px; overflow: visible;"><path d="M2,8 Q50,2 100,7 T198,6" fill="none" stroke="#ff8300" stroke-width="3" stroke-linecap="round"></path></svg></span>.</p>
+</div>
+</section>
+<nav aria-label="Links de Sofía" style="position: relative; margin-top: 48px; align-self: stretch; display: flex; flex-direction: column; gap: 16px;">
+<a class="cta" href="https://www.linkedin.com/in/sof%C3%ADa-%C3%A1lvarez-20/" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; gap: 8px; height: 56px; box-sizing: border-box; padding: 0 32px; border-radius: 9999px; background: #025959; color: #ffffff; font-size: 16px; line-height: 24px; font-weight: 600; text-decoration: none; box-shadow: 0 8px 24px rgba(2,89,89,.32);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>Conectar en LinkedIn</a>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<a class="row" href="https://sofia-alvarez-ux-iu.vercel.app/CV_Sofia_Alvarez_UX_UI.pdf#view=FitV" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 16px; height: 72px; box-sizing: border-box; padding: 0 16px; border-radius: 16px; background: #ffffff; border: 1px solid #e6eeee; box-shadow: 0 1px 2px rgba(17,24,39,.05); text-decoration: none;">
+<span style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(255,131,0,.12); color: #a84f00;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M12 18v-6"></path><path d="m9 15 3 3 3-3"></path></svg></span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; text-align: left;">
+<span style="font-size: 16px; line-height: 24px; font-weight: 600; color: #1f2937;">Obtener currículum</span>
+<span style="font-size: 13px; line-height: 16px; color: #6b7280;">Se abre en PDF</span>
+</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; color: #6b7280;"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+</a>
+<a class="row" href="https://sofia-alvarez-ux-iu.vercel.app/" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 16px; height: 72px; box-sizing: border-box; padding: 0 16px; border-radius: 16px; background: #ffffff; border: 1px solid #e6eeee; box-shadow: 0 1px 2px rgba(17,24,39,.05); text-decoration: none;">
+<span style="flex-shrink: 0; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(2,89,89,.10); color: #025959;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg></span>
+<span style="flex-grow: 1; display: flex; flex-direction: column; text-align: left;">
+<span style="font-size: 16px; line-height: 24px; font-weight: 600; color: #1f2937;">Ver portfolio</span>
+<span style="font-size: 13px; line-height: 16px; color: #6b7280;">Casos de web y app</span>
+</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; color: #6b7280;"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+</a>
+</div>
+</nav>
+<footer style="position: relative; margin-top: auto; display: flex; flex-direction: column; gap: 8px; font-size: 12px; line-height: 16px; color: #6b7280;"><span>Producto · Mobile · Accesibilidad</span><span>© 2026 Sofía Álvarez</span></footer>
 </main>
 </body>
 </html>
