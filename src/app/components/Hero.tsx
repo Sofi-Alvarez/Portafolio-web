@@ -127,14 +127,14 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium"
+          className="inline-flex items-center gap-2 rounded-full border px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium whitespace-nowrap"
           style={{
             borderColor: "rgba(2,89,89,0.25)",
             background: isDark ? "rgba(2,89,89,0.18)" : "rgba(2,89,89,0.08)",
             color: isDark ? "#4ecfcf" : "#025959",
           }}
         >
-          ✦ Product Designer · Disponible
+          ✦ Product Designer & Design Engineer · Disponible
         </motion.span>
 
         {/* Greeting */}
@@ -187,8 +187,9 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.26, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          De la investigación al pixel final. Apps, dashboards y productos
-          digitales que la gente disfruta usar.
+          De la investigación a producción. Diseño y desarrollo asistido por IA
+          hasta el producto testeado con usuarios reales. Las decisiones de
+          diseño son mías; la IA implementa.
         </motion.p>
 
         {/* CTA */}
