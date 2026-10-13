@@ -11,6 +11,9 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ChevronDown } from "lucide-react";
 
+/* Texto de los chips: variante oscura del color de la tarjeta para llegar a 4.5:1 sobre el fondo claro del chip */
+const TAG_TEXT: Record<string, string> = { "#4F6BF6": "#3448C5", "#22B8A0": "#137366", "#B08B5A": "#7A5E36", "#E8833A": "#9A4A0F" };
+
 const BRAND = {
   primary: "#4A4E78", secondary: "#B08B5A", tertiary: "#7C9885",
 };
@@ -39,7 +42,7 @@ function HMWPanel() {
         {HMWS.map((h) => (
           <div key={h.tag} className="rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-sm p-6"
             style={{ borderLeft: `4px solid ${h.color}` }}>
-            <span className="text-[10px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full" style={{ background: h.tagBg, color: h.color }}>
+            <span className="text-xs font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full" style={{ background: h.tagBg, color: TAG_TEXT[h.color] ?? h.color }}>
               {h.tag}
             </span>
             <p className="text-lg italic text-gray-800 dark:text-gray-100 mt-3 mb-2" style={{ fontFamily: "'Instrument Serif', serif" }}>
@@ -97,7 +100,7 @@ function JourneyPanel() {
           <div className="w-9 h-9 rounded-full flex-shrink-0" style={{ background: "linear-gradient(135deg,#4F6BF6,#22B8A0)" }} />
           <div>
             <p className="text-sm font-bold text-gray-800 dark:text-gray-100">Sol Vargas</p>
-            <p className="text-xs text-gray-400">Finanzas personales · CABA, ARG</p>
+            <p className="text-xs text-gray-500 dark:text-gray-300">Finanzas personales · CABA, ARG</p>
           </div>
         </div>
         <p className="text-xs text-gray-500 dark:text-gray-400 max-w-md">
@@ -109,7 +112,7 @@ function JourneyPanel() {
         {PHASES.map((p) => (
           <div key={p.n} className="rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-sm p-4"
             style={{ borderTop: `3px solid ${p.color}` }}>
-            <p className="text-[9px] font-semibold uppercase tracking-wide text-gray-400">Fase {p.n}</p>
+            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-300">Fase {p.n}</p>
             <p className="text-sm font-bold text-gray-800 dark:text-gray-100 mt-0.5">{p.name}</p>
             <div className="flex items-center gap-1.5 mt-2">
               <span className="text-sm">{p.emoji}</span>
@@ -121,7 +124,7 @@ function JourneyPanel() {
               "{p.quote}"
             </p>
             <div className="mt-3 pt-2 border-t border-dashed border-gray-100 dark:border-gray-700">
-              <p className="text-[9px] font-semibold uppercase tracking-wide text-gray-400 mb-0.5">Oportunidad MVP</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-300 mb-0.5">Oportunidad MVP</p>
               <p className="text-xs font-medium text-gray-800 dark:text-gray-100">{p.opportunity}</p>
             </div>
           </div>
@@ -182,7 +185,7 @@ function MVPPanel() {
       </p>
 
       <div className="rounded-2xl bg-gray-900 dark:bg-black/40 px-6 py-6 mb-6">
-        <p className="text-[10px] font-semibold uppercase tracking-widest mb-3" style={{ color: "#8fa0ff" }}>
+        <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: "#8fa0ff" }}>
           El diferencial frente a Wallet y Spendee
         </p>
         <div className="flex flex-wrap gap-5">
@@ -227,10 +230,10 @@ function MVPStatusAccordion({ group, defaultOpen }: { group: StatusGroup; defaul
         <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: group.color }} />
         <div className="flex-1">
           <p className="text-sm font-bold text-gray-800 dark:text-gray-100">{group.label}</p>
-          <p className="text-xs text-gray-400 mt-0.5">{group.hint}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-300 mt-0.5">{group.hint}</p>
         </div>
         <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.2 }} className="flex-shrink-0">
-          <ChevronDown className="w-4 h-4 text-gray-400" />
+          <ChevronDown className="w-4 h-4 text-gray-500 dark:text-gray-300" />
         </motion.span>
       </button>
       <AnimatePresence initial={false}>
@@ -280,7 +283,7 @@ function DefineFilterStepper({ active, onChange }: { active: DefineFilterKey; on
               whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
               aria-pressed={isActive}
               aria-label={`${f.label} — ${f.hint}`}
-              className={`px-4 py-2 rounded-full text-sm font-semibold border transition-colors duration-200 ${
+              className={`min-h-11 px-4 py-2 rounded-full text-sm font-semibold border transition-colors duration-200 ${
                 isActive
                   ? "border-transparent text-white"
                   : "border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-[#4A4E78]/40 hover:text-[#4A4E78] dark:hover:text-[#C3C4E8]"

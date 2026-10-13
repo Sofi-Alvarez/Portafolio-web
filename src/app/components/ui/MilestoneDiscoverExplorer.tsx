@@ -19,16 +19,16 @@ const BRAND = {
 /* ── Data (misma fuente real que MilestoneInterviewNotes / Benchmarking / PersonaPainMap / PainCycle) ── */
 interface Quote { text: string; speaker: string; initial: string; avatarBg: string; tag: string; tagBg: string; tagColor: string; }
 const QUOTES: Quote[] = [
-  { text: "Yo necesito tachar, necesito algo que yo pueda decir: esto ya está pagado.", speaker: "Rossana", initial: "R", avatarBg: "#4F6BF6", tag: "Cierre emocional", tagBg: "#EDF1FE", tagColor: "#4F6BF6" },
-  { text: "Como no hay, lo más fácil para mí es escribirlo.", speaker: "Rossana", initial: "R", avatarBg: "#4F6BF6", tag: "Papel vs digital", tagBg: "#EDF1FE", tagColor: "#4F6BF6" },
-  { text: "No quiero pasar a mano a otro producto los gastos, porque perdía tiempo.", speaker: "María", initial: "M", avatarBg: "#22B8A0", tag: "Carga manual", tagBg: "#E3F6F2", tagColor: "#22B8A0" },
-  { text: "Capaz te olvidás un día y ya se te arruina el traqueo.", speaker: "María", initial: "M", avatarBg: "#22B8A0", tag: "Retención", tagBg: "#E3F6F2", tagColor: "#22B8A0" },
-  { text: "Educación financiera cero.", speaker: "Gabriel", initial: "G", avatarBg: "#B5732A", tag: "Educación", tagBg: "#FFF1DE", tagColor: "#B5732A" },
-  { text: "No me gustaría ya tanto una charla que te motive, sino algo más educativo que me enseñe.", speaker: "Rossana", initial: "R", avatarBg: "#4F6BF6", tag: "Educación", tagBg: "#FFF1DE", tagColor: "#B5732A" },
-  { text: "Me genera mucha desconfianza… veo esos gurúes y después no activo nada.", speaker: "Gabriel", initial: "G", avatarBg: "#B5732A", tag: "Confianza", tagBg: "#FDEAEA", tagColor: "#C23B3B" },
-  { text: "Capaz me estoy perdiendo algo… y no sé si son todas iguales.", speaker: "María", initial: "M", avatarBg: "#22B8A0", tag: "FOMO", tagBg: "#E3F6F2", tagColor: "#22B8A0" },
-  { text: "Cuando estoy cómodo trato de no darle bola.", speaker: "Gabriel", initial: "G", avatarBg: "#B5732A", tag: "Motivación", tagBg: "#FFF1DE", tagColor: "#B5732A" },
-  { text: "No sé cuánto gasto en desayuno, almuerzo, cena. Te mentiría.", speaker: "Rossana", initial: "R", avatarBg: "#4F6BF6", tag: "Visibilidad", tagBg: "#EDF1FE", tagColor: "#4F6BF6" },
+  { text: "Yo necesito tachar, necesito algo que yo pueda decir: esto ya está pagado.", speaker: "Rossana", initial: "R", avatarBg: "#3B5BDB", tag: "Cierre emocional", tagBg: "#EDF1FE", tagColor: "#3448C5" },
+  { text: "Como no hay, lo más fácil para mí es escribirlo.", speaker: "Rossana", initial: "R", avatarBg: "#3B5BDB", tag: "Papel vs digital", tagBg: "#EDF1FE", tagColor: "#3448C5" },
+  { text: "No quiero pasar a mano a otro producto los gastos, porque perdía tiempo.", speaker: "María", initial: "M", avatarBg: "#137366", tag: "Carga manual", tagBg: "#E3F6F2", tagColor: "#137366" },
+  { text: "Capaz te olvidás un día y ya se te arruina el traqueo.", speaker: "María", initial: "M", avatarBg: "#137366", tag: "Retención", tagBg: "#E3F6F2", tagColor: "#137366" },
+  { text: "Educación financiera cero.", speaker: "Gabriel", initial: "G", avatarBg: "#8A5520", tag: "Educación", tagBg: "#FFF1DE", tagColor: "#8A5520" },
+  { text: "No me gustaría ya tanto una charla que te motive, sino algo más educativo que me enseñe.", speaker: "Rossana", initial: "R", avatarBg: "#3B5BDB", tag: "Educación", tagBg: "#FFF1DE", tagColor: "#8A5520" },
+  { text: "Me genera mucha desconfianza… veo esos gurúes y después no activo nada.", speaker: "Gabriel", initial: "G", avatarBg: "#8A5520", tag: "Confianza", tagBg: "#FDEAEA", tagColor: "#A32E2E" },
+  { text: "Capaz me estoy perdiendo algo… y no sé si son todas iguales.", speaker: "María", initial: "M", avatarBg: "#137366", tag: "FOMO", tagBg: "#E3F6F2", tagColor: "#137366" },
+  { text: "Cuando estoy cómodo trato de no darle bola.", speaker: "Gabriel", initial: "G", avatarBg: "#8A5520", tag: "Motivación", tagBg: "#FFF1DE", tagColor: "#8A5520" },
+  { text: "No sé cuánto gasto en desayuno, almuerzo, cena. Te mentiría.", speaker: "Rossana", initial: "R", avatarBg: "#3B5BDB", tag: "Visibilidad", tagBg: "#EDF1FE", tagColor: "#3448C5" },
 ];
 
 interface Metric { name: string; wallet: number; spendee: number; insight: string; }
@@ -92,7 +92,7 @@ function FilterStepper({ active, onChange }: { active: FilterKey; onChange: (k: 
               whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
               aria-pressed={isActive}
               aria-label={`${f.label} — ${f.hint}`}
-              className={`px-4 py-2 rounded-full text-sm font-semibold border transition-colors duration-200 ${
+              className={`min-h-11 px-4 py-2 rounded-full text-sm font-semibold border transition-colors duration-200 ${
                 isActive
                   ? "border-transparent text-white"
                   : "border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-[#4A4E78]/40 hover:text-[#4A4E78] dark:hover:text-[#C3C4E8]"
@@ -126,7 +126,7 @@ function QuoteCard({ q }: { q: Quote }) {
           <span className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0" style={{ background: q.avatarBg }}>{q.initial}</span>
           <span className="text-sm font-bold text-gray-800 dark:text-gray-100 whitespace-nowrap">{q.speaker}</span>
         </div>
-        <span className="text-[10px] font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full whitespace-nowrap ml-auto" style={{ background: q.tagBg, color: q.tagColor }}>{q.tag}</span>
+        <span className="text-xs font-semibold uppercase tracking-wide px-2.5 py-1 rounded-full whitespace-nowrap ml-auto" style={{ background: q.tagBg, color: q.tagColor }}>{q.tag}</span>
       </div>
     </div>
   );
@@ -153,7 +153,7 @@ function InterviewsCarousel() {
 
   const goTo = (i: number) => setIdx(Math.max(0, Math.min(i, totalPages - 1)));
 
-  const arrowBase = "absolute top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full shadow-md transition-all duration-200";
+  const arrowBase = "absolute top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-full shadow-md transition-all duration-200";
   const arrowEnabled = isDark ? "bg-gray-700 hover:bg-gray-600 text-gray-200" : "bg-white hover:bg-gray-50 text-gray-600";
   const arrowDisabled = "opacity-30 pointer-events-none";
 
@@ -190,12 +190,12 @@ function InterviewsCarousel() {
           </AnimatePresence>
         </div>
 
-        <p className="text-center text-xs text-gray-400 dark:text-gray-500 mt-4" aria-live="polite">{idx + 1} / {totalPages}</p>
+        <p className="text-center text-xs text-gray-500 dark:text-gray-400 mt-4" aria-live="polite">{idx + 1} / {totalPages}</p>
       </div>
 
       {/* Card de síntesis — se mantiene del original */}
       <div className="rounded-2xl mt-6 px-6 py-5 bg-gray-900 dark:bg-black/40">
-        <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: "#8fa0ff" }}>Síntesis del research</p>
+        <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#8fa0ff" }}>Síntesis del research</p>
         <p className="text-white text-base sm:text-lg italic" style={{ fontFamily: "'Instrument Serif', serif" }}>
           "El usuario no quiere controlar gastos. Quiere sentir tranquilidad."
         </p>
@@ -211,7 +211,7 @@ function BenchmarkCompact() {
     <div>
       {/* Título + texto original de MilestoneBenchmarkingUX — se mantienen */}
       <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-1">
-        Wallet by BudgetBakers <span className="text-gray-400 dark:text-gray-500 font-medium">vs</span> Spendee
+        Wallet by BudgetBakers <span className="text-gray-500 dark:text-gray-400 font-medium">vs</span> Spendee
       </h3>
       <p className="text-gray-500 dark:text-gray-400 text-sm mb-5 max-w-2xl">
         Los usuarios no abandonan estas apps por falta de intención — abandonan porque generan fricción, complejidad y poca continuidad de hábito. Cinco métricas UX, evaluadas 1–5.
@@ -219,9 +219,9 @@ function BenchmarkCompact() {
 
       <div className="rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden divide-y divide-gray-100 dark:divide-gray-700">
       <div className="flex items-center gap-3 px-5 py-3 bg-gray-50 dark:bg-gray-900/40">
-        <span className="flex-1 text-[10px] font-bold uppercase tracking-wide text-gray-400">Métrica</span>
-        <span className="w-24 text-[10px] font-bold uppercase tracking-wide text-gray-400">Wallet</span>
-        <span className="w-24 text-[10px] font-bold uppercase tracking-wide text-gray-400">Spendee</span>
+        <span className="flex-1 text-xs font-bold uppercase tracking-wide text-gray-500 dark:text-gray-300">Métrica</span>
+        <span className="w-24 text-xs font-bold uppercase tracking-wide text-gray-500 dark:text-gray-300">Wallet</span>
+        <span className="w-24 text-xs font-bold uppercase tracking-wide text-gray-500 dark:text-gray-300">Spendee</span>
         <span className="w-4 flex-shrink-0" />
       </div>
       {METRICS.map((m, i) => {
@@ -235,16 +235,16 @@ function BenchmarkCompact() {
                 <div className="flex-1 h-1.5 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
                   <div className="h-full rounded-full" style={{ width: `${(m.wallet / 5) * 100}%`, background: "#4F6BF6" }} />
                 </div>
-                <span className="text-[11px] font-bold flex-shrink-0 w-6 text-right" style={{ color: "#4F6BF6" }}>{m.wallet}</span>
+                <span className="text-xs font-bold flex-shrink-0 w-6 text-right" style={{ color: "#4F6BF6" }}>{m.wallet}</span>
               </div>
               <div className="w-24 flex items-center gap-1.5">
                 <div className="flex-1 h-1.5 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
                   <div className="h-full rounded-full" style={{ width: `${(m.spendee / 5) * 100}%`, background: "#22B8A0" }} />
                 </div>
-                <span className="text-[11px] font-bold flex-shrink-0 w-6 text-right" style={{ color: "#22B8A0" }}>{m.spendee}</span>
+                <span className="text-xs font-bold flex-shrink-0 w-6 text-right" style={{ color: "#22B8A0" }}>{m.spendee}</span>
               </div>
               <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.2 }} className="flex-shrink-0">
-                <ChevronDown className="w-4 h-4 text-gray-400" />
+                <ChevronDown className="w-4 h-4 text-gray-500 dark:text-gray-300" />
               </motion.span>
             </button>
             <AnimatePresence initial={false}>
@@ -264,7 +264,7 @@ function BenchmarkCompact() {
 
       {/* Card de oportunidad estratégica — se mantiene del original */}
       <div className="rounded-2xl mt-6 px-6 py-5 bg-gray-900 dark:bg-black/40">
-        <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: "#8fa0ff" }}>Oportunidad estratégica</p>
+        <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#8fa0ff" }}>Oportunidad estratégica</p>
         <p className="text-white text-base sm:text-lg italic" style={{ fontFamily: "'Instrument Serif', serif" }}>
           "El mercado no necesita otra app de tracking — necesita una que enseñe sin abrumar y genere continuidad real."
         </p>
@@ -282,7 +282,7 @@ function PersonaCompact() {
           style={{ background: "linear-gradient(135deg,#4F6BF6,#22B8A0)" }}>SV</div>
         <div>
           <p className="text-lg font-bold text-gray-800 dark:text-gray-100">Sol Vargas</p>
-          <p className="text-xs text-gray-400">User Persona · Discovery</p>
+          <p className="text-xs text-gray-500 dark:text-gray-300">User Persona · Discovery</p>
         </div>
       </div>
       <p className="italic text-gray-700 dark:text-gray-200 mb-5" style={{ fontFamily: "'Instrument Serif', serif", fontSize: 17 }}>
@@ -302,7 +302,7 @@ function PersonaCompact() {
           </div>
         ))}
       </div>
-      <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Necesidades</p>
+      <p className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-2">Necesidades</p>
       <div className="flex flex-wrap gap-2">
         {PERSONA_NEEDS.map((n) => (
           <span key={n} className="text-xs font-medium px-3 py-1.5 rounded-full" style={{ background: "#EDF1FE", color: "#3652c9" }}>{n}</span>
@@ -322,7 +322,7 @@ function PainAccordionGroup({ severity, pains, defaultOpen }: { severity: Severi
         <span className="text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full flex-shrink-0" style={{ background: style.bg, color: style.color }}>{severity}</span>
         <span className="flex-1 text-sm font-semibold text-gray-700 dark:text-gray-200">{pains.length} {pains.length === 1 ? "hallazgo" : "hallazgos"}</span>
         <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.2 }}>
-          <ChevronDown className="w-4 h-4 text-gray-400" />
+          <ChevronDown className="w-4 h-4 text-gray-500 dark:text-gray-300" />
         </motion.span>
       </button>
       <AnimatePresence initial={false}>
@@ -409,7 +409,7 @@ function DoloresPanel() {
 
         {/* Card de oportunidad — mismo lenguaje visual que Síntesis del research / Oportunidad estratégica */}
         <div className="rounded-2xl px-6 py-5 bg-gray-900 dark:bg-black/40">
-          <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: "#8fa0ff" }}>Oportunidad</p>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#8fa0ff" }}>Oportunidad</p>
           <p className="text-white text-base sm:text-lg italic" style={{ fontFamily: "'Instrument Serif', serif" }}>
             "Intervenir justo en el abandono, invitando a ajustar la meta — no a castigar."
           </p>

@@ -34,7 +34,7 @@ export function MilestoneUserFlow() {
           </div>
           <span className="inline-flex items-center justify-center rounded-full flex-none" style={{ width: 34, height: 34, background: "#EDF1FE", color: "#4F6BF6", font: `700 16px ${FONT}` }}>→</span>
         </div>
-      </a>
+      <span className="sr-only"> (se abre en una pestaña nueva)</span></a>
     </div>
   );
 }

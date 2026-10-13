@@ -11,13 +11,13 @@ export function Exploration() {
           transition={{ duration: 0.8 }}
           className="relative"
         >
-          <div className="absolute -top-8 -left-4 text-8xl text-[#025959]/20 dark:text-[#025959]/30">"</div>
+          <div aria-hidden="true" className="absolute -top-8 -left-4 text-8xl text-[#025959]/20 dark:text-[#4ecfcf]/30">"</div>
           <p className="text-3xl md:text-4xl lg:text-5xl text-gray-800 dark:text-gray-100 leading-relaxed relative z-10">
             Estoy explorando constantemente{" "}
             <span className="text-[#025959] dark:text-[#FF8300]">nuevas mejores prácticas</span> y{" "}
-            <span className="text-[#FF8300] dark:text-[#025959]">flujos de trabajo</span>
+            <span className="text-[#025959] dark:text-[#4ecfcf]">flujos de trabajo</span>
           </p>
-          <div className="absolute -bottom-8 -right-4 text-8xl text-[#025959]/20 dark:text-[#025959]/30 rotate-180">
+          <div aria-hidden="true" className="absolute -bottom-8 -right-4 text-8xl text-[#025959]/20 dark:text-[#4ecfcf]/30 rotate-180">
             "
           </div>
         </motion.blockquote>

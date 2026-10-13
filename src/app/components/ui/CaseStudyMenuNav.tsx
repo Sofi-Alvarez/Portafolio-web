@@ -16,6 +16,8 @@ import { ArrowLeft, ExternalLink, Moon, Sun, X, Menu } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import logo2 from "../../../imports/logo2.svg";
 import logo2dark from "../../../imports/logo2dark.svg";
+import { scrollBehavior } from "../../utils/motion";
+import { useDialogFocus } from "../../utils/useDialogFocus";
 
 export interface CaseStudyIndexSection {
   id: string;
@@ -24,7 +26,7 @@ export interface CaseStudyIndexSection {
 }
 
 function scrollTo(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  document.getElementById(id)?.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
 }
 
 /* ─── Barra de progreso de lectura ── */
@@ -54,20 +56,21 @@ function IndexSheet({ open, onClose, activeId, isDark, toggleTheme, title, secti
   title: string; sections: CaseStudyIndexSection[]; primary: string;
 }) {
   const navigate = useNavigate();
+  const sheetRef = useDialogFocus<HTMLDivElement>(open, onClose);
   return (
     <AnimatePresence>
       {open && (
         <>
           <motion.div key="index-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }} className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm" onClick={onClose} />
-          <motion.div key="index-sheet" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
+          <motion.div key="index-sheet" ref={sheetRef} initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
             transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
             className="fixed top-0 right-0 bottom-0 z-[61] w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto"
             role="dialog" aria-modal="true" aria-label="Menú del caso de estudio">
             <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-gray-800">
               <p className="text-lg font-bold text-gray-800 dark:text-gray-100">Menú</p>
               <button onClick={onClose} aria-label="Cerrar menú"
-                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                className="w-11 h-11 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                 <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
@@ -102,7 +105,7 @@ function IndexSheet({ open, onClose, activeId, isDark, toggleTheme, title, secti
                 className="flex items-center justify-between w-full px-4 py-3 rounded-xl text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                 <div>
                   <p className="text-base font-bold text-gray-800 dark:text-gray-100">{title}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">Ir a la portada</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-300 mt-0.5">Ir a la portada</p>
                 </div>
                 <ExternalLink className="w-4 h-4 text-gray-300 dark:text-gray-600 flex-shrink-0" />
               </button>
@@ -193,18 +196,18 @@ export function CaseStudyMenuNav({ title, sections, primaryColor, secondaryColor
         }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between h-16">
           <motion.button whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.95 }}
-            onClick={() => navigate("/")} className="flex items-center gap-2" aria-label="Ir al inicio">
-            <img src={isDark ? logo2dark : logo2} alt="Sofia Alvarez" className="w-9 h-9 object-contain" />
+            onClick={() => navigate("/")} className="flex items-center justify-center w-11 h-11" aria-label="Ir al inicio">
+            <img src={isDark ? logo2dark : logo2} alt="" className="w-9 h-9 object-contain" />
           </motion.button>
 
-          <span className="hidden sm:inline-block text-xs px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+          <span className="hidden sm:inline-block text-xs px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
             Caso de Estudio · {title}
           </span>
 
           <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
             onClick={() => setIndexOpen(true)}
             aria-label="Abrir menú"
-            className="flex items-center justify-center w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/70 text-gray-500 dark:text-gray-400 transition-colors"
+            className="flex items-center justify-center w-11 h-11 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/70 text-gray-500 dark:text-gray-400 transition-colors"
             style={{ borderColor: undefined }}>
             <Menu className="w-4 h-4" />
           </motion.button>

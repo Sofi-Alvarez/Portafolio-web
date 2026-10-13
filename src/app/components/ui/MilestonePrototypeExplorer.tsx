@@ -16,6 +16,8 @@ import metaDetalle   from "../../../imports/Vista detalle meta activa.png";
 import metaCrear     from "../../../imports/Crear meta.png";
 import metaEditar    from "../../../imports/Editar meta.png";
 import metaCreada    from "../../../imports/Meta creada.png";
+import { scrollBehavior } from "../../utils/motion";
+import { readableTextOn } from "../../utils/color";
 
 const BRAND = {
   primary: "#4A4E78", secondary: "#B08B5A", tertiary: "#7C9885",
@@ -35,7 +37,7 @@ function BrandingPanel() {
 
       <div className="grid md:grid-cols-2 gap-6">
         <div className="rounded-3xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-6 shadow-sm">
-          <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: BRAND.primary }}>Paleta de color</p>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-5 text-[#4A4E78] dark:text-[#C3C4E8]">Paleta de color</p>
           <div className="flex gap-3 mb-4">
             {[
               { hex: BRAND.primary,   name: "Primary",   role: "CTAs, nav activa, foco" },
@@ -45,8 +47,8 @@ function BrandingPanel() {
               <div key={hex} className="flex-1 flex flex-col gap-2">
                 <div className="w-full h-16 rounded-2xl shadow-md" style={{ backgroundColor: hex }} />
                 <p className="text-xs font-semibold text-gray-800 dark:text-gray-100">{name}</p>
-                <p className="text-[10px] font-mono text-gray-400 dark:text-gray-500">{hex}</p>
-                <p className="text-[10px] text-gray-400 dark:text-gray-500">{role}</p>
+                <p className="text-xs font-mono text-gray-500 dark:text-gray-400">{hex}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{role}</p>
               </div>
             ))}
           </div>
@@ -59,16 +61,16 @@ function BrandingPanel() {
             ].map(({ hex, name }) => (
               <div key={hex} className="flex-1 flex flex-col gap-1">
                 <div className="w-full h-8 rounded-xl border border-gray-200 dark:border-gray-600" style={{ backgroundColor: hex }} />
-                <p className="text-[10px] text-center text-gray-400 dark:text-gray-500">{name}</p>
+                <p className="text-xs text-center text-gray-500 dark:text-gray-400">{name}</p>
               </div>
             ))}
           </div>
           <div className="mt-5 h-12 rounded-2xl shadow-inner" style={{ background: `linear-gradient(135deg, ${BRAND.primary} 0%, ${BRAND.secondary} 55%, ${BRAND.tertiary} 100%)` }} />
-          <p className="mt-2 text-[10px] text-center text-gray-400 dark:text-gray-500 italic">HitoColors — lib/theme/app_theme.dart</p>
+          <p className="mt-2 text-xs text-center text-gray-500 dark:text-gray-400 italic">HitoColors — lib/theme/app_theme.dart</p>
         </div>
 
         <div className="rounded-3xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-6 shadow-sm">
-          <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: BRAND.primary }}>Tipografía — Manrope</p>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-5 text-[#4A4E78] dark:text-[#C3C4E8]">Tipografía — Manrope</p>
           <div className="space-y-5">
             {[
               { label: "Display — 36/700", sample: "Milestone",               cls: "text-4xl font-black tracking-tight", border: BRAND.secondary, meta: "Manrope · 700 · 36px" },
@@ -77,16 +79,16 @@ function BrandingPanel() {
               { label: "Label — 14/500",    sample: "META SEMANAL",           cls: "text-xs font-semibold uppercase tracking-widest", border: "#D1D5DB", meta: "Manrope · 500 · 14px" },
             ].map(({ label, sample, cls, border, meta }) => (
               <div key={label} className="pl-4" style={{ borderLeft: `4px solid ${border}` }}>
-                <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">{label}</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1">{label}</p>
                 <p className={`${cls} text-gray-900 dark:text-gray-50`} style={{ fontFamily: "Manrope, sans-serif" }}>{sample}</p>
-                <p className="text-[10px] font-mono text-gray-400 mt-1">{meta}</p>
+                <p className="text-xs font-mono text-gray-500 dark:text-gray-300 mt-1">{meta}</p>
               </div>
             ))}
           </div>
         </div>
 
         <div className="rounded-3xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-6 shadow-sm md:col-span-2">
-          <p className="text-xs font-semibold uppercase tracking-widest mb-5" style={{ color: BRAND.primary }}>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-5 text-[#4A4E78] dark:text-[#C3C4E8]">
             Sistema de componentes · UI Inventory (Material Design 3)
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -101,9 +103,9 @@ function BrandingPanel() {
               { level: "Custom Widgets",  count: "18", color: BRAND.secondary, items: ["ProgressRing", "SkeletonBox", "CardStrikeThrough"] },
             ].map(({ level, count, color, items }) => (
               <div key={level} className="rounded-2xl overflow-hidden shadow-sm">
-                <div className="px-4 py-3 flex items-center justify-between" style={{ backgroundColor: color }}>
-                  <p className="text-xs font-bold uppercase tracking-wide text-white">{level}</p>
-                  <span className="text-[10px] font-bold bg-white/25 text-white px-1.5 py-0.5 rounded-full">{count}</span>
+                <div className="px-4 py-3 flex items-center justify-between" style={{ backgroundColor: color, color: readableTextOn(color) }}>
+                  <p className="text-xs font-bold uppercase tracking-wide">{level}</p>
+                  <span className="text-xs font-bold border border-current px-1.5 py-0.5 rounded-full">{count}</span>
                 </div>
                 <div className="bg-white dark:bg-gray-700 px-4 py-3 space-y-1.5">
                   {items.map((item) => (
@@ -116,13 +118,13 @@ function BrandingPanel() {
               </div>
             ))}
           </div>
-          <p className="mt-5 text-xs text-gray-400 dark:text-gray-500 italic text-center">
+          <p className="mt-5 text-xs text-gray-500 dark:text-gray-400 italic text-center">
             61 variantes documentadas en <code className="font-mono">ui_inventory.html</code>, reconstruidas con los tokens reales de <code className="font-mono">lib/theme/app_theme.dart</code>.
           </p>
         </div>
 
         <div className="rounded-2xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 p-8 md:col-span-2">
-          <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-5">Principios aplicados</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-5">Principios aplicados</p>
           <div className="grid sm:grid-cols-2 gap-5">
             {[
               { Icon: HeartHandshake, title: "Acompañante, no institución", desc: "Paleta y tono alejados a propósito de la estética bancaria tradicional." },
@@ -132,7 +134,7 @@ function BrandingPanel() {
             ].map(({ Icon, title, desc }) => (
               <div key={title} className="flex gap-3">
                 <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${BRAND.primary}18` }}>
-                  <Icon className="w-4 h-4" style={{ color: BRAND.primary }} />
+                  <Icon className="w-4 h-4 text-[#4A4E78] dark:text-[#C3C4E8]" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">{title}</p>
@@ -164,11 +166,11 @@ function ImageCarousel({ items }: { items: CarouselItem[] }) {
   };
   const scrollToIndex = (i: number) => {
     const clamped = Math.max(0, Math.min(i, items.length - 1));
-    scrollRef.current?.scrollTo({ left: clamped * (scrollRef.current.clientWidth), behavior: "smooth" });
+    scrollRef.current?.scrollTo({ left: clamped * (scrollRef.current.clientWidth), behavior: scrollBehavior() });
     setActiveIdx(clamped);
   };
 
-  const arrowBase = "absolute top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full shadow-md transition-all duration-200";
+  const arrowBase = "absolute top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-full shadow-md transition-all duration-200";
   const arrowEnabled = isDark ? "bg-gray-700 hover:bg-gray-600 text-gray-200" : "bg-white hover:bg-gray-50 text-gray-600";
   const arrowDisabled = "opacity-30 pointer-events-none";
 
@@ -184,7 +186,12 @@ function ImageCarousel({ items }: { items: CarouselItem[] }) {
       </button>
 
       <div ref={scrollRef} onScroll={handleScroll}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide mx-10"
+        tabIndex={0} role="region" aria-label="Carrusel de imágenes (usá las flechas del teclado)"
+        onKeyDown={(e) => {
+          if (e.key === "ArrowLeft")  { e.preventDefault(); scrollToIndex(activeIdx - 1); }
+          if (e.key === "ArrowRight") { e.preventDefault(); scrollToIndex(activeIdx + 1); }
+        }}
+        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide mx-12"
         style={{ scrollBehavior: "smooth" }}>
         {items.map(({ src, caption }, i) => (
           <div key={caption} className="snap-center flex-shrink-0 w-full px-1" role="group"
@@ -202,14 +209,18 @@ function ImageCarousel({ items }: { items: CarouselItem[] }) {
       </div>
 
       <div className="flex flex-col items-center gap-3 mt-4">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center">
           {items.map((_, i) => (
-            <button key={i} aria-label={`Ir a imagen ${i + 1}`} onClick={() => scrollToIndex(i)}
-              className="rounded-full transition-all duration-300"
-              style={{ width: activeIdx === i ? 24 : 8, height: 8, background: activeIdx === i ? BRAND.primary : (isDark ? "#4b5563" : "#d1d5db") }} />
+            /* Área táctil 36×44 px; el punto visible sigue siendo chico */
+            <button key={i} aria-label={`Ir a imagen ${i + 1}`} aria-current={activeIdx === i ? "true" : undefined}
+              onClick={() => scrollToIndex(i)}
+              className="w-9 h-11 flex items-center justify-center rounded-full">
+              <span className="block rounded-full transition-all duration-300"
+                style={{ width: activeIdx === i ? 24 : 8, height: 8, background: activeIdx === i ? BRAND.primary : (isDark ? "#4b5563" : "#d1d5db") }} />
+            </button>
           ))}
         </div>
-        <p className="text-xs text-gray-400 dark:text-gray-500" aria-live="polite">{activeIdx + 1} / {items.length}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400" aria-live="polite">{activeIdx + 1} / {items.length}</p>
       </div>
     </div>
   );
@@ -320,7 +331,7 @@ function FigmaPrototypeEmbed() {
         </div>
       </div>
       <div className="md:hidden flex flex-col items-center justify-center gap-4 p-10 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-        <SiFigma className="w-8 h-8" style={{ color: "#F24E1E" }} />
+        <SiFigma aria-hidden="true" className="w-8 h-8" style={{ color: "#F24E1E" }} />
         <p className="text-sm font-semibold text-gray-700 dark:text-gray-200 text-center">
           Prototipo navegable — Milestone · Testing Maze
         </p>
@@ -333,7 +344,7 @@ function FigmaPrototypeEmbed() {
           style={{ background: BRAND.primary }}
         >
           Ver prototipo en Figma →
-        </motion.a>
+        <span className="sr-only"> (se abre en una pestaña nueva)</span></motion.a>
       </div>
     </>
   );
@@ -349,7 +360,7 @@ function PrototipoPanel() {
       <FigmaPrototypeEmbed />
 
       <div className="rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700 p-6 bg-white dark:bg-gray-900 mt-6">
-        <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: BRAND.primary }}>UAT propio, antes de exponer a usuarios reales</p>
+        <p className="text-xs font-bold uppercase tracking-widest mb-2 text-[#4A4E78] dark:text-[#C3C4E8]">UAT propio, antes de exponer a usuarios reales</p>
         <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
           Antes de exponer nada a una persona real, hubo una etapa de verificación propia del producto: revisar que lo construido funcionara y se viera como se había diseñado. La incidencia más crítica fue el prototipo de Figma Make con los íconos rotos al subirlo a Maze: se veían como palabras sueltas, y el prototipo perdía toda credibilidad como "una app real".
         </p>
@@ -383,7 +394,7 @@ function PrototypeFilterStepper({ active, onChange }: { active: PrototypeFilterK
               whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
               aria-pressed={isActive}
               aria-label={`${f.label} — ${f.hint}`}
-              className={`px-4 py-2 rounded-full text-sm font-semibold border transition-colors duration-200 ${
+              className={`min-h-11 px-4 py-2 rounded-full text-sm font-semibold border transition-colors duration-200 ${
                 isActive
                   ? "border-transparent text-white"
                   : "border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-[#4A4E78]/40 hover:text-[#4A4E78] dark:hover:text-[#C3C4E8]"

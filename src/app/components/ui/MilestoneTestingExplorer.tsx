@@ -17,9 +17,9 @@ function StatBadge({ val, label, sub }: { val: string; label: string; sub: strin
   return (
     <motion.div whileHover={{ scale: 1.04 }}
       className="rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-5 shadow-sm">
-      <p className="text-3xl font-black mb-1" style={{ color: BRAND.primary }}>{val}</p>
+      <p className="text-3xl font-black mb-1 text-[#4A4E78] dark:text-[#C3C4E8]">{val}</p>
       <p className="text-gray-800 dark:text-gray-100 font-semibold text-xs">{label}</p>
-      <p className="text-gray-400 text-[11px] mt-0.5">{sub}</p>
+      <p className="text-gray-500 dark:text-gray-300 text-xs mt-0.5">{sub}</p>
     </motion.div>
   );
 }
@@ -39,8 +39,8 @@ function SesionesPanel() {
       <div className="grid md:grid-cols-3 gap-5">
         <div className="rounded-2xl border-2 p-5" style={{ borderColor: `${BRAND.error}40`, background: `${BRAND.error}08` }}>
           <div className="flex items-center gap-2 mb-2">
-            <ShieldAlert className="w-5 h-5" style={{ color: BRAND.error }} />
-            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: BRAND.error }}>Hallazgo crítico</p>
+            <ShieldAlert className="w-5 h-5 text-[#B3261E] dark:text-[#F28B82]" />
+            <p className="text-xs font-bold uppercase tracking-widest text-[#B3261E] dark:text-[#F28B82]">Hallazgo crítico</p>
           </div>
           <p className="text-gray-700 dark:text-gray-200 text-sm italic mb-2">
             "En realidad la meta la toma como que eran 20, cuando yo le puse 20.000. Y ahora al agregar 5.000 la toma como lograda la meta." — Hernán
@@ -48,14 +48,14 @@ function SesionesPanel() {
           <p className="text-gray-500 dark:text-gray-400 text-xs">Una meta de $20.000 se marcó como "lograda" tras un aporte de solo $5.000 — el bug de mayor prioridad de todo el proyecto.</p>
         </div>
         <div className="rounded-2xl border p-5" style={{ borderColor: `${BRAND.warning}40`, background: `${BRAND.warning}0d` }}>
-          <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: BRAND.warning }}>Confusión de arquitectura</p>
+          <p className="text-xs font-bold uppercase tracking-widest mb-2 text-[#855C00] dark:text-[#E0B04A]">Confusión de arquitectura</p>
           <p className="text-gray-700 dark:text-gray-200 text-sm italic mb-2">
             "Meta es llegar a los 20.000 y presupuesto lo que puedo gastar por mes." — Carina
           </p>
           <p className="text-gray-500 dark:text-gray-400 text-xs">Carina, sin experiencia previa armando una meta de ahorro, entró por "Presupuesto" en lugar de "Metas".</p>
         </div>
         <div className="rounded-2xl border p-5" style={{ borderColor: `${BRAND.tertiary}40`, background: `${BRAND.tertiary}0d` }}>
-          <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: BRAND.tertiary }}>Momento genuino</p>
+          <p className="text-xs font-bold uppercase tracking-widest mb-2 text-[#4F6B58] dark:text-[#A9C4B1]">Momento genuino</p>
           <p className="text-gray-700 dark:text-gray-200 text-sm italic mb-2">
             "Es un poco como esa sensación cuando es tu cumpleaños... es como ese festejo por algo propio." — Agustina
           </p>
@@ -135,7 +135,7 @@ function HallazgosPanel() {
           </tbody>
         </table>
       </div>
-      <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+      <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
         9 pantallas/componentes iterados con justificación, cada uno verificado con <code className="font-mono">flutter analyze</code> y <code className="font-mono">flutter build web</code> antes de publicarse.
       </p>
     </div>
@@ -163,7 +163,7 @@ function TestingFilterStepper({ active, onChange }: { active: TestingFilterKey; 
               whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
               aria-pressed={isActive}
               aria-label={`${f.label} — ${f.hint}`}
-              className={`px-4 py-2 rounded-full text-sm font-semibold border transition-colors duration-200 ${
+              className={`min-h-11 px-4 py-2 rounded-full text-sm font-semibold border transition-colors duration-200 ${
                 isActive
                   ? "border-transparent text-white"
                   : "border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-[#4A4E78]/40 hover:text-[#4A4E78] dark:hover:text-[#C3C4E8]"

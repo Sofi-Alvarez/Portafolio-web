@@ -22,6 +22,9 @@ import { SiFigma, SiFlutter, SiFirebase } from "react-icons/si";
 import { useTheme } from "../../contexts/ThemeContext";
 import logo2     from "../../../imports/logo2.svg";
 import logo2dark from "../../../imports/logo2dark.svg";
+import { ToolBadge as SharedToolBadge } from "./ToolGlyph";
+import { scrollBehavior } from "../../utils/motion";
+import { useDialogFocus } from "../../utils/useDialogFocus";
 
 /* ─── Brand tokens (reales, de lib/theme/app_theme.dart vía ui_inventory.html) ── */
 const BRAND = {
@@ -78,7 +81,7 @@ const LOCAL_TOOLS: LocalTool[] = [
 
 /* ─── Helpers compartidos ── */
 function scrollTo(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  document.getElementById(id)?.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
 }
 
 function FadeSection({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -90,25 +93,7 @@ function FadeSection({ children, className = "", delay = 0 }: { children: React.
 }
 
 function LocalToolBadge({ tool }: { tool: LocalTool }) {
-  const { isDark } = useTheme();
-  const bc       = tool.type === "icon" ? tool.color : tool.bg;
-  const tileBg   = isDark ? "rgba(55,65,81,0.9)" : "#ffffff";
-  const labelCol = isDark ? "#d1d5db" : "#4b5563";
-  return (
-    <div className="flex flex-col items-center gap-2 cursor-default select-none">
-      <div
-        className="w-14 h-14 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 flex items-center justify-center"
-        style={{ background: tileBg }}
-      >
-        {tool.type === "icon" ? (
-          <tool.Icon className="w-7 h-7" style={{ color: bc }} />
-        ) : (
-          <span className="font-bold text-sm leading-none" style={{ color: bc }}>{tool.abbr}</span>
-        )}
-      </div>
-      <span className="text-xs font-medium text-center" style={{ color: labelCol }}>{tool.label}</span>
-    </div>
-  );
+  return <SharedToolBadge label={tool.label} />;
 }
 
 /* ─── Barra de progreso de lectura ── */
@@ -140,20 +125,21 @@ function IndexSheet({ open, onClose, activeId, isDark, toggleTheme, title }: {
   open: boolean; onClose: () => void; activeId: string; isDark: boolean; toggleTheme: () => void; title: string;
 }) {
   const navigate = useNavigate();
+  const sheetRef = useDialogFocus<HTMLDivElement>(open, onClose);
   return (
     <AnimatePresence>
       {open && (
         <>
           <motion.div key="index-backdrop" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }} className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm" onClick={onClose} />
-          <motion.div key="index-sheet" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
+          <motion.div key="index-sheet" ref={sheetRef} initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
             transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
             className="fixed top-0 right-0 bottom-0 z-[61] w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto"
             role="dialog" aria-modal="true" aria-label="Menú del caso de estudio">
             <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-gray-800">
               <p className="text-lg font-bold text-gray-800 dark:text-gray-100">Menú</p>
               <button onClick={onClose} aria-label="Cerrar menú"
-                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                className="w-11 h-11 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                 <X className="w-5 h-5 text-gray-500" />
               </button>
             </div>
@@ -163,7 +149,7 @@ function IndexSheet({ open, onClose, activeId, isDark, toggleTheme, title }: {
               <button onClick={() => { onClose(); navigate("/"); }}
                 className="flex items-center gap-3 w-full px-4 py-3.5 rounded-xl text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                 <span className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-gray-100 dark:bg-gray-800">
-                  <ArrowLeft className="w-4 h-4" style={{ color: BRAND.primary }} />
+                  <ArrowLeft className="w-4 h-4 text-[#4A4E78] dark:text-[#C3C4E8]" />
                 </span>
                 <p className="text-sm font-medium text-gray-800 dark:text-gray-100">Volver al inicio</p>
               </button>
@@ -171,8 +157,8 @@ function IndexSheet({ open, onClose, activeId, isDark, toggleTheme, title }: {
                 className="flex items-center gap-3 w-full px-4 py-3.5 rounded-xl text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                 <span className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 bg-gray-100 dark:bg-gray-800">
                   {isDark
-                    ? <Sun className="w-4 h-4" style={{ color: BRAND.secondary }} />
-                    : <Moon className="w-4 h-4" style={{ color: BRAND.primary }} />}
+                    ? <Sun className="w-4 h-4 text-[#7A5E36] dark:text-[#D9BE93]" />
+                    : <Moon className="w-4 h-4 text-[#4A4E78] dark:text-[#C3C4E8]" />}
                 </span>
                 <p className="text-sm font-medium text-gray-800 dark:text-gray-100">
                   {isDark ? "Modo claro" : "Modo oscuro"}
@@ -188,7 +174,7 @@ function IndexSheet({ open, onClose, activeId, isDark, toggleTheme, title }: {
                 className="flex items-center justify-between w-full px-4 py-3 rounded-xl text-left hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                 <div>
                   <p className="text-base font-bold text-gray-800 dark:text-gray-100">{title}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">Ir a la portada</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-300 mt-0.5">Ir a la portada</p>
                 </div>
                 <ExternalLink className="w-4 h-4 text-gray-300 dark:text-gray-600 flex-shrink-0" />
               </button>
@@ -208,7 +194,7 @@ function IndexSheet({ open, onClose, activeId, isDark, toggleTheme, title }: {
                       style={active ? { background: `${BRAND.primary}0f` } : undefined}>
                       <span className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${active ? "" : "bg-gray-100 dark:bg-gray-800"}`}
                         style={active ? { background: `${BRAND.primary}1a` } : undefined}>
-                        <s.Icon className="w-3.5 h-3.5" style={{ color: BRAND.primary }} />
+                        <s.Icon className="w-3.5 h-3.5 text-[#4A4E78] dark:text-[#C3C4E8]" />
                       </span>
                       <div className="flex-1">
                         <p className={`text-sm ${active ? "font-bold" : "font-medium"} text-gray-800 dark:text-gray-100`}>{s.label}</p>
@@ -260,11 +246,11 @@ function CaseStudyNav({ title }: { title: string }) {
         }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between h-16">
           <motion.button whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.95 }}
-            onClick={() => navigate("/")} className="flex items-center gap-2" aria-label="Ir al inicio">
-            <img src={isDark ? logo2dark : logo2} alt="Sofia Alvarez" className="w-9 h-9 object-contain" />
+            onClick={() => navigate("/")} className="flex items-center justify-center w-11 h-11" aria-label="Ir al inicio">
+            <img src={isDark ? logo2dark : logo2} alt="" className="w-9 h-9 object-contain" />
           </motion.button>
 
-          <span className="hidden sm:inline-block text-xs px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+          <span className="hidden sm:inline-block text-xs px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
             Caso de Estudio · {title}
           </span>
 
@@ -272,7 +258,7 @@ function CaseStudyNav({ title }: { title: string }) {
           <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
             onClick={() => setIndexOpen(true)}
             aria-label="Abrir menú"
-            className="flex items-center justify-center w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/70 text-gray-500 dark:text-gray-400 hover:border-[#4A4E78]/40 hover:text-[#4A4E78] dark:hover:text-[#C3C4E8] transition-colors">
+            className="flex items-center justify-center w-11 h-11 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/70 text-gray-500 dark:text-gray-400 hover:border-[#4A4E78]/40 hover:text-[#4A4E78] dark:hover:text-[#C3C4E8] transition-colors">
             <Menu className="w-4 h-4" />
           </motion.button>
         </div>
@@ -297,10 +283,9 @@ function StepNode({ step, index }: { step: Step; index: number }) {
         transition={{ duration: 0.22 }} className="w-14 h-14 rounded-full border-2 flex items-center justify-center shadow-sm">
         <step.Icon className="w-6 h-6 transition-colors duration-200" style={{ color: hov ? BRAND.secondary : BRAND.primary }} />
       </motion.div>
-      <motion.span animate={{ color: hov ? BRAND.secondary : BRAND.primary }} transition={{ duration: 0.2 }}
-        className="text-xs sm:text-sm font-medium text-center leading-tight dark:text-[#C3C4E8]">
+      <span className="text-xs sm:text-sm font-medium text-center leading-tight text-[#4A4E78] dark:text-[#C3C4E8]">
         {step.label}
-      </motion.span>
+      </span>
     </motion.button>
   );
 }
@@ -334,10 +319,9 @@ function ProcessStepper() {
 
 function SectionLabel({ text, accent = false }: { text: string; accent?: boolean }) {
   return (
-    <span className={`inline-block mb-3 px-3 py-1 rounded-full text-sm`}
-      style={accent
-        ? { background: `${BRAND.secondary}1a`, color: BRAND.secondary }
-        : { background: `${BRAND.primary}1a`, color: BRAND.primary }}>{text}</span>
+    <span className={`inline-block mb-3 px-3 py-1 rounded-full text-sm ${accent
+      ? "bg-[#B08B5A]/10 text-[#7A5E36] dark:bg-[#B08B5A]/20 dark:text-[#D9BE93]"
+      : "bg-[#4A4E78]/10 text-[#4A4E78] dark:bg-[#4A4E78]/40 dark:text-[#C3C4E8]"}`}>{text}</span>
   );
 }
 
@@ -423,7 +407,7 @@ function MilestoneHero() {
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold text-sm shadow-lg">
             Ir a Milestone
             <ExternalLink className="w-4 h-4" />
-          </motion.a>
+          <span className="sr-only"> (se abre en una pestaña nueva)</span></motion.a>
           <motion.a href={MILESTONE_REPO_URL} target="_blank" rel="noopener noreferrer"
             whileHover={{ y: -2, borderColor: color, color }} whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.18 }}
@@ -431,7 +415,7 @@ function MilestoneHero() {
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-semibold text-sm">
             <Github className="w-4 h-4" />
             Ver código
-          </motion.a>
+          <span className="sr-only"> (se abre en una pestaña nueva)</span></motion.a>
           <motion.button onClick={() => scrollTo("empatizar")}
             whileHover={{ y: -2, borderColor: color, color }} whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.18 }}
@@ -449,12 +433,14 @@ function MilestoneHero() {
 ═══════════════════════════════════════════════════════════ */
 export function MilestoneCaseStudy() {
   const navigate = useNavigate();
+  const { isDark } = useTheme();
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <CaseStudyNav title="Milestone" />
+      <main id="main" tabIndex={-1} className="outline-none">
 
       {/* ── HERO ────────────────────────────────────────────────── */}
       <MilestoneHero />
@@ -476,7 +462,7 @@ export function MilestoneCaseStudy() {
                   <strong className="text-gray-800 dark:text-gray-100">No maneja dinero real</strong>: registra lo que el usuario carga, sin conectar cuentas bancarias.
                 </p>
                 <div className="pt-2">
-                  <p className="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">Herramientas utilizadas</p>
+                  <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-4">Herramientas utilizadas</p>
                   <div className="flex flex-wrap gap-3">
                     {LOCAL_TOOLS.map((t) => <LocalToolBadge key={t.label} tool={t} />)}
                   </div>
@@ -497,14 +483,14 @@ export function MilestoneCaseStudy() {
                       viewport={{ once: true }} transition={{ duration: .55, delay: idx * .08 }}
                       whileHover={{ y: -3, boxShadow: "0 8px 24px rgba(74,78,120,.14)" }}
                       className="bg-white dark:bg-gray-700 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-600 transition-shadow">
-                      <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-1.5">{label}</p>
+                      <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1.5">{label}</p>
                       <p className="text-[#4A4E78] dark:text-[#C3C4E8] text-sm font-semibold">{value}</p>
                     </motion.div>
                   ))}
                 </div>
 
                 <div className="rounded-xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 p-4 mt-2">
-                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Método de validación</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-2">Método de validación</p>
                   <div className="space-y-1.5">
                     {[
                       "5 sesiones moderadas 1:1 sobre el flujo de Metas",
@@ -527,12 +513,12 @@ export function MilestoneCaseStudy() {
       <section className="py-16 md:py-20" style={{ background: `linear-gradient(135deg, ${BRAND.primary}, #2f3252)` }}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-12 text-center">
           <FadeSection>
-            <span className="inline-block mb-6 px-3 py-1 rounded-full bg-white/10 text-white/70 text-sm">
+            <span className="inline-block mb-6 px-3 py-1 rounded-full bg-white/10 text-white/90 text-sm">
               ★ Logro del proyecto
             </span>
             <blockquote className="text-2xl sm:text-3xl font-bold text-white leading-snug mb-8">
               "Por primera vez en esta categoría de apps, quien se cae del hábito tiene una forma concreta de{" "}
-              <span style={{ color: BRAND.secondary }}>retomarlo</span>, en lugar de un producto que asume que si no fue perfecto, no vale."
+              <span className="text-[#D9BE93]">retomarlo</span>, en lugar de un producto que asume que si no fue perfecto, no vale."
             </blockquote>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10">
               {[
@@ -542,7 +528,7 @@ export function MilestoneCaseStudy() {
                 { label: "Resultado", desc: "SEQ 6.55/7 en Metas · bug crítico de confianza detectado y corregido a tiempo" },
               ].map(({ label, desc }) => (
                 <div key={label} className="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 p-4 text-left">
-                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: BRAND.secondary }}>{label}</span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-white"><span aria-hidden="true" className="inline-block w-1.5 h-1.5 rounded-full mr-1.5 align-middle" style={{ background: BRAND.secondary }} />{label}</span>
                   <p className="text-white/85 text-sm mt-1 leading-snug">{desc}</p>
                 </div>
               ))}
@@ -580,7 +566,7 @@ export function MilestoneCaseStudy() {
           </FadeSection>
           <FadeSection delay={.08}>
             <div className="mt-6 rounded-xl border-l-4 p-5" style={{ borderColor: BRAND.error, background: `${BRAND.error}0d` }}>
-              <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: BRAND.error }}>1 bug crítico detectado antes de publicar</p>
+              <p className="text-xs font-bold uppercase tracking-widest mb-1 text-[#B3261E] dark:text-[#F28B82]">1 bug crítico detectado antes de publicar</p>
               <p className="text-gray-700 dark:text-gray-200 text-sm leading-relaxed">
                 Una meta se marcaba como lograda con un aporte parcial chico. Era un problema de integridad de datos que habría roto la confianza del usuario, justo lo que el research había identificado como el enemigo del hábito.
               </p>
@@ -595,10 +581,10 @@ export function MilestoneCaseStudy() {
               ].map(({ href, label, Icon, ga }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                   data-ga-action="external_link" data-ga-category="Milestone" data-ga-label={ga}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border text-sm font-semibold transition-colors hover:bg-[#4A4E78]/5 dark:hover:bg-[#C3C4E8]/10 text-[#4A4E78] dark:text-[#C3C4E8] border-[#4A4E78]/30 dark:border-[#C3C4E8]/30">
+                  className="inline-flex items-center gap-2 min-h-11 px-5 py-2.5 rounded-xl border text-sm font-semibold transition-colors hover:bg-[#4A4E78]/5 dark:hover:bg-[#C3C4E8]/10 text-[#4A4E78] dark:text-[#C3C4E8] border-[#4A4E78]/30 dark:border-[#C3C4E8]/30">
                   <Icon className="w-4 h-4" />
                   {label}
-                </a>
+                <span className="sr-only"> (se abre en una pestaña nueva)</span></a>
               ))}
             </div>
           </FadeSection>
@@ -747,7 +733,7 @@ export function MilestoneCaseStudy() {
           </FadeSection>
 
           <FadeSection delay={.06}>
-            <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: BRAND.secondary }}>Roadmap</p>
+            <p className="text-xs font-bold uppercase tracking-widest mb-3 text-[#7A5E36] dark:text-[#D9BE93]">Roadmap</p>
             <div className="flex flex-wrap gap-2">
               {[
                 "Feedback visual inmediato tras cada aporte a una meta",
@@ -755,8 +741,8 @@ export function MilestoneCaseStudy() {
                 "Reforzar en el onboarding que Milestone registra plata, no la maneja",
                 "Simulador de ahorro y gamificación (Fase 2, ya definidos desde Define)",
               ].map((item) => (
-                <span key={item} className="px-3.5 py-2 rounded-full text-sm font-medium border"
-                  style={{ borderColor: `${BRAND.secondary}40`, color: BRAND.secondary, background: `${BRAND.secondary}0d` }}>
+                <span key={item} className="px-3.5 py-2 rounded-full text-sm font-medium border text-[#7A5E36] dark:text-[#D9BE93]"
+                  style={{ borderColor: `${BRAND.secondary}40`, background: `${BRAND.secondary}0d` }}>
                   {item}
                 </span>
               ))}
@@ -776,10 +762,10 @@ export function MilestoneCaseStudy() {
               <p className="text-xl sm:text-2xl font-bold leading-relaxed max-w-2xl mx-auto">
                 El hábito no se rompe por un mal día: quien deja de registrar encuentra una invitación a volver, no un castigo.
               </p>
-              <p className="text-white/80 mt-4 text-sm sm:text-base">
+              <p className="text-white/90 mt-4 text-sm sm:text-base">
                 SEQ 6.55/7 en Metas, el flujo más complejo del producto · 88.9% completó el registro diario sin ayuda de nadie.
               </p>
-              <p className="text-white/50 mt-4 text-xs uppercase tracking-widest">
+              <p className="text-white/90 mt-4 text-xs uppercase tracking-widest">
                 Proyecto individual · Diseño + desarrollo asistido por IA
               </p>
             </div>
@@ -797,22 +783,22 @@ export function MilestoneCaseStudy() {
               <div className="flex justify-center">
                 <div className="h-1 w-12 rounded-full" style={{ background: BRAND.secondary }} />
               </div>
-              <p className="text-white/50 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
+              <p className="text-white/90 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-snug">
                 ¿Querés trabajar conmigo?{" "}
-                <span style={{ color: BRAND.secondary }}>Escribime.</span>
+                <span className="text-[#D9BE93]">Escribime.</span>
               </h2>
             </div>
             <motion.button
-              whileHover={{ backgroundColor: "#9a7548", boxShadow: `0 16px 50px ${BRAND.secondary}55`, y: -2 }}
+              whileHover={{ backgroundColor: "#C4A276", boxShadow: `0 16px 50px ${BRAND.secondary}55`, y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }), 500); }}
+              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: scrollBehavior() }), 500); }}
               data-ga-action="cta_click"
               data-ga-category="CTA"
               data-ga-label="Contactar - Milestone"
               style={{ background: BRAND.secondary }}
-              className="inline-flex items-center px-10 py-4 rounded-2xl text-white font-semibold text-lg shadow-2xl transition-all"
+              className="inline-flex items-center px-10 py-4 rounded-2xl text-gray-900 font-semibold text-lg shadow-2xl transition-all"
             >
               Coordinar reunión
             </motion.button>
@@ -829,18 +815,18 @@ export function MilestoneCaseStudy() {
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <button
                 onClick={() => navigate("/")}
-                className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 dark:text-gray-500 hover:text-[#B08B5A] dark:hover:text-[#B08B5A] transition-colors group"
+                className="inline-flex items-center gap-2 min-h-11 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-[#B08B5A] dark:hover:text-[#B08B5A] transition-colors group"
               >
                 <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                 Volver al portfolio
               </button>
               <motion.button
-                whileHover={{ backgroundColor: BRAND.secondary, borderColor: BRAND.secondary, color: "#ffffff", boxShadow: `0 8px 24px ${BRAND.secondary}4d` }}
+                whileHover={{ backgroundColor: BRAND.secondary, borderColor: BRAND.secondary, color: "#111827", boxShadow: `0 8px 24px ${BRAND.secondary}4d` }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.18 }}
                 onClick={() => navigate("/case-study/iupi")}
                 className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl border-2 font-medium text-sm transition-colors"
-                style={{ borderColor: BRAND.primary, color: BRAND.primary }}
+                style={{ borderColor: isDark ? BRAND.primaryDark : BRAND.primary, color: isDark ? BRAND.primaryDark : BRAND.primary }}
               >
                 Ver IUPI
                 <ArrowRight className="w-4 h-4" />
@@ -853,8 +839,9 @@ export function MilestoneCaseStudy() {
       {/* ══════════════════════════════════════════
           FOOTER
       ══════════════════════════════════════════ */}
+      </main>
       <footer className="py-6 bg-gray-900 dark:bg-gray-950 text-center">
-        <p className="text-gray-400 dark:text-gray-500 text-sm">
+        <p className="text-gray-400 text-sm">
           © 2026 Sofía Álvarez. Diseñado por mí, implementado con Claude Code
         </p>
       </footer>
