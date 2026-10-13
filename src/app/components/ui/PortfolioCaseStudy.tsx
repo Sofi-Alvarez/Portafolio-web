@@ -5,7 +5,7 @@ import {
   ArrowLeft, ArrowRight,
   Users, Search, Lightbulb, Layers, CheckCircle,
   PenLine, Code2, Palette, LayoutDashboard, Smartphone,
-  Eye, BookOpen, Briefcase, Info, Route,
+  Eye, BookOpen, Briefcase, Info, Route, Github, ExternalLink,
 } from "lucide-react";
 import { useTheme } from "../../contexts/ThemeContext";
 import { CaseStudyHero } from "./CaseStudyHero";
@@ -280,8 +280,8 @@ function PortfolioFlowDiagram() {
   );
 }
 
-/* ─── Vibe Coding Diagram ────────────────────────────────────────────────── */
-function VibeCodingDiagram() {
+/* ─── Diagrama de desarrollo asistido por IA ────────────────────────────────────────────────── */
+function AIBuildDiagram() {
   const { isDark } = useTheme();
   const bg     = isDark ? "#1f2937" : "#f9fafb";
   const txt    = isDark ? "#e5e7eb" : "#1f2937";
@@ -290,10 +290,10 @@ function VibeCodingDiagram() {
 
   const steps = [
     { x:  54, label: "Concepto",  sub: "Sketch\nmanual",      color: "#B45309" },
-    { x: 162, label: "Prompt",    sub: "Instruccion\na CC",   color: "#CC785C" },
-    { x: 270, label: "Codigo",    sub: "React + TS\ngenerado", color: "#025959" },
-    { x: 378, label: "Review",    sub: "Browser\n+ feedback",  color: "#025959" },
-    { x: 486, label: "Iteracion", sub: "Ajuste y\nrefinado",   color: "#FF8300" },
+    { x: 162, label: "Spec",      sub: "Especificacion\n+ prompt", color: "#CC785C" },
+    { x: 270, label: "Claude Code", sub: "React + TS\nimplementado", color: "#025959" },
+    { x: 378, label: "Review",    sub: "Revision de\ndiseno",  color: "#025959" },
+    { x: 486, label: "Iteracion", sub: "Rama +\npull request", color: "#FF8300" },
   ];
 
   return (
@@ -323,7 +323,7 @@ function VibeCodingDiagram() {
 
       {/* Label */}
       <text x="270" y="134" textAnchor="middle" fontSize="6.5" fill={isDark ? "#374151" : "#d1d5db"} letterSpacing="1.2">
-        PROCESO VIBE CODING CON CLAUDE CODE
+        DISEÑO POR MÍ, IMPLEMENTACIÓN CON CLAUDE CODE
       </text>
     </svg>
   );
@@ -347,11 +347,11 @@ export function PortfolioCaseStudy() {
         <CaseStudyHero
           badgeLabel="Caso de Estudio · Portfolio Web"
           titlePrefix="Portfolio Web –"
-          titleAccent="Vibe-Coding"
-          description="De brief en blanco a producto vivo: diseñar y codar un portfolio profesional desde cero con Vibe Coding y Claude Code."
-          tags={["Proyecto Personal", "UX/UI + Dev", "2025"]}
+          titleAccent="Diseñado y programado"
+          description="De brief en blanco a producto publicado: un portfolio diseñado por mí e implementado con Claude Code, con desarrollo asistido por IA."
+          tags={["Proyecto Personal", "Diseño + desarrollo con IA", "2025"]}
           image={portfolioPort}
-          imageAlt="Portfolio Web — vista general"
+          imageAlt="Portfolio Web: vista general"
           imageDesktop={vibeDesign1}
           imageMobileSmall={vibeDesign2}
           brandColor="#025959"
@@ -370,13 +370,22 @@ export function PortfolioCaseStudy() {
                 <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">El proyecto</h2>
                 {/* Éxito logrado — primer párrafo */}
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                  Este portfolio existe porque el trabajo de una diseñadora no puede vivir en carpetas locales. El resultado —el propio sitio que estás viendo— es también el punto de partida de la historia:{" "}
-                  <strong className="text-[#025959] dark:text-[#4ecfcf]">tres case studies completos, modo oscuro nativo, diseño responsive y microinteracciones</strong>, construidos en 2 semanas desde cero.
+                  Este portfolio existe porque el trabajo de una diseñadora no puede vivir en carpetas locales. El resultado, el propio sitio que estás viendo, es también el punto de partida de la historia:{" "}
+                  <strong className="text-[#025959] dark:text-[#4ecfcf]">design system propio, cinco casos de estudio completos, modo claro y oscuro, diseño responsive y transiciones de página</strong>, hecho en 2 semanas.
                 </p>
                 {/* Método — segundo párrafo */}
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   La metodología fue tan importante como el resultado:{" "}
-                  <strong className="text-gray-800 dark:text-gray-100">Vibe Coding con Claude Code</strong>. En lugar de diseñar en Figma y después pasar a código, el prototipado y el desarrollo ocurrieron en una sola iteración continua. Cada decisión visual se validó con heurísticas, feedback de otros diseñadores y principios de referentes del diseño.
+                  <strong className="text-gray-800 dark:text-gray-100">desarrollo asistido por IA con Claude Code</strong>. El sitio arrancó como un export de Figma Make y evolucionó en código, con diseño y desarrollo en paralelo y cada cambio por ramas y pull requests. Las decisiones de diseño son mías; la IA implementa. Cada decisión visual se validó con heurísticas, feedback de otros diseñadores y principios de referentes del diseño.
+                </p>
+                <p>
+                  <a href="https://github.com/Sofi-Alvarez/Portafolio-web" target="_blank" rel="noopener noreferrer"
+                    data-ga-action="github_click" data-ga-category="CTA" data-ga-label="Código Portfolio"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-[#025959] dark:text-[#4ecfcf] hover:underline">
+                    <Github className="w-4 h-4" />
+                    Ver el código en GitHub
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
                 </p>
                 <div className="pt-2">
                   <p className="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">Herramientas utilizadas</p>
@@ -389,12 +398,12 @@ export function PortfolioCaseStudy() {
                 <SectionLabel text="Ficha del proyecto" accent />
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   {[
-                    { label: "Rol",          value: "UX/UI Designer + Developer" },
+                    { label: "Rol",          value: "Product Designer & Design Engineer" },
                     { label: "Sector",       value: "Portfolio personal" },
                     { label: "Duración",     value: "2 semanas" },
-                    { label: "Equipo",       value: "Solo" },
-                    { label: "Herramientas", value: "Figma Make · Claude Code · Lovable" },
-                    { label: "Resultado",    value: "3 case studies · Responsive · Dark mode" },
+                    { label: "Equipo",       value: "Proyecto individual" },
+                    { label: "Stack",        value: "React · TypeScript · Tailwind · Vercel" },
+                    { label: "Resultado",    value: "5 casos de estudio · Responsive · Modo oscuro" },
                   ].map(({ label, value }, idx) => (
                     <motion.div key={label} initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }} transition={{ duration: .55, delay: idx * .08 }}
@@ -435,17 +444,16 @@ export function PortfolioCaseStudy() {
               ★ Logro del proyecto
             </span>
             <blockquote className="text-2xl sm:text-3xl font-bold text-white leading-snug mb-8">
-              "Diseñé y desarrollé un portfolio profesional completo desde cero en{" "}
-              <span className="text-[#FF8300]">2 semanas</span>, validando cada decisión con heurísticas y feedback de diseñadores,{" "}
-              sin una sola línea de código escrita manualmente."
+              "Diseñé un portfolio profesional completo y dirigí su implementación con Claude Code en{" "}
+              <span className="text-[#FF8300]">2 semanas</span>, validando cada decisión con heurísticas y feedback de diseñadores."
             </blockquote>
             {/* STAR diagram */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10">
               {[
                 { label: "Situación", desc: "Sin portfolio online que mostrara proceso y criterio de diseño" },
                 { label: "Tarea",     desc: "Rediseñar y desarrollar el portfolio completo desde cero" },
-                { label: "Acción",    desc: "Vibe Coding con Claude Code + iteraciones heurísticas continuas" },
-                { label: "Resultado", desc: "3 case studies · Dark mode · Responsive · 2 semanas" },
+                { label: "Acción",    desc: "Desarrollo asistido por IA con Claude Code + iteraciones heurísticas continuas" },
+                { label: "Resultado", desc: "5 casos de estudio · Modo oscuro · Responsive · 2 semanas" },
               ].map(({ label, desc }) => (
                 <div key={label} className="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 p-4 text-left">
                   <span className="text-[#FF8300] text-xs font-bold uppercase tracking-widest">{label}</span>
@@ -478,7 +486,7 @@ export function PortfolioCaseStudy() {
             <SectionLabel text="01 · Empatizar" />
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">Conocer al usuario</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
-              El usuario más importante de este portfolio era yo misma —pero representando a todos los que llegarían después. Sin entrevistas formales ni encuestas, la investigación fue analítica: ¿qué necesita ver un reclutador de UX/UI en menos de 30 segundos? ¿Qué comunica un portfolio antes de que se lea una sola línea?
+              El usuario más importante de este portfolio era yo misma, pero representando a todos los que llegarían después. Sin entrevistas formales ni encuestas, la investigación fue analítica: ¿qué necesita ver un reclutador de UX/UI en menos de 30 segundos? ¿Qué comunica un portfolio antes de que se lea una sola línea?
             </p>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed mt-3">
               Se analizaron portfolios de referencia del sector para identificar patrones, errores comunes y oportunidades de diferenciación, sin copiar ni inventar datos.
@@ -518,7 +526,7 @@ export function PortfolioCaseStudy() {
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
                   { title: "Patrón detectado",    desc: "La mayoría muestra resultados finales sin explicar el proceso de toma de decisiones." },
-                  { title: "Oportunidad",         desc: "Mostrar el proceso completo —incluyendo los desafíos y errores— genera mayor confianza." },
+                  { title: "Oportunidad",         desc: "Mostrar el proceso completo, incluyendo los desafíos y errores, genera mayor confianza." },
                   { title: "Error frecuente",     desc: "Portfolios sin case studies detallados no demuestran criterio de diseño ante evaluadores." },
                   { title: "Diferenciador clave", desc: "Integrar narrativa STAR + diagramas + decisiones explícitas en cada proyecto." },
                 ].map(({ title, desc }) => (
@@ -618,7 +626,7 @@ export function PortfolioCaseStudy() {
               Antes de escribir una línea de código, se definieron los fundamentos visuales: un sistema de color basado en dos colores primarios complementarios, una tipografía única con alta legibilidad y un conjunto de microinteracciones coherentes. El resultado es el mismo Design System que aplico a mis proyectos de clientes.
             </p>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed mt-3">
-              La decisión más importante de esta etapa fue el método: <strong className="text-gray-800 dark:text-gray-100">Vibe Coding</strong>. En lugar de diseñar en Figma y luego pasar a código, el prototipado y el desarrollo se hicieron en paralelo con Claude Code como colaborador de implementación. Esto comprimió el ciclo de días a horas.
+              La decisión más importante de esta etapa fue el método: <strong className="text-gray-800 dark:text-gray-100">desarrollo asistido por IA</strong>. El diseño y el desarrollo se hicieron en paralelo, con Claude Code como herramienta de implementación y el criterio de diseño de mi lado. Esto comprimió el ciclo de días a horas.
             </p>
           </FadeSection>
 
@@ -639,7 +647,7 @@ export function PortfolioCaseStudy() {
                       <div className="w-10 h-10 rounded-xl flex-shrink-0 shadow-sm" style={{ background: color }} />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-gray-700 dark:text-gray-200">{name}</p>
-                        <p className="text-xs text-gray-400 font-mono">{hex} — {use}</p>
+                        <p className="text-xs text-gray-400 font-mono">{hex} | {use}</p>
                       </div>
                     </div>
                   ))}
@@ -656,7 +664,7 @@ export function PortfolioCaseStudy() {
                 <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-5">Principios aplicados</p>
                 <div className="space-y-4">
                   {[
-                    { Icon: Palette,         title: "Consistencia visual",     desc: "Mismo design system en las 4 páginas de case study y el home." },
+                    { Icon: Palette,         title: "Consistencia visual",     desc: "Mismo design system en los 5 casos de estudio y el home." },
                     { Icon: Smartphone,      title: "Mobile first",            desc: "Responsive design con breakpoints en sm / md / lg." },
                     { Icon: LayoutDashboard, title: "Dark mode nativo",        desc: "ThemeContext con persistencia; sin flash al cargar." },
                     { Icon: Code2,           title: "Microinteracciones",      desc: "Framer Motion para entradas, hovers y transiciones de página." },
@@ -676,12 +684,12 @@ export function PortfolioCaseStudy() {
             </div>
           </FadeSection>
 
-          {/* Vibe Coding callout */}
+          {/* Callout: desarrollo asistido por IA */}
           <FadeSection delay={.08}>
             <div className="border-l-4 border-[#FF8300] rounded-r-xl p-5 bg-[#FF8300]/5 dark:bg-[#FF8300]/8">
               <p className="text-xs font-bold uppercase tracking-widest text-[#FF8300] mb-1">Decisión de diseño clave</p>
               <p className="text-gray-700 dark:text-gray-200 font-medium">
-                Vibe Coding no es "que la IA diseñe por vos": es usar IA como herramienta de implementación mientras el criterio, la arquitectura y las decisiones de diseño son siempre tuyas. El resultado es el mismo; el ciclo es mucho más corto.
+                Desarrollo asistido por IA no es "que la IA diseñe por mí": es usar IA como herramienta de implementación mientras el criterio, la arquitectura y las decisiones de diseño son mías. El resultado es el mismo; el ciclo es mucho más corto.
               </p>
             </div>
           </FadeSection>
@@ -697,18 +705,18 @@ export function PortfolioCaseStudy() {
             <SectionLabel text="04 · Prototipar" accent />
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">Construcción directa en código</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
-              El portfolio fue construido directamente en React + TypeScript sin pasar por un prototipo de alta fidelidad en Figma. Las decisiones de diseño se tomaron en tiempo real: sketch manual → prompt a Claude Code → resultado en browser → ajuste → siguiente iteración.
+              El portfolio arrancó como un export de Figma Make y evolucionó directamente en React + TypeScript, sin un prototipo de alta fidelidad aparte. Diseño y desarrollo avanzaron en paralelo: boceto, especificación y prompt, Claude Code, resultado en el navegador, revisión de diseño y siguiente iteración, cada cambio en su rama y su pull request.
             </p>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed mt-3">
               <strong className="text-gray-800 dark:text-gray-100">El prototipo ES el producto final.</strong> No hay un Figma embed en esta sección porque el portfolio que estás navegando ahora mismo es el entregable.
             </p>
           </FadeSection>
 
-          {/* Vibe Coding Diagram */}
+          {/* Diagrama del proceso */}
           <FadeSection delay={.05}>
-            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Proceso Vibe Coding</h3>
+            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Proceso de desarrollo asistido por IA</h3>
             <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
-              <VibeCodingDiagram />
+              <AIBuildDiagram />
             </div>
           </FadeSection>
 
@@ -719,10 +727,10 @@ export function PortfolioCaseStudy() {
               {[
                 { cat: "Framework",   items: ["React 18", "TypeScript", "Vite 6"] },
                 { cat: "Estilos",     items: ["Tailwind CSS v4", "Inline styles (custom colors)"] },
-                { cat: "Animaciones", items: ["Framer Motion (motion/react v12)"] },
+                { cat: "Animaciones", items: ["Motion (motion/react v12)", "Radix UI"] },
                 { cat: "Routing",     items: ["React Router · HashRouter"] },
-                { cat: "Deploy",      items: ["vite-plugin-singlefile", "HTML auto-contenido"] },
-                { cat: "AI Tools",    items: ["Claude Code", "Lovable", "ChatGPT"] },
+                { cat: "Deploy",      items: ["Vercel", "Vercel Web Analytics"] },
+                { cat: "AI Tools",    items: ["Claude Code", "Figma Make"] },
               ].map(({ cat, items }) => (
                 <motion.div key={cat} whileHover={{ y: -3 }}
                   className="rounded-xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-4 shadow-sm">
@@ -739,9 +747,9 @@ export function PortfolioCaseStudy() {
           <FadeSection delay={.09}>
             <div className="grid grid-cols-3 gap-5 text-center">
               {[
-                { val: "3",    unit: "case studies",    sub: "completos y documentados" },
-                { val: "2",    unit: "semanas",         sub: "de concepto a producto vivo" },
-                { val: "0",    unit: "código manual",   sub: "100% generado con Claude Code" },
+                { val: "5",      unit: "casos de estudio", sub: "completos y documentados" },
+                { val: "2",      unit: "semanas",          sub: "de concepto a producto publicado" },
+                { val: "225 KB", unit: "carga inicial",    sub: "antes era un HTML único de 33 MB" },
               ].map(({ val, unit, sub }) => (
                 <motion.div key={unit} whileHover={{ scale: 1.04 }}
                   className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
@@ -886,7 +894,7 @@ export function PortfolioCaseStudy() {
             <div className="border-l-4 border-[#025959] rounded-r-xl p-5 bg-[#025959]/5 dark:bg-[#025959]/8">
               <p className="text-xs font-bold uppercase tracking-widest text-[#025959] dark:text-[#4ecfcf] mb-1">Aprendizaje</p>
               <p className="text-gray-700 dark:text-gray-200">
-                Diseñar con Vibe Coding no elimina la necesidad de criterio: lo amplifica. Cada iteración que Claude Code genera necesita de quien sabe por qué una cosa funciona y otra no.
+                Diseñar con desarrollo asistido por IA no elimina la necesidad de criterio: lo amplifica. Cada iteración que Claude Code genera necesita de quien sabe por qué una cosa funciona y otra no.
                 <strong> La IA implementa. El diseñador decide.</strong>
               </p>
             </div>
@@ -897,7 +905,7 @@ export function PortfolioCaseStudy() {
             <div className="border-l-4 border-[#FF8300] rounded-r-xl p-5 bg-[#FF8300]/5 dark:bg-[#FF8300]/8">
               <p className="text-xs font-bold uppercase tracking-widest text-[#FF8300] mb-1">Próximos pasos</p>
               <p className="text-gray-700 dark:text-gray-200">
-                Testeo con usuarios reales · Google Analytics para métricas de engagement · A/B testing de copy en hero · Sección de blog o reflexiones de diseño
+                Testeo con usuarios reales · Métricas de engagement con Vercel Web Analytics · Pasar los colores de marca a tokens en theme.css · Sección de blog o reflexiones de diseño
               </p>
             </div>
           </FadeSection>
@@ -906,7 +914,7 @@ export function PortfolioCaseStudy() {
           <FadeSection delay={.12}>
             <div className="rounded-2xl p-8 text-center text-white bg-gradient-to-br from-[#025959] to-[#014040] dark:from-[#012020] dark:to-[#010a0a]">
               <p className="text-xl sm:text-2xl font-bold leading-relaxed">
-                3 case studies · Dark mode · Responsive · 2 semanas · 0 líneas de código manual
+                5 casos de estudio · Modo oscuro · Responsive · 2 semanas · Diseñado por mí, implementado con Claude Code
               </p>
               <p className="text-white/70 mt-3 max-w-xl mx-auto">
                 Un portfolio vivo, hecho con las mismas herramientas que diseño para otros.
@@ -937,8 +945,8 @@ export function PortfolioCaseStudy() {
               </div>
               <p className="text-white/50 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-snug">
-                ¿Interesado en trabajar conmigo?{" "}
-                <span className="text-[#FF8300]">Ponte en contacto.</span>
+                ¿Querés trabajar conmigo?{" "}
+                <span className="text-[#FF8300]">Escribime.</span>
               </h2>
             </div>
             <motion.button
@@ -993,7 +1001,7 @@ export function PortfolioCaseStudy() {
       ══════════════════════════════════════════ */}
       <footer className="py-6 bg-gray-900 dark:bg-gray-950 text-center">
         <p className="text-gray-400 dark:text-gray-500 text-sm">
-          © 2026 Sofía Álvarez. Hecho con ♥ usando Claude Code
+          © 2026 Sofía Álvarez. Diseñado por mí, implementado con Claude Code
         </p>
       </footer>
     </div>

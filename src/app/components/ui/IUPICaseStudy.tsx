@@ -1422,8 +1422,8 @@ export function IUPICaseStudy() {
               </div>
               <p className="text-white/50 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-snug">
-                ¿Interesado en trabajar conmigo?{" "}
-                <span className="text-[#FF8300]">Ponte en contacto.</span>
+                ¿Querés trabajar conmigo?{" "}
+                <span className="text-[#FF8300]">Escribime.</span>
               </h2>
             </div>
             {/* Botón primario — color-secondary #FF8300, hover ámbar oscuro */}
@@ -1510,7 +1510,7 @@ export function IUPICaseStudy() {
       ══════════════════════════════════════════ */}
       <footer className="py-6 bg-gray-900 dark:bg-gray-950 text-center">
         <p className="text-gray-400 dark:text-gray-500 text-sm">
-          © 2026 Sofía Álvarez. Hecho con ♥ usando Claude Code
+          © 2026 Sofía Álvarez. Diseñado por mí, implementado con Claude Code
         </p>
       </footer>
     </div>

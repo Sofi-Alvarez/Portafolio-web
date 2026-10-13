@@ -5,22 +5,23 @@ import sofiaPhoto from "../../imports/foto_sofia.jpeg";
 
 export function About() {
   const stats = [
-    { label: "Pantallas diseñadas", value: "100+", color: "#025959" },
-    { label: "Proyectos Completados", value: "4+", color: "#FF8300" },
-    { label: "Pasión por el Diseño", value: "100%", color: "#025959" },
+    { label: "Años de trayectoria, más de 2 en producto digital", value: "7", color: "#025959" },
+    { label: "App propia publicada y testeada con usuarios", value: "1", color: "#FF8300" },
+    { label: "Casos de estudio con proceso completo", value: "5", color: "#025959" },
   ];
 
   const keywords = [
     "UX Research",
-    "UI Design",
+    "Usability Testing",
+    "Card Sorting",
+    "Arquitectura de información",
     "Design Systems",
-    "Mobile First",
-    "Prototyping",
-    "Wireframing",
-    "User Testing",
     "Figma",
-    "Handoff",
-    "Vibe-Coding",
+    "Spec-driven development",
+    "Desarrollo asistido por IA",
+    "Claude Code",
+    "Flutter",
+    "React",
     "WCAG",
   ];
 
@@ -37,20 +38,24 @@ export function About() {
           >
             <h2 className="text-4xl lg:text-5xl mb-6 text-gray-800 dark:text-gray-100">Sobre mí</h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-              Soy Product Designer con formación en Artes Visuales y Pedagogía. Mi enfoque nace
-              de un lugar poco común: mis experiencias trabajando con personas con necesidades
-              diversas me enseñaron que una interfaz realmente buena no necesita explicación.
+              Soy Product Designer & Design Engineer, un perfil híbrido entre diseño y código.
+              Traduzco cada pantalla de Figma a una especificación precisa y con eso dirijo el
+              desarrollo con Claude Code, hasta publicar el producto y testearlo con usuarios
+              reales.
             </p>
             <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-              Tengo experiencia diseñando productos digitales end-to-end — desde research y
-              definición de flujos hasta prototipos interactivos en Figma y handoff técnico.
-              Participé en proyectos fintech, educativos y bancarios, siempre con foco en{" "}
-              <strong className="text-[#025959] dark:text-[#4ecfcf]">accesibilidad (WCAG 2.1/2.2)</strong>,
-              escalabilidad y claridad estructural.
+              Trabajo con evidencia, no con opinión: research, arquitectura de información,
+              design system, especificación, construcción, QA y testing con usuarios, y vuelvo
+              atrás cuando los datos contradicen una decisión. Mi foco está en fintech y finanzas
+              personales (IUPI, Mas+ Bank y Milestone, mi app en producción), siempre con{" "}
+              <strong className="text-[#025959] dark:text-[#4ecfcf]">accesibilidad (WCAG)</strong>{" "}
+              desde el inicio.
             </p>
             <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-              Lo que me diferencia es mi capacidad de transformar ideas complejas en experiencias
-              simples y funcionales, sin perder de vista la diversidad de usuarios.
+              Vengo de las Artes Visuales y doy clases desde 2019. Los talleres en escuelas y los
+              de arteterapia con personas con discapacidad mental me enseñaron a observar,
+              explicar y diseñar para la diversidad de usuarios, algo que hoy traslado a cada
+              producto.
             </p>
           </motion.div>
 
@@ -67,7 +72,7 @@ export function About() {
                 <div className="w-32 h-32 rounded-full overflow-hidden mb-4 border-4 border-white shadow-lg">
                   <img
                     src={sofiaPhoto}
-                    alt="Profile"
+                    alt="Sofía Álvarez"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -78,7 +83,7 @@ export function About() {
                 </div>
                 <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-4">
                   <GraduationCap className="w-4 h-4" />
-                  <span>Lic. en Artes Visuales, UX/UI</span>
+                  <span>Artes Visuales (UNA) · Diseño UX/UI</span>
                 </div>
                 <div className="flex flex-wrap gap-2 justify-center">
                   <span className="px-3 py-1 bg-[#025959] text-white rounded-full text-sm">

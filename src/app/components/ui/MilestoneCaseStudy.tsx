@@ -11,14 +11,14 @@ import { useNavigate } from "react-router";
 import {
   ArrowLeft, ArrowRight, ExternalLink, Moon, Sun, X, Menu,
   Users, Search, Lightbulb, Layers, CheckCircle,
-  PenLine, Info, Compass, Route,
+  PenLine, Info, Compass, Route, Github,
 } from "lucide-react";
 import { MilestoneDiscoverExplorer } from "./MilestoneDiscoverExplorer";
 import { MilestoneDefineExplorer } from "./MilestoneDefineExplorer";
 import { MilestoneIdeateExplorer } from "./MilestoneIdeateExplorer";
 import { MilestonePrototypeExplorer } from "./MilestonePrototypeExplorer";
 import { MilestoneTestingExplorer } from "./MilestoneTestingExplorer";
-import { SiFlutter, SiFirebase } from "react-icons/si";
+import { SiFigma, SiFlutter, SiFirebase } from "react-icons/si";
 import { useTheme } from "../../contexts/ThemeContext";
 import logo2     from "../../../imports/logo2.svg";
 import logo2dark from "../../../imports/logo2dark.svg";
@@ -30,7 +30,10 @@ const BRAND = {
   error: "#B3261E", warning: "#9A6B00",
 };
 
-const MILESTONE_APP_URL = "https://milestone-cc9af.web.app/";
+const MILESTONE_APP_URL  = "https://milestone-cc9af.web.app/";
+const MILESTONE_REPO_URL = "https://github.com/Sofi-Alvarez/Milestone-app";
+const MILESTONE_PROTO_URL =
+  "https://www.figma.com/proto/tyqQYxiMCd4pXPxLjvSynJ/Milestone---Testing-Maze?page-id=0%3A1&node-id=26-74";
 
 /* ─── Steps (nav de proceso, 5 etapas) ── */
 interface Step { id: string; num: string; label: string; Icon: ElementType; }
@@ -42,11 +45,12 @@ const STEPS: Step[] = [
   { id: "prueba",     num: "05", label: "Testing",    Icon: CheckCircle },
 ];
 
-/* ─── Índice completo — 8 secciones para el sheet ── */
+/* ─── Índice completo — secciones para el sheet ── */
 interface IndexSection { id: string; label: string; Icon: ElementType; }
 const INDEX_SECTIONS: IndexSection[] = [
   { id: "inicio",      label: "Portada",        Icon: Info },
   { id: "resumen",     label: "El proyecto",    Icon: Info },
+  { id: "resultados",  label: "Resultados",     Icon: CheckCircle },
   { id: "metodologia", label: "Metodología",    Icon: Route },
   { id: "empatizar",   label: "Discover",       Icon: Users },
   { id: "definir",     label: "Define",         Icon: Search },
@@ -61,11 +65,14 @@ type LocalTool =
   | { type: "text"; abbr: string;      label: string; bg: string };
 
 const LOCAL_TOOLS: LocalTool[] = [
-  { type: "text", abbr: "FM",  label: "Figma Make",    bg: "#F24E1E" },
+  { type: "icon", Icon: SiFigma,    label: "Figma",    color: "#F24E1E" },
   { type: "icon", Icon: SiFlutter,  label: "Flutter",  color: "#02569B" },
   { type: "icon", Icon: SiFirebase, label: "Firebase", color: "#FFCA28" },
   { type: "text", abbr: "CC",  label: "Claude Code",   bg: "#CC785C" },
+  { type: "text", abbr: "St",  label: "Stitch",        bg: "#4285F4" },
+  { type: "text", abbr: "FM",  label: "Figma Make",    bg: "#8B5CF6" },
   { type: "text", abbr: "Lv",  label: "Lovable",       bg: "#A855F7" },
+  { type: "text", abbr: "Mz",  label: "Maze",          bg: BRAND.primary },
   { type: "icon", Icon: PenLine, label: "Lápiz y Papel", color: BRAND.secondary },
 ];
 
@@ -335,7 +342,7 @@ function SectionLabel({ text, accent = false }: { text: string; accent?: boolean
 }
 
 /* ─── Hero ── */
-const HERO_TAGS = ["Solo designer", "Design Thinking + Vibe-coding", "Mobile app"];
+const HERO_TAGS = ["Proyecto individual", "Spec-driven development", "App en producción"];
 
 const HERO_STYLES = `
   @keyframes milestoneHeroBlob {
@@ -417,6 +424,14 @@ function MilestoneHero() {
             Ir a Milestone
             <ExternalLink className="w-4 h-4" />
           </motion.a>
+          <motion.a href={MILESTONE_REPO_URL} target="_blank" rel="noopener noreferrer"
+            whileHover={{ y: -2, borderColor: color, color }} whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.18 }}
+            data-ga-action="github_click" data-ga-category="CTA" data-ga-label="Código Milestone"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-semibold text-sm">
+            <Github className="w-4 h-4" />
+            Ver código
+          </motion.a>
           <motion.button onClick={() => scrollTo("empatizar")}
             whileHover={{ y: -2, borderColor: color, color }} whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.18 }}
@@ -454,11 +469,11 @@ export function MilestoneCaseStudy() {
                 <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">El proyecto</h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   El research encontró un patrón que ninguna app de finanzas termina de resolver: la persona vuelve a registrar sus gastos cuando se siente perdida con su plata, sostiene el hábito mientras recupera el control, y en el momento en que se siente tranquila, lo abandona.{" "}
-                  <strong className="text-[#4A4E78] dark:text-[#C3C4E8]">Todas las apps existentes asumen que esa disciplina va a durar para siempre</strong> — y cuando no dura, reciben a quien vuelve con saldos en rojo, rachas rotas o silencio.
+                  <strong className="text-[#4A4E78] dark:text-[#C3C4E8]">Todas las apps existentes asumen que esa disciplina va a durar para siempre</strong>, y cuando no dura, reciben a quien vuelve con saldos en rojo, rachas rotas o silencio.
                 </p>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   Milestone se diseñó para ese momento exacto de la vuelta. El Home no abre con un número en rojo: abre con una invitación a ajustar la meta a la situación real, sin borrar el progreso ni hacer sentir a la persona en falta por el tiempo que estuvo sin registrar.{" "}
-                  <strong className="text-gray-800 dark:text-gray-100">No maneja dinero real</strong> — registra lo que el usuario carga, sin conectar cuentas bancarias.
+                  <strong className="text-gray-800 dark:text-gray-100">No maneja dinero real</strong>: registra lo que el usuario carga, sin conectar cuentas bancarias.
                 </p>
                 <div className="pt-2">
                   <p className="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">Herramientas utilizadas</p>
@@ -471,11 +486,11 @@ export function MilestoneCaseStudy() {
                 <SectionLabel text="Ficha del proyecto" accent />
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   {[
-                    { label: "Rol",          value: "UX/UI Designer + Vibe-Coding" },
+                    { label: "Rol",          value: "Product Designer & Design Engineer" },
                     { label: "Sector",       value: "Finanzas personales (sin dinero real)" },
                     { label: "Validación",   value: "5 sesiones moderadas + Maze" },
-                    { label: "Equipo",       value: "Solo" },
-                    { label: "Stack",        value: "Flutter · Firebase · Figma" },
+                    { label: "Formato",      value: "Proyecto individual · 10 días" },
+                    { label: "Stack",        value: "Flutter · Firebase · Claude Code · Figma" },
                     { label: "Resultado",    value: "Bug crítico detectado y corregido antes de producción" },
                   ].map(({ label, value }, idx) => (
                     <motion.div key={label} initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }}
@@ -523,13 +538,67 @@ export function MilestoneCaseStudy() {
               {[
                 { label: "Situación", desc: "Las apps de finanzas asumen disciplina perfecta y castigan a quien deja de registrar" },
                 { label: "Tarea",     desc: "Diseñar un producto que reciba de vuelta a quien abandonó el hábito, sin culpa" },
-                { label: "Acción",    desc: "Home rediseñado + testing con 5 sesiones moderadas + Maze, en solitario" },
+                { label: "Acción",    desc: "Home rediseñado, construcción spec-driven con Claude Code y testing con 5 sesiones moderadas + Maze" },
                 { label: "Resultado", desc: "SEQ 6.55/7 en Metas · bug crítico de confianza detectado y corregido a tiempo" },
               ].map(({ label, desc }) => (
                 <div key={label} className="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 p-4 text-left">
                   <span className="text-xs font-bold uppercase tracking-widest" style={{ color: BRAND.secondary }}>{label}</span>
                   <p className="text-white/85 text-sm mt-1 leading-snug">{desc}</p>
                 </div>
+              ))}
+            </div>
+          </FadeSection>
+        </div>
+      </section>
+
+      {/* ── RESULTADOS ──────────────────────────────────────────── */}
+      <section id="resultados" className="py-16 md:py-24 bg-white dark:bg-gray-900 scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
+          <FadeSection className="text-center mb-12">
+            <SectionLabel text="Resultados" />
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">Lo que midió el testing</h2>
+            <p className="text-gray-500 dark:text-gray-400 mt-3 max-w-xl mx-auto">
+              Dos estudios complementarios sobre el producto funcionando: un test no moderado en Maze y 5 sesiones moderadas 1:1.
+            </p>
+          </FadeSection>
+          <FadeSection delay={.05}>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                { val: "6.55/7", unit: "SEQ en Metas",          sub: "Facilidad percibida en el flujo más complejo, en 5 sesiones moderadas" },
+                { val: "88.9%",  unit: "registro sin ayuda",    sub: "Completó el registro diario en el test no moderado de Maze" },
+                { val: "17/20",  unit: "tareas resueltas",      sub: "De forma directa o con ayuda mínima" },
+                { val: "9",      unit: "fixes a producción",    sub: "Cada uno verificado con flutter analyze y flutter build web" },
+              ].map(({ val, unit, sub }) => (
+                <motion.div key={unit} whileHover={{ y: -3 }}
+                  className="rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
+                  <p className="text-3xl sm:text-4xl font-black mb-1 text-[#4A4E78] dark:text-[#C3C4E8]">{val}</p>
+                  <p className="text-gray-800 dark:text-gray-100 font-semibold text-sm">{unit}</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs mt-1 leading-snug">{sub}</p>
+                </motion.div>
+              ))}
+            </div>
+          </FadeSection>
+          <FadeSection delay={.08}>
+            <div className="mt-6 rounded-xl border-l-4 p-5" style={{ borderColor: BRAND.error, background: `${BRAND.error}0d` }}>
+              <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: BRAND.error }}>1 bug crítico detectado antes de publicar</p>
+              <p className="text-gray-700 dark:text-gray-200 text-sm leading-relaxed">
+                Una meta se marcaba como lograda con un aporte parcial chico. Era un problema de integridad de datos que habría roto la confianza del usuario, justo lo que el research había identificado como el enemigo del hábito.
+              </p>
+            </div>
+          </FadeSection>
+          <FadeSection delay={.1}>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              {[
+                { href: MILESTONE_APP_URL,   label: "App online",           Icon: ExternalLink, ga: "App Milestone" },
+                { href: MILESTONE_REPO_URL,  label: "Código en GitHub",     Icon: Github,       ga: "Código Milestone" },
+                { href: MILESTONE_PROTO_URL, label: "Prototipo de testing", Icon: ExternalLink, ga: "Prototipo Milestone" },
+              ].map(({ href, label, Icon, ga }) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+                  data-ga-action="external_link" data-ga-category="Milestone" data-ga-label={ga}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border text-sm font-semibold transition-colors hover:bg-[#4A4E78]/5 dark:hover:bg-[#C3C4E8]/10 text-[#4A4E78] dark:text-[#C3C4E8] border-[#4A4E78]/30 dark:border-[#C3C4E8]/30">
+                  <Icon className="w-4 h-4" />
+                  {label}
+                </a>
               ))}
             </div>
           </FadeSection>
@@ -559,10 +628,10 @@ export function MilestoneCaseStudy() {
             <SectionLabel text="01 · Discover" />
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">La hipótesis que se quedaba corta</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
-              La hipótesis inicial era la típica: la gente no controla sus finanzas porque las apps que existen son muy complejas, muy frías, o no generan hábito. Después de hablar con tres personas reales —Rossana, Gabriel y María— quedó claro que esa hipótesis, aunque no estaba mal, se quedaba corta.
+              La hipótesis inicial era la típica: la gente no controla sus finanzas porque las apps que existen son muy complejas, muy frías, o no generan hábito. Después de hablar con tres personas reales (Rossana, Gabriel y María) quedó claro que esa hipótesis, aunque no estaba mal, se quedaba corta.
             </p>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed mt-3">
-              El problema no era de herramientas ni de información. Era emocional. Las tres personas ya usaban algo —una app del banco, una billetera digital, un Excel, un cuaderno— y las tres, en algún momento, habían dejado de anotar. No por vagas: porque el esfuerzo de sostener el registro les pesaba más que el beneficio de tenerlo.
+              El problema no era de herramientas ni de información. Era emocional. Las tres personas ya usaban algo (una app del banco, una billetera digital, un Excel, un cuaderno) y las tres, en algún momento, habían dejado de anotar. No por vagas: porque el esfuerzo de sostener el registro les pesaba más que el beneficio de tenerlo.
             </p>
           </FadeSection>
 
@@ -585,7 +654,7 @@ export function MilestoneCaseStudy() {
               Con los dolores mapeados, definir no fue armar una lista de features: fue decidir qué versión de Milestone merecía construirse primero, con evidencia y no por intuición. How Might We tradujo los tres dolores más críticos en preguntas de diseño accionables, evitando la trampa de resolver todo desde un solo ángulo al ser una sola persona detrás del proyecto.
             </p>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed mt-3">
-              El journey map de Sol —de la frustración inicial al hábito sostenido— mostró en qué momento exacto el producto tenía que intervenir. Cruzando esas dos piezas quedó un alcance claro: una app de registro, no una billetera, con el cierre emocional como diferencial frente a Wallet y Spendee.
+              El journey map de Sol, de la frustración inicial al hábito sostenido, mostró en qué momento exacto el producto tenía que intervenir. Cruzando esas dos piezas quedó un alcance claro: una app de registro, no una billetera, con el cierre emocional como diferencial frente a Wallet y Spendee.
             </p>
           </FadeSection>
 
@@ -604,10 +673,10 @@ export function MilestoneCaseStudy() {
             <SectionLabel text="03 · Ideate" />
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">La decisión que se revisó al chocar con evidencia</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
-              La arquitectura de información no salió de un sitemap armado a criterio propio: nació de un card sorting abierto en Useberry, con personas reales agrupando funcionalidades a su manera. Ese primer sitemap todavía tenía "Aprender" como sección propia — pero al bajarlo a wireframes lo-fi esa decisión chocó con el research: nadie había pedido estudiar, habían pedido entender en el momento. La sección se disolvió en tips contextuales dentro de otros flujos.
+              La arquitectura de información no salió de un sitemap armado a criterio propio: nació de un card sorting abierto en Useberry, con personas reales agrupando funcionalidades a su manera. Ese primer sitemap todavía tenía "Aprender" como sección propia, pero al bajarlo a wireframes lo-fi esa decisión chocó con el research: nadie había pedido estudiar, habían pedido entender en el momento. La sección se disolvió en tips contextuales dentro de otros flujos.
             </p>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed mt-3">
-              Con la arquitectura ya puesta a prueba, el flujo completo se mapeó paso a paso en Figma —desde el primer registro hasta el hábito sostenido— y quedó un navegador final de cinco piezas: Home, Ahorro, Registrar, Historial y Perfil, con el Home rediseñado para invitar a definir una meta en lugar de mostrar números en rojo. Las 8 pantallas del flujo se bocetaron en baja fidelidad, a mano y con Stitch para ganar velocidad, validando estructura antes de invertir en color.
+              Con la arquitectura ya puesta a prueba, el flujo completo se mapeó paso a paso en Figma, desde el primer registro hasta el hábito sostenido, y quedó un navegador final de cinco piezas: Home, Ahorro, Registrar, Historial y Perfil, con el Home rediseñado para invitar a definir una meta en lugar de mostrar números en rojo. Las 8 pantallas del flujo se bocetaron en baja fidelidad, a mano y con Stitch para ganar velocidad, validando estructura antes de invertir en color.
             </p>
           </FadeSection>
 
@@ -618,7 +687,7 @@ export function MilestoneCaseStudy() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════
-          04 · PROTOTIPAR (UI + Vibe-coding + UAT)
+          04 · PROTOTIPAR (UI + construcción con IA + UAT)
       ══════════════════════════════════════════════════════════ */}
       <section id="prototipar" className="py-16 md:py-20 scroll-mt-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 space-y-12">
@@ -626,10 +695,13 @@ export function MilestoneCaseStudy() {
             <SectionLabel text="04 · Prototipar" accent />
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">De pantalla diseñada a producto vivo</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
-              El branding se pensó a propósito no financiero: paleta y tipografía que alejaran a Milestone de la estética bancaria tradicional, construidas sobre un UI Kit de Material Design 3 con personalizaciones propias. En vez de subir las 30-40 pantallas de la app a alta fidelidad antes de saber si algo funcionaba, se priorizó un solo flujo completo —Metas de ahorro, el que ya se sabía que se iba a testear— para sentar ahí un sistema de componentes real; el resto se resolvió más rápido con Stitch.
+              El branding se pensó a propósito no financiero: paleta y tipografía que alejaran a Milestone de la estética bancaria tradicional, construidas sobre los roles de color de Material Design 3, en modo claro y oscuro, con contraste verificado contra WCAG AA. En vez de subir las 30-40 pantallas de la app a alta fidelidad antes de saber si algo funcionaba, se priorizó un solo flujo completo (Metas de ahorro, el que ya se sabía que se iba a testear) para sentar ahí un sistema de componentes real; el resto se resolvió más rápido con Stitch.
             </p>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed mt-3">
-              El salto de pantalla diseñada a producto vivo pasó por un ejercicio explícito de prompt engineering: traducir cada pantalla de Figma a una instrucción que Claude Code pudiera ejecutar sin ambigüedad, construyendo con Flutter y Firebase. El prototipo de testing se armó al revés de lo habitual —del código ya desarrollado a Figma, con el MCP de Claude— y antes de exponerlo a nadie hubo una etapa de UAT propio que detectó a tiempo un ícono roto que hubiera arruinado la credibilidad del prototipo en Maze.
+              El salto de pantalla diseñada a producto vivo fue una construcción guiada por especificación (spec-driven): antes del primer prompt, cada pantalla de Figma se tradujo a una especificación sin ambigüedad, y con eso dirigí el desarrollo con Claude Code en Flutter y Firebase. Las decisiones de diseño fueron mías; la IA implementó. El prototipo de testing se armó al revés de lo habitual, del código ya desarrollado a Figma con el MCP de Claude, y antes de exponerlo a nadie hubo una etapa de UAT propio que detectó a tiempo un ícono roto que hubiera arruinado la credibilidad del prototipo en Maze.
+            </p>
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed mt-3">
+              El design system también vive en el código: los tokens están en <code className="text-sm">lib/theme/app_theme.dart</code> y un inventario (<code className="text-sm">ui_inventory.html</code>) cataloga 46 variantes reales de UI, entre botones, inputs, cards, modales y navegación, reconstruidas con esos tokens y enlazadas a su archivo y línea.
             </p>
           </FadeSection>
 
@@ -648,10 +720,10 @@ export function MilestoneCaseStudy() {
             <SectionLabel text="05 · Testing" />
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">Dos estudios complementarios</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
-              El plan de testing se armó como dos estudios complementarios: un test no moderado en Maze sobre el registro diario de gastos e ingresos, y cinco sesiones moderadas 1:1 sobre Metas, el flujo con más componentes y jerarquía visual del producto. Los resultados validaron la apuesta —6.55/7 de facilidad percibida en Metas y 88.9% de éxito en el registro diario sin ayuda de nadie— pero lo más valioso no fueron los números, sino lo que las sesiones moderadas destaparon.
+              El plan de testing se armó como dos estudios complementarios: un test no moderado en Maze sobre el registro diario de gastos e ingresos, y cinco sesiones moderadas 1:1 sobre Metas, el flujo con más componentes y jerarquía visual del producto. Los resultados validaron la apuesta (6.55/7 de facilidad percibida en Metas, 88.9% de éxito en el registro diario sin ayuda y 17 de 20 tareas resueltas de forma directa o con ayuda mínima), pero lo más valioso no fueron los números, sino lo que las sesiones moderadas destaparon.
             </p>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed mt-3">
-              Ahí apareció el hallazgo crítico del proyecto: una meta de $20.000 se marcaba como "lograda" tras un aporte de solo $5.000, un bug de integridad de datos que hubiera validado exactamente la desconfianza que todo el research había identificado como el enemigo del hábito. Cada hallazgo se llevó a severidad, fix y deploy —9 iteraciones reales, cada una verificada con flutter analyze y flutter build antes de publicarse.
+              Ahí apareció el hallazgo crítico del proyecto: una meta de $20.000 se marcaba como "lograda" tras un aporte de solo $5.000, un bug de integridad de datos que hubiera validado exactamente la desconfianza que todo el research había identificado como el enemigo del hábito. Cada hallazgo pasó por severidad, fix y deploy: 9 fixes a producción, cada uno verificado con flutter analyze y flutter build web antes de publicarse. Entre ellos, faltaba la meta viewport y los celulares reales mostraban el mockup de escritorio, el botón "+" de la barra solo respondía en la mitad de su círculo y los formularios no mostraban errores de validación.
             </p>
           </FadeSection>
 
@@ -670,7 +742,7 @@ export function MilestoneCaseStudy() {
             <SectionLabel text="Reflexión final" accent />
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">Lo que este proyecto me deja</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
-              La pregunta no era cómo hacer una app de finanzas más completa, sino cómo hacer una que alguien realmente sostenga. El testing confirmó una parte de esa apuesta —el flujo más complejo se pudo usar sin instrucciones en la gran mayoría de los casos— pero, sobre todo, confirmó por qué vale la pena testear antes de lanzar: el bug que encontró es exactamente el tipo de falla que le hubiera dado la razón, por las razones equivocadas, a la desconfianza que todo el research había identificado como el verdadero enemigo del hábito financiero.
+              La pregunta no era cómo hacer una app de finanzas más completa, sino cómo hacer una que alguien realmente sostenga. El testing confirmó una parte de esa apuesta (el flujo más complejo se pudo usar sin instrucciones en la gran mayoría de los casos), pero, sobre todo, confirmó por qué vale la pena testear antes de lanzar: el bug que encontró es exactamente el tipo de falla que le hubiera dado la razón, por las razones equivocadas, a la desconfianza que todo el research había identificado como el verdadero enemigo del hábito financiero.
             </p>
           </FadeSection>
 
@@ -694,7 +766,7 @@ export function MilestoneCaseStudy() {
           <FadeSection delay={.08}>
             <blockquote className="border-l-4 pl-6 py-2" style={{ borderColor: BRAND.primary }}>
               <p className="text-lg italic text-gray-700 dark:text-gray-200 leading-relaxed">
-                "La parte más valiosa de este proceso no fue diseñar la pantalla que se ve bien, sino sostener el rigor —de investigación, de testing, de QA sobre el propio código— el tiempo suficiente para que apareciera el problema que en verdad importaba, y no quedarme solo con el que era más fácil de ver."
+                "La parte más valiosa de este proceso no fue diseñar la pantalla que se ve bien, sino sostener el rigor de research, testing y QA sobre el propio código el tiempo suficiente para que apareciera el problema que en verdad importaba, y no quedarme solo con el que era más fácil de ver."
               </p>
             </blockquote>
           </FadeSection>
@@ -708,7 +780,7 @@ export function MilestoneCaseStudy() {
                 SEQ 6.55/7 en Metas, el flujo más complejo del producto · 88.9% completó el registro diario sin ayuda de nadie.
               </p>
               <p className="text-white/50 mt-4 text-xs uppercase tracking-widest">
-                Proyecto individual · UX/UI + Vibe-coding
+                Proyecto individual · Diseño + desarrollo asistido por IA
               </p>
             </div>
           </FadeSection>
@@ -727,8 +799,8 @@ export function MilestoneCaseStudy() {
               </div>
               <p className="text-white/50 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-snug">
-                ¿Interesado en trabajar conmigo?{" "}
-                <span style={{ color: BRAND.secondary }}>Ponte en contacto.</span>
+                ¿Querés trabajar conmigo?{" "}
+                <span style={{ color: BRAND.secondary }}>Escribime.</span>
               </h2>
             </div>
             <motion.button
@@ -783,7 +855,7 @@ export function MilestoneCaseStudy() {
       ══════════════════════════════════════════ */}
       <footer className="py-6 bg-gray-900 dark:bg-gray-950 text-center">
         <p className="text-gray-400 dark:text-gray-500 text-sm">
-          © 2026 Sofía Álvarez. Hecho con ♥ usando Claude Code — VERSIÓN DE PRUEBA
+          © 2026 Sofía Álvarez. Diseñado por mí, implementado con Claude Code
         </p>
       </footer>
     </div>

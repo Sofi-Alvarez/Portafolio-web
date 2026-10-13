@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import {
   ArrowLeft, ArrowRight,
   Users, Search, Lightbulb, Layers, CheckCircle,
-  PenLine, MapPin, BookOpen, Smartphone, Info, Route,
+  PenLine, MapPin, BookOpen, Smartphone, Info, Route, Github,
 } from "lucide-react";
 import { SiFigma, SiNotion, SiJira } from "react-icons/si";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -1210,6 +1210,14 @@ export function BookieCaseStudy() {
                 Ver prototipo en Figma →
               </motion.a>
             </div>
+            <div className="flex justify-center mb-8">
+              <a href="https://github.com/Sofi-Alvarez/Bookie" target="_blank" rel="noopener noreferrer"
+                data-ga-action="github_click" data-ga-category="CTA" data-ga-label="Repo Bookie"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[#025959] dark:text-[#4ecfcf] hover:underline">
+                <Github className="w-4 h-4" />
+                Ver el repositorio en GitHub
+              </a>
+            </div>
 
             {/* Funcionalidades + Demo Day — debajo del embed */}
             <div className="grid md:grid-cols-2 gap-8 items-start">
@@ -1499,8 +1507,8 @@ export function BookieCaseStudy() {
               </div>
               <p className="text-white/50 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-snug">
-                ¿Interesado en trabajar conmigo?{" "}
-                <span className="text-[#FF8300]">Ponte en contacto.</span>
+                ¿Querés trabajar conmigo?{" "}
+                <span className="text-[#FF8300]">Escribime.</span>
               </h2>
             </div>
             <motion.button
@@ -1573,7 +1581,7 @@ export function BookieCaseStudy() {
       ══════════════════════════════════════════ */}
       <footer className="py-6 bg-gray-900 dark:bg-gray-950 text-center">
         <p className="text-gray-400 dark:text-gray-500 text-sm">
-          © 2026 Sofía Álvarez. Hecho con ♥ usando Claude Code
+          © 2026 Sofía Álvarez. Diseñado por mí, implementado con Claude Code
         </p>
       </footer>
     </div>

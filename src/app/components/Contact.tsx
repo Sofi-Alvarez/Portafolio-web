@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Linkedin, FileDown, Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
+import { SiGithub } from "react-icons/si";
 import sofiaPhoto from "../../imports/foto_sofia.jpeg";
 import cvFile from "../../imports/CV_Sofia_Alvarez_UX_UI.pdf";
 
@@ -31,7 +32,7 @@ export function Contact() {
             Trabajemos Juntos
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            ¿Tienes un proyecto en mente? Me encantaría conocer más sobre él
+            ¿Tenés un proyecto en mente? Me encantaría conocerlo
           </p>
         </motion.div>
 
@@ -60,8 +61,8 @@ export function Contact() {
             {/* Info */}
             <div className="flex-1 text-center md:text-left">
               <h3 className="text-3xl text-gray-800 dark:text-gray-100 mb-2">Sofía Álvarez</h3>
-              <p className="text-lg text-gray-600 dark:text-gray-300 mb-1">Product Designer</p>
-              <p className="text-gray-500 dark:text-gray-400 mb-6">Buenos Aires, Argentina</p>
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-1">Product Designer & Design Engineer</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-6">Buenos Aires, Argentina · Trabajo remoto</p>
 
               {/* Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
@@ -107,6 +108,18 @@ export function Contact() {
                   aria-label="WhatsApp"
                 >
                   <FaWhatsapp style={{ width: "1.25rem", height: "1.25rem", color: "#25D366" }} />
+                </a>
+                <a
+                  href="https://github.com/Sofi-Alvarez"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
+                  aria-label="GitHub"
+                  data-ga-action="github_click"
+                  data-ga-category="CTA"
+                  data-ga-label="GitHub Contacto"
+                >
+                  <SiGithub className="w-5 h-5 text-gray-700 dark:text-gray-200" />
                 </a>
               </div>
             </div>

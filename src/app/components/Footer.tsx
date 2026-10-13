@@ -23,7 +23,7 @@ export function Footer() {
           <div>
             <img src={logo2} alt="Sofía Álvarez" className="w-12 h-12 object-contain mb-4 brightness-0 invert" />
             <p className="text-white/80">
-              Creando experiencias digitales excepcionales con diseño centrado en el usuario.
+              Product Designer & Design Engineer. Llevo productos de la investigación al código funcionando.
             </p>
           </div>
 
@@ -51,6 +51,15 @@ export function Footer() {
               <li>Buenos Aires, Argentina</li>
               <li>alvarez.sofib@gmail.com</li>
               <li>+54 11 6028 5989</li>
+              <li>
+                <a href="https://www.linkedin.com/in/sof%C3%ADa-%C3%A1lvarez-20/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                  LinkedIn
+                </a>
+                {" · "}
+                <a href="https://github.com/Sofi-Alvarez" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                  GitHub
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -59,7 +68,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="border-t border-white/20 pt-8 text-center text-white/60">
           <p className="flex items-center justify-center gap-2">
-            © 2026 Sofía Álvarez. Hecho con <Heart className="w-4 h-4 fill-[#FF8300] text-[#FF8300]" /> usando Claude Code
+            © 2026 Sofía Álvarez. Diseñado por mí con <Heart className="w-4 h-4 fill-[#FF8300] text-[#FF8300]" /> e implementado con Claude Code
           </p>
         </div>
       </div>
