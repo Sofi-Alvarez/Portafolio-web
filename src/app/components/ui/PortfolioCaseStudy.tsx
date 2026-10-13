@@ -401,7 +401,7 @@ export function PortfolioCaseStudy() {
                     { label: "Rol",          value: "Product Designer & Design Engineer" },
                     { label: "Sector",       value: "Portfolio personal" },
                     { label: "Duración",     value: "2 semanas" },
-                    { label: "Equipo",       value: "Proyecto individual" },
+                    { label: "Herramientas", value: "Figma Make · Claude Code · Lovable" },
                     { label: "Stack",        value: "React · TypeScript · Tailwind · Vercel" },
                     { label: "Resultado",    value: "5 casos de estudio · Responsive · Modo oscuro" },
                   ].map(({ label, value }, idx) => (
@@ -730,7 +730,7 @@ export function PortfolioCaseStudy() {
                 { cat: "Animaciones", items: ["Motion (motion/react v12)", "Radix UI"] },
                 { cat: "Routing",     items: ["React Router · HashRouter"] },
                 { cat: "Deploy",      items: ["Vercel", "Vercel Web Analytics"] },
-                { cat: "AI Tools",    items: ["Claude Code", "Figma Make"] },
+                { cat: "AI Tools",    items: ["Claude Code", "Figma Make", "Lovable", "ChatGPT"] },
               ].map(({ cat, items }) => (
                 <motion.div key={cat} whileHover={{ y: -3 }}
                   className="rounded-xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-4 shadow-sm">

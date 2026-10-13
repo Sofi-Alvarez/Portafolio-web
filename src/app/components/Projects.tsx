@@ -56,7 +56,7 @@ const PROJECTS: ProjectDef[] = [
     description:
       "Una app de finanzas personales para quien dejó de registrar sus gastos y quiere volver sin culpa. De punta a punta: research, diseño, construcción con Claude Code en Flutter y testing con usuarios. SEQ 6.55/7 en el flujo más complejo y un bug crítico detectado antes de publicar.",
     image: milestonePort,
-    tools: ["Figma", "ClaudeCode", "Flutter", "Firebase", "PenLine"],
+    tools: ["Figma", "ClaudeCode", "Lovable", "Flutter", "Firebase", "PenLine"],
     accentColor: "#4A4E78",
   },
   {
@@ -78,7 +78,7 @@ const PROJECTS: ProjectDef[] = [
     description:
       "El portfolio que estás viendo, diseñado por mí e implementado con Claude Code en 2 semanas. React y TypeScript, design system propio, modo claro y oscuro, responsive y 5 casos de estudio completos.",
     image: vibeDesign1,
-    tools: ["FigmaMake", "PenLine", "ClaudeCode", "React"],
+    tools: ["FigmaMake", "PenLine", "ClaudeCode", "Lovable", "ChatGPT", "React"],
     accentColor: "#025959",
   },
   {

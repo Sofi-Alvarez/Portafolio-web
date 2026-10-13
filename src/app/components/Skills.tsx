@@ -6,6 +6,9 @@ import {
   SiAdobeillustrator,
   SiAdobexd,
   SiNotion,
+  SiJira,
+  SiTrello,
+  SiNetlify,
   SiMiro,
   SiLoom,
   SiOpenai,
@@ -37,7 +40,10 @@ const uxSkills = [
   "UX Research: entrevistas, encuestas, benchmark y evaluación heurística",
   "Testing de usabilidad moderado y no moderado (Maze, SEQ)",
   "Arquitectura de información: card sorting, sitemaps y user flows",
-  "Journey maps, customer journeys y How Might We",
+  "Interaction Design (IxD)",
+  "User Personas, journey maps, customer journeys y How Might We",
+  "UX Writing y microcopy",
+  "UX Analytics y medición (Google Analytics, Vercel Web Analytics)",
   "Definición de MVP y descubrimiento con stakeholders",
   "Handoff a desarrollo y trabajo en Agile/Scrum",
 ];
@@ -48,7 +54,6 @@ const designSkills = [
   "Material Design 3 y responsive design",
   "Accesibilidad (WCAG): contraste AA verificado y diseño para la diversidad",
   "Aplicación de identidad visual sobre marcas existentes",
-  "UX writing con apoyo de IA",
 ];
 
 const technicalSkills = [
@@ -58,7 +63,9 @@ const technicalSkills = [
   "QA propio antes de cada deploy (flutter analyze, flutter build)",
   "Flutter y Firebase (Auth, Firestore, Hosting) para apps web, Android e iOS",
   "React, TypeScript y Tailwind CSS para sitios web",
-  "Git y GitHub con ramas y pull requests, deploy en Vercel",
+  "Git y GitHub con ramas y pull requests, deploy en Vercel y Netlify",
+  "Criterios de integración con RESTful APIs (desde diseño)",
+  "Performance optimization: imágenes en WebP, lazy loading y carga inicial liviana",
 ];
 
 const designTools: ToolEntry[] = [
@@ -71,6 +78,8 @@ const designTools: ToolEntry[] = [
   { type: "text",   name: "Useberry",     abbr: "Ub", color: "#5B3FD9", bg: "#5B3FD9" },
   { type: "si",     name: "Miro",         color: "#050038", icon: SiMiro },
   { type: "si",     name: "Notion",       color: "#000000", icon: SiNotion },
+  { type: "si",     name: "Jira",         color: "#0052CC", icon: SiJira },
+  { type: "si",     name: "Trello",       color: "#0052CC", icon: SiTrello },
   { type: "si",     name: "Loom",         color: "#625DF5", icon: SiLoom },
   { type: "lucide", name: "Lápiz y Papel",color: "#B45309", icon: PenLine },
 ];
@@ -84,6 +93,9 @@ const aiTools: ToolEntry[] = [
   { type: "si",     name: "ChatGPT",      color: "#10A37F", icon: SiOpenai },
   { type: "si",     name: "Gemini",       color: "#4285F4", icon: SiGooglegemini },
   { type: "text",   name: "Midjourney",   abbr: "MJ", color: "#000000", bg: "#111111" },
+  { type: "text",   name: "DALL·E",       abbr: "DL", color: "#10A37F", bg: "#10A37F" },
+  { type: "text",   name: "Nanobanana",   abbr: "Nb", color: "#CA8A04", bg: "#CA8A04" },
+  { type: "text",   name: "Uizard",       abbr: "Ui", color: "#6366F1", bg: "#6366F1" },
 ];
 
 const techStack: ToolEntry[] = [
@@ -98,6 +110,7 @@ const techStack: ToolEntry[] = [
   { type: "si",     name: "Git",         color: "#F05032", icon: SiGit },
   { type: "si",     name: "GitHub",      color: "#181717", icon: SiGithub },
   { type: "si",     name: "Vercel",      color: "#000000", icon: SiVercel },
+  { type: "si",     name: "Netlify",     color: "#00C7B7", icon: SiNetlify },
 ];
 
 /* ─── Component ─────────────────────────────────────────────────────────── */

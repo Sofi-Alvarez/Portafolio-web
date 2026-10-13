@@ -12,10 +12,16 @@ export function About() {
 
   const keywords = [
     "UX Research",
+    "UI Design",
+    "User Testing",
     "Usability Testing",
     "Card Sorting",
     "Arquitectura de información",
     "Design Systems",
+    "Wireframing",
+    "Prototyping",
+    "Mobile First",
+    "Handoff",
     "Figma",
     "Spec-driven development",
     "Desarrollo asistido por IA",
