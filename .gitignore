@@ -39,3 +39,10 @@ ehthumbs.db
 
 # Vite cache
 .vite/
+
+# Local tooling and deploy state
+.claude/
+.netlify/
+
+# Working documents
+src/imports/PROMPT_Porfolio.pdf

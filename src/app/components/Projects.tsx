@@ -4,9 +4,9 @@ import { ArrowUpRight } from "lucide-react";
 import { SiFigma } from "react-icons/si";
 import { PenLine } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
-import iupiPort   from "../../imports/iupicont.svg";
-import bookiePort  from "../../imports/Bookiecont.svg";
-import bankPort    from "../../imports/Masbankcont.svg";
+import iupiPort   from "../../imports/iupicont.webp";
+import bookiePort  from "../../imports/Bookiecont.webp";
+import bankPort    from "../../imports/Masbankcont.webp";
 import vibeDesign1 from "../../imports/Portfolio vibe-design1.jpg";
 import milestonePort from "../../imports/portadam2.png";
 
