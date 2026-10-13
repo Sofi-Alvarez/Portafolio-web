@@ -2,7 +2,7 @@
  * MilestonePrototypeExplorer — PREVIEW component (no toca el original).
  * Misma estructura que Discover/Define/Ideate: stepper horizontal que
  * filtra entre 4 vistas del Prototipar: Branding, Wireframe Mid-Fi,
- * Vibe-coding, Prototipo.
+ * Construcción, Prototipo.
  */
 import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
@@ -241,9 +241,9 @@ function WireframeMidFiPanel() {
 }
 
 /* ══════════════════════════════════════════════════════════════════════
-   PANEL: VIBE-CODING
+   PANEL: CONSTRUCCIÓN
 ══════════════════════════════════════════════════════════════════════ */
-function VibeCodingMilestoneDiagram() {
+function BuildMilestoneDiagram() {
   const { isDark } = useTheme();
   const bg      = isDark ? "#1f2937" : "#f9fafb";
   const muted   = isDark ? "#6b7280" : "#9ca3af";
@@ -251,7 +251,7 @@ function VibeCodingMilestoneDiagram() {
 
   const steps = [
     { x:  54, label: "Diseño UI",   sub: "Metas en\nmedia-fi",          color: BRAND.secondary },
-    { x: 162, label: "Prompt Eng.", sub: "Pantalla → \nprompt exacto",  color: "#CC785C" },
+    { x: 162, label: "Spec",        sub: "Pantalla → \nespecificación", color: "#CC785C" },
     { x: 270, label: "Claude Code", sub: "Flutter +\nFirebase",         color: BRAND.primary },
     { x: 378, label: "UAT propio",  sub: "flutter analyze\n+ build web", color: BRAND.primary },
     { x: 486, label: "Testing real", sub: "Maze +\n5 sesiones",         color: BRAND.tertiary },
@@ -281,20 +281,20 @@ function VibeCodingMilestoneDiagram() {
   );
 }
 
-function VibeCodingPanel() {
+function BuildPanel() {
   return (
     <div>
       <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-1">De pantalla diseñada a producto vivo</h3>
       <p className="text-gray-500 dark:text-gray-400 text-sm mb-4 max-w-2xl">
-        Antes de escribir el primer prompt de desarrollo, hubo un ejercicio explícito de prompt engineering: traducir cada pantalla y flujo diseñado en Figma a una descripción que Claude Code pudiera ejecutar sin ambigüedad. El build se hizo con Claude Code, Flutter y Firebase —Flutter porque representaba mejor el lenguaje visual de Material Design de Google, Firebase por experiencia previa— con onboarding sin contraseña, por Magic Link.
+        La construcción fue guiada por especificación (spec-driven): antes del primer prompt, cada pantalla y flujo diseñado en Figma se tradujo a una especificación que Claude Code pudiera ejecutar sin ambigüedad. Dirigí el desarrollo con Claude Code en Flutter y Firebase (Flutter por su cercanía a Material Design 3, Firebase por experiencia previa), con login sin contraseña por magic link.
       </p>
       <div className="rounded-xl border p-4 mb-6 max-w-2xl" style={{ borderColor: `${BRAND.primary}25`, background: `${BRAND.primary}08` }}>
         <p className="text-gray-700 dark:text-gray-200 text-sm italic">
-          "Pude desarrollar la aplicación completa, todos los flujos, incluso pantallas que tal vez no había considerado aún, ya que al explicarle la IA podía reutilizar mis propios componentes y armar el flujo faltante — eso agilizó bastante." — diario de proceso, Claude + Lovable + Stitch
+          "Pude desarrollar la aplicación completa, todos los flujos, incluso pantallas que tal vez no había considerado aún, ya que al explicarle la IA podía reutilizar mis propios componentes y armar el flujo faltante, eso agilizó bastante." | Diario de proceso, Claude + Lovable + Stitch
         </p>
       </div>
       <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
-        <VibeCodingMilestoneDiagram />
+        <BuildMilestoneDiagram />
       </div>
     </div>
   );
@@ -344,14 +344,14 @@ function PrototipoPanel() {
     <div>
       <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-1">Probá el prototipo (testing en Maze)</h3>
       <p className="text-gray-500 dark:text-gray-400 text-sm mb-4 max-w-2xl">
-        Posteriormente se construyó un prototipo de alta fidelidad para la etapa de testing, del flujo de registro de gastos e ingresos. Estas pantallas nunca se diseñaron en Figma: Maze necesitaba un prototipo navegable ahí para poder testear, así que la alta fidelidad se construyó a partir del código del producto ya desarrollado y se trasladó a Figma con el MCP de Claude —el camino inverso al habitual, de código a diseño.
+        Posteriormente se construyó un prototipo de alta fidelidad para la etapa de testing, del flujo de registro de gastos e ingresos. Estas pantallas nunca se diseñaron en Figma: Maze necesitaba un prototipo navegable ahí para poder testear, así que la alta fidelidad se construyó a partir del código del producto ya desarrollado y se trasladó a Figma con el MCP de Claude: el camino inverso al habitual, de código a diseño.
       </p>
       <FigmaPrototypeEmbed />
 
       <div className="rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700 p-6 bg-white dark:bg-gray-900 mt-6">
-        <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: BRAND.primary }}>UAT propio — antes de exponer a usuarios reales</p>
+        <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: BRAND.primary }}>UAT propio, antes de exponer a usuarios reales</p>
         <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-3">
-          Antes de exponer nada a una persona real, hubo una etapa de verificación propia del producto: revisar que lo construido funcionara y se viera como se había diseñado. La incidencia más crítica fue el prototipo de Figma Make con los íconos rotos al subirlo a Maze —se veían como palabras sueltas, y el prototipo perdía toda credibilidad como "una app real".
+          Antes de exponer nada a una persona real, hubo una etapa de verificación propia del producto: revisar que lo construido funcionara y se viera como se había diseñado. La incidencia más crítica fue el prototipo de Figma Make con los íconos rotos al subirlo a Maze: se veían como palabras sueltas, y el prototipo perdía toda credibilidad como "una app real".
         </p>
         <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
           Migrar a Figma Design y reconstruir las interacciones a mano (con ayuda del MCP de Claude) no estaba en el plan original, pero era la única forma de llegar a un prototipo testeable. Detectarlo a tiempo evitó testear un prototipo "roto" que hubiera contaminado los resultados con fricción que no era real.
@@ -362,11 +362,11 @@ function PrototipoPanel() {
 }
 
 /* ── Filtro / stepper horizontal — mismo estilo pill que las demás secciones ── */
-type PrototypeFilterKey = "branding" | "wireframe" | "vibecoding" | "prototipo";
+type PrototypeFilterKey = "branding" | "wireframe" | "build" | "prototipo";
 const PROTOTYPE_FILTERS: { key: PrototypeFilterKey; label: string; hint: string }[] = [
   { key: "branding",   label: "Branding",         hint: "Color + tipografía" },
   { key: "wireframe",  label: "Wireframe Mid-Fi", hint: "Metas · M3" },
-  { key: "vibecoding", label: "Vibe-coding",      hint: "Claude Code" },
+  { key: "build",      label: "Construcción",     hint: "Spec + Claude Code" },
   { key: "prototipo",  label: "Prototipo",        hint: "Testing Maze" },
 ];
 
@@ -412,7 +412,7 @@ export function MilestonePrototypeExplorer() {
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}>
             {filter === "branding"   && <BrandingPanel />}
             {filter === "wireframe"  && <WireframeMidFiPanel />}
-            {filter === "vibecoding" && <VibeCodingPanel />}
+            {filter === "build"      && <BuildPanel />}
             {filter === "prototipo"  && <PrototipoPanel />}
           </motion.div>
         </AnimatePresence>

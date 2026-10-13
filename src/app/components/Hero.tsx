@@ -134,7 +134,7 @@ export function Hero() {
             color: isDark ? "#4ecfcf" : "#025959",
           }}
         >
-          ✦ Product Designer · Disponible
+          ✦ Product Designer & Design Engineer<span className="hidden sm:inline"> · Disponible</span>
         </motion.span>
 
         {/* Greeting */}
@@ -157,12 +157,13 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.18, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
-          Una{" "}
-          <span style={{ color: "#025959" }}>Product Designer</span>{" "}
-          creando experiencias digitales{" "}
-          {/* "excepcionales" with SVG hand-drawn underline */}
+          Llevo productos de la{" "}
+          <span style={{ color: "#025959" }}>investigación</span>{" "}
+          al{" "}
+          <span style={{ color: "#FF8300" }}>código</span>{" "}
+          {/* "funcionando" with SVG hand-drawn underline */}
           <span className="relative inline-block" style={{ color: "#FF8300" }}>
-            excepcionales
+            funcionando
             <svg
               className="absolute -bottom-2 left-0 w-full"
               viewBox="0 0 200 12"
@@ -187,8 +188,9 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.26, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          De la investigación al pixel final. Apps, dashboards y productos
-          digitales que la gente disfruta usar.
+          Diseño en Figma, escribo la especificación y dirijo el desarrollo
+          asistido por IA hasta que el producto está publicado y testeado con
+          usuarios reales. Las decisiones de diseño son mías; la IA implementa.
         </motion.p>
 
         {/* CTA */}

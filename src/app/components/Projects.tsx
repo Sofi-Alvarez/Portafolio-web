@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { useNavigate } from "react-router";
 import { ArrowUpRight } from "lucide-react";
-import { SiFigma } from "react-icons/si";
+import { SiFigma, SiFlutter, SiFirebase, SiReact } from "react-icons/si";
 import { PenLine } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import iupiPort   from "../../imports/iupicont.webp";
@@ -28,6 +28,9 @@ const TOOLS: Record<string, ToolDef> = {
   ClaudeCode:  { type: "text", label: "Claude Code",   abbr: "CC",     color: "#CC785C" },
   Lovable:     { type: "text", label: "Lovable",       abbr: "Lv",     color: "#A855F7" },
   ChatGPT:     { type: "text", label: "ChatGPT",       abbr: "GPT",    color: "#10A37F" },
+  Flutter:     { type: "icon", label: "Flutter",       Icon: SiFlutter,  color: "#02569B" },
+  Firebase:    { type: "icon", label: "Firebase",      Icon: SiFirebase, color: "#FFCA28" },
+  React:       { type: "icon", label: "React",         Icon: SiReact,    color: "#61DAFB" },
 };
 
 /* ══════════════════════════════════════════════════════════
@@ -47,19 +50,19 @@ interface ProjectDef {
 const PROJECTS: ProjectDef[] = [
   {
     slug: "/case-study/milestone",
-    title: "Milestone — Registro financiero sin ansiedad",
-    badge: "Design Thinking + Vibe-Coding",
-    role: "UX/UI Designer + Vibe-Coding",
+    title: "Milestone: registro financiero sin culpa",
+    badge: "App propia en producción",
+    role: "Product Designer & Design Engineer",
     description:
-      "Una app de registro financiero, sin conectar bancos reales, diseñada para el momento en que alguien vuelve a ocuparse de su plata — sin castigarla por haberse ido. Research, testing con bugs reales y producto vivo, en solitario.",
+      "Una app de finanzas personales para quien dejó de registrar sus gastos y quiere volver sin culpa. De punta a punta: research, diseño, construcción con Claude Code en Flutter y testing con usuarios. SEQ 6.55/7 en el flujo más complejo y un bug crítico detectado antes de publicar.",
     image: milestonePort,
-    tools: ["Figma", "ClaudeCode", "Lovable", "PenLine"],
+    tools: ["Figma", "ClaudeCode", "Lovable", "Flutter", "Firebase", "PenLine"],
     accentColor: "#4A4E78",
   },
   {
     slug: "/case-study/iupi",
-    title: "IUPI — Fintech de ahorro e inversiones",
-    badge: "Estudios 2024",
+    title: "IUPI: fintech de ahorro e inversión",
+    badge: "No Country · MVP en 5 semanas",
     role: "Diseñadora UX/UI",
     description:
       "Una app que simplifica la inversión: capitales y cripto en un mismo lugar, diseñada para que cualquier usuario pueda operar con confianza.",
@@ -69,19 +72,19 @@ const PROJECTS: ProjectDef[] = [
   },
   {
     slug: "/case-study/portfolio",
-    title: "Portfolio Web — Vibe-Coding",
-    badge: "Vibe-Coding",
-    role: "UX/UI Designer + Developer",
+    title: "Portfolio Web: diseñado y programado",
+    badge: "Desarrollo asistido por IA",
+    role: "Product Designer & Design Engineer",
     description:
-      "El portfolio que estás viendo, construido desde cero en 2 semanas con Vibe Coding y Claude Code. Design system propio, dark mode, responsive y case studies completos.",
+      "El portfolio que estás viendo, diseñado por mí e implementado con Claude Code en 2 semanas. React y TypeScript, design system propio, modo claro y oscuro, responsive y 5 casos de estudio completos.",
     image: vibeDesign1,
-    tools: ["FigmaMake", "PenLine", "ClaudeCode", "Lovable", "ChatGPT"],
+    tools: ["FigmaMake", "PenLine", "ClaudeCode", "Lovable", "ChatGPT", "React"],
     accentColor: "#025959",
   },
   {
     slug: "/case-study/+bank",
-    title: "Mas+ Bank — App bancaria responsive",
-    badge: "Estudios 2024",
+    title: "Mas+ Bank: banca responsive",
+    badge: "No Country",
     role: "Diseñadora UX/UI",
     description:
       "Un banco digital pensado para la vida cotidiana: transferencias seguras y simples, accesibles desde cualquier dispositivo sin fricciones.",
@@ -91,11 +94,11 @@ const PROJECTS: ProjectDef[] = [
   },
   {
     slug: "/case-study/bookie",
-    title: "Bookie — App de lectura geolocalizada",
-    badge: "Estudios 2024",
+    title: "Bookie: lectura geolocalizada",
+    badge: "Hackathon · Finalista",
     role: "Diseñadora UX/UI",
     description:
-      "Transformamos la lectura en una experiencia viva: historias que se desbloquean en el mundo real, guiando al usuario paso a paso sin perder la magia.",
+      "Una app de lectura donde cada capítulo se desbloquea al llegar a un lugar físico. Hackathon de No Country con un equipo de 8 personas, donde quedamos finalistas.",
     image: bookiePort,
     tools: ["Figma", "Photoshop", "PenLine", "DALLE", "Midjourney"],
     accentColor: "#FF8300",
