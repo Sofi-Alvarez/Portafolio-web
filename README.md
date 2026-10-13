@@ -10,7 +10,7 @@ Five case studies, each one a full page with process, decisions and results:
 
 | Case study | What it shows |
 |---|---|
-| **Milestone** | Personal finance app designed, built (Flutter + Firebase) and tested end to end. SEQ 6.55/7, 9 fixes shipped to production. [Code](https://github.com/Sofi-Alvarez/Hito-app) |
+| **Milestone** | Personal finance app designed, built (Flutter + Firebase) and tested end to end. SEQ 6.55/7, 9 fixes shipped to production. [Code](https://github.com/Sofi-Alvarez/Milestone-app) |
 | **IUPI** | Fintech MVP for saving and investing, designed in a 5-week cross-functional team |
 | **Mas Bank** | Responsive mobile and desktop banking |
 | **Bookie** | Location-based reading app, hackathon finalist |
