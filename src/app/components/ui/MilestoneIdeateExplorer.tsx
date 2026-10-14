@@ -171,7 +171,7 @@ function ImageCarousel({ items }: { items: CarouselItem[] }) {
             aria-label={`Imagen ${i + 1} de ${items.length}: ${caption}`}>
             <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
               <div className="w-full bg-gray-50 dark:bg-gray-700 flex items-center justify-center p-6">
-                <img src={src} alt={caption} className="w-full h-auto object-contain max-h-80 md:max-h-96" />
+                <img loading="lazy" decoding="async" src={src} alt={caption} className="w-full h-auto object-contain max-h-80 md:max-h-96" />
               </div>
               <div className="px-4 py-3 border-t border-gray-100 dark:border-gray-700">
                 <p className="text-xs font-medium text-gray-500 dark:text-gray-400">{caption}</p>

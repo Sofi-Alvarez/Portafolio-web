@@ -11,8 +11,8 @@ import { useTheme } from "../../contexts/ThemeContext";
 import { CaseStudyHero } from "./CaseStudyHero";
 import { CaseStudyMenuNav, type CaseStudyIndexSection } from "./CaseStudyMenuNav";
 import { portfolioPort } from "../../../imports/portfolioPortImage";
-import vibeDesign1 from "../../../imports/Portfolio vibe-design1.jpg";
-import vibeDesign2 from "../../../imports/Portfolio vibe-design2.jpg";
+import vibeDesign1 from "../../../imports/Portfolio vibe-design1.webp";
+import vibeDesign2 from "../../../imports/Portfolio vibe-design2.webp";
 import { ToolBadge as SharedToolBadge } from "./ToolGlyph";
 import { scrollBehavior } from "../../utils/motion";
 

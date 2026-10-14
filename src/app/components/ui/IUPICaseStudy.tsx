@@ -11,16 +11,16 @@ import { useTheme } from "../../contexts/ThemeContext";
 import { CaseStudyHero } from "./CaseStudyHero";
 import { CaseStudyMenuNav, type CaseStudyIndexSection } from "./CaseStudyMenuNav";
 import iupiPort from "../../../imports/iupi port.jpg";
-import iupiExploracion from "../../../imports/iupi-exploracion.svg";
-import iupiErrores from "../../../imports/iupi-errores.svg";
-import iupiOnboarding from "../../../imports/iupi-onboarding.svg";
-import iupiDashboard from "../../../imports/iupi-dashboard.svg";
+import iupiExploracion from "../../../imports/iupi-exploracion.webp";
+import iupiErrores from "../../../imports/iupi-errores.webp";
+import iupiOnboarding from "../../../imports/iupi-onboarding.webp";
+import iupiDashboard from "../../../imports/iupi-dashboard.webp";
 import iupi1 from "../../../imports/IUPI1.svg";
 import iupi2 from "../../../imports/IUPI2.svg";
-import iupiCapital from "../../../imports/iupi-capital.svg";
-import iupiMercado from "../../../imports/iupi-mercado.svg";
-import iupiCripto from "../../../imports/iupi-cripto.svg";
-import iupiComunidad from "../../../imports/iupi-comunidad.svg";
+import iupiCapital from "../../../imports/iupi-capital.webp";
+import iupiMercado from "../../../imports/iupi-mercado.webp";
+import iupiCripto from "../../../imports/iupi-cripto.webp";
+import iupiComunidad from "../../../imports/iupi-comunidad.webp";
 import iupiCertificado from "../../../imports/iupi-certificado.png";
 import { ToolBadge as SharedToolBadge } from "./ToolGlyph";
 import { scrollBehavior } from "../../utils/motion";
@@ -285,7 +285,7 @@ function WireframeCarousel({ items }: { items: WireframeItem[] }) {
           >
             <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
               <div className="w-full bg-gray-50 dark:bg-gray-700 flex items-center justify-center p-6">
-                <img src={src} alt={caption} className="w-full h-auto object-contain max-h-80 md:max-h-96" />
+                <img loading="lazy" decoding="async" src={src} alt={caption} className="w-full h-auto object-contain max-h-80 md:max-h-96" />
               </div>
               <div className="px-4 py-3 border-t border-gray-100 dark:border-gray-700">
                 <p className="text-xs font-medium text-gray-500 dark:text-gray-400">{caption}</p>
@@ -1130,7 +1130,7 @@ export function IUPICaseStudy() {
                 </span>
               </div>
               <div className="w-full aspect-video">
-                <iframe
+                <iframe loading="lazy"
                   style={{ border: "none" }}
                   className="w-full h-full"
                   src="https://embed.figma.com/proto/l5F2V6tPaMkSCUYLInM8rQ/H4-03-Fintech?node-id=18-72&p=f&viewport=1365%2C4004%2C0.19&scaling=scale-down&content-scaling=responsive&starting-point-node-id=94%3A341&show-proto-sidebar=1&page-id=0%3A1&embed-host=share"
@@ -1445,7 +1445,7 @@ export function IUPICaseStudy() {
               transition={{ duration:.4, ease:[.22,1,.36,1] }}
               className="rounded-3xl overflow-hidden shadow-2xl mb-8 cursor-zoom-in mx-auto max-w-xl"
             >
-              <img src={iupiCertificado} alt="Certificado No Country — IUPI" className="w-full h-auto object-contain" />
+              <img loading="lazy" decoding="async" src={iupiCertificado} alt="Certificado No Country — IUPI" className="w-full h-auto object-contain" />
             </motion.div>
             <div className="flex items-center justify-center gap-3 mb-3">
               <Award className="w-5 h-5 text-[#FF8300]" />

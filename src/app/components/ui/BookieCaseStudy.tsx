@@ -545,7 +545,7 @@ export function BookieCaseStudy() {
 
               {/* Header persona */}
               <div className="bg-gradient-to-r from-[#025959] to-[#037070] px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center gap-5">
-                <img
+                <img loading="lazy" decoding="async"
                   src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=200&q=80"
                   alt="Alejandra — User Persona"
                   className="w-20 h-20 rounded-full object-cover border-3 border-white/30 shadow-lg flex-shrink-0"
@@ -1042,7 +1042,7 @@ export function BookieCaseStudy() {
                     className="rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-5 flex flex-col items-center gap-4"
                   >
                     <div className="w-full flex items-center justify-center bg-white dark:bg-gray-700 rounded-xl p-6 shadow-sm min-h-[160px]">
-                      <img src={src} alt={alt} className="max-h-36 w-auto object-contain" />
+                      <img loading="lazy" decoding="async" src={src} alt={alt} className="max-h-36 w-auto object-contain" />
                     </div>
                     <div className="text-center">
                       <p className="font-semibold text-gray-800 dark:text-gray-100 mb-1">{title}</p>
@@ -1177,7 +1177,7 @@ export function BookieCaseStudy() {
             {/* Desktop: iframe centrado, ancho completo de la grid */}
             <div className="hidden md:block w-full rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg mb-8"
               style={{ height: "620px" }}>
-              <iframe
+              <iframe loading="lazy"
                 src="https://embed.figma.com/proto/hps5pgUhOIUXp7aydqOWMq/Bookie?node-id=145-3121&p=f&viewport=434%2C39%2C0.03&scaling=scale-down&content-scaling=responsive&starting-point-node-id=145%3A3121&page-id=0%3A1&show-proto-sidebar=1&embed-host=share"
                 allowFullScreen className="w-full h-full border-0"
                 title="Bookie — Prototipo interactivo Figma"
@@ -1530,7 +1530,7 @@ export function BookieCaseStudy() {
               viewport={{ once: true }} transition={{ duration: 0.6 }}
               className="rounded-3xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-700"
             >
-              <img
+              <img loading="lazy" decoding="async"
                 src={bookieCertificado}
                 alt="Certificado de Equipo Finalista — Hackathon Bookie · No Country"
                 className="w-full h-auto object-contain"

@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { Linkedin, FileDown, Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { SiGithub } from "react-icons/si";
-import sofiaPhoto from "../../imports/foto_sofia.jpeg";
+import sofiaPhoto from "../../imports/foto_sofia.webp";
 import cvFile from "../../imports/CV_Sofia_Alvarez_UX_UI.pdf";
 
 export function Contact() {
@@ -47,7 +47,7 @@ export function Contact() {
             {/* Profile Image */}
             <div className="relative flex-shrink-0">
               <div className="w-40 h-40 rounded-2xl overflow-hidden shadow-2xl">
-                <img
+                <img loading="lazy" decoding="async"
                   src={sofiaPhoto}
                   alt="Sofía Álvarez"
                   className="w-full h-full object-cover"

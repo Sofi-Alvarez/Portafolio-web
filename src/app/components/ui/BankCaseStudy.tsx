@@ -734,7 +734,7 @@ export function BankCaseStudy() {
             {/* Desktop: iframe centrado, ancho completo de la grid */}
             <div className="hidden md:block w-full rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg bg-gray-100 dark:bg-gray-900 mb-8"
               style={{ height: "620px" }}>
-              <iframe
+              <iframe loading="lazy"
                 src="https://embed.figma.com/proto/yW44WZR6kdyE271Cpys0Dp/MVP-Mas-Bank?node-id=1-12371&p=f&viewport=231%2C349%2C0.02&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1%3A12371&show-proto-sidebar=1&page-id=0%3A1&embed-host=share"
                 className="w-full h-full border-0"
                 allowFullScreen

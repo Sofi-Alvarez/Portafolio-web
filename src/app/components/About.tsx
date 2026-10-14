@@ -1,13 +1,13 @@
 import { motion } from "motion/react";
-import { MapPin, GraduationCap } from "lucide-react";
-import { useEffect, useRef } from "react";
-import sofiaPhoto from "../../imports/foto_sofia.jpeg";
+import { MapPin, GraduationCap, Pause, Play } from "lucide-react";
+import { useState } from "react";
+import sofiaPhoto from "../../imports/foto_sofia.webp";
 
 export function About() {
   const stats = [
     { label: "Años de trayectoria, más de 2 en producto digital", value: "7", color: "#025959" },
-    { label: "App propia publicada y testeada con usuarios", value: "1", color: "#FF8300" },
-    { label: "Casos de estudio con proceso completo", value: "5", color: "#025959" },
+    { label: "SEQ en el flujo más complejo de Milestone, mi app en producción", value: "6.55/7", color: "#FF8300" },
+    { label: "Completó el registro diario sin ayuda en el test de Maze de Milestone", value: "88.9%", color: "#025959" },
   ];
 
   const keywords = [
@@ -76,7 +76,7 @@ export function About() {
             <div className="bg-gradient-to-br from-[#025959]/10 to-[#FF8300]/10 dark:from-[#025959]/20 dark:to-[#FF8300]/20 rounded-2xl p-8 shadow-lg">
               <div className="flex flex-col items-center text-center">
                 <div className="w-32 h-32 rounded-full overflow-hidden mb-4 border-4 border-white shadow-lg">
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={sofiaPhoto}
                     alt="Sofía Álvarez"
                     className="w-full h-full object-cover"
@@ -153,7 +153,7 @@ function StatBox({
         style={{ backgroundColor: `${color}15` }}
       />
       <div className="relative z-10">
-        <div className={`text-3xl mb-2 text-[#025959] ${color === "#FF8300" ? "dark:text-[#FF8300]" : "dark:text-[#4ecfcf]"}`}>
+        <div className={`text-4xl font-bold mb-2 text-[#025959] ${color === "#FF8300" ? "dark:text-[#FF8300]" : "dark:text-[#4ecfcf]"}`}>
           {value}
         </div>
         <div className="text-gray-600 dark:text-gray-300">{label}</div>
@@ -162,33 +162,50 @@ function StatBox({
   );
 }
 
+/* Cinta de palabras clave: se puede pausar (WCAG 2.2.2) y también se frena con hover o foco.
+   Solo la primera copia se lee con lector de pantalla; las repeticiones son visuales. */
+const TICKER_STYLES = `
+  @keyframes keywordsTicker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-33.333%); }
+  }
+  .keywords-ticker:hover .keywords-track,
+  .keywords-ticker:focus-within .keywords-track { animation-play-state: paused; }
+`;
+
 function KeywordsTicker({ keywords }: { keywords: string[] }) {
-  const tickerRef = useRef<HTMLDivElement>(null);
-  // Duplicate enough times so the strip always fills the screen seamlessly
-  const repeated = [...keywords, ...keywords, ...keywords];
+  const [paused, setPaused] = useState(false);
+  const copies = [0, 1, 2];
 
   return (
     <div
-      className="relative left-1/2 right-1/2 overflow-hidden bg-[#025959] py-5"
+      className="keywords-ticker relative left-1/2 right-1/2 overflow-hidden bg-[#025959] py-5"
       style={{ marginLeft: "-50vw", marginRight: "-50vw", width: "100vw" }}
     >
-      <motion.div
-        ref={tickerRef}
-        className="flex gap-12 whitespace-nowrap"
-        animate={{ x: ["0%", "-33.333%"] }}
-        transition={{
-          duration: 28,
-          repeat: Infinity,
-          ease: "linear",
-        }}
+      <style>{TICKER_STYLES}</style>
+      <div
+        className="keywords-track flex w-max"
+        style={{ animation: "keywordsTicker 28s linear infinite", animationPlayState: paused ? "paused" : "running" }}
       >
-        {repeated.map((keyword, index) => (
-          <span key={index} className="flex items-center gap-6 text-white text-lg font-medium tracking-wide">
-            {keyword}
-            <span aria-hidden="true" className="text-white/30 select-none">✦</span>
-          </span>
+        {copies.map((copy) => (
+          <ul key={copy} aria-hidden={copy > 0 ? true : undefined} aria-label={copy === 0 ? "Palabras clave" : undefined} className="flex gap-12 pr-12 whitespace-nowrap">
+            {keywords.map((keyword) => (
+              <li key={keyword} className="flex items-center gap-6 text-white text-lg font-medium tracking-wide">
+                {keyword}
+                <span aria-hidden="true" className="text-white/30 select-none">✦</span>
+              </li>
+            ))}
+          </ul>
         ))}
-      </motion.div>
+      </div>
+      <button
+        onClick={() => setPaused((p) => !p)}
+        aria-pressed={paused}
+        aria-label={paused ? "Reanudar animación de palabras clave" : "Pausar animación de palabras clave"}
+        className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-full bg-[#025959] text-white border border-white/40 hover:bg-white/15 transition-colors focus-visible:outline-2 focus-visible:outline-white"
+      >
+        {paused ? <Play className="w-4 h-4" aria-hidden="true" /> : <Pause className="w-4 h-4" aria-hidden="true" />}
+      </button>
     </div>
   );
 }

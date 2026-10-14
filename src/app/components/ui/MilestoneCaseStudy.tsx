@@ -325,14 +325,6 @@ function SectionLabel({ text, accent = false }: { text: string; accent?: boolean
 /* ─── Hero ── */
 const HERO_TAGS = ["Proyecto individual", "Spec-driven development", "App en producción"];
 
-const HERO_STYLES = `
-  @keyframes milestoneHeroBlob {
-    0%,100% { transform: translateY(0px)   translateX(0px);  }
-    33%     { transform: translateY(-22px)  translateX(14px); }
-    66%     { transform: translateY(12px)   translateX(-9px); }
-  }
-`;
-
 function MilestoneHero() {
   const { isDark } = useTheme();
   const color = isDark ? BRAND.primaryDark : BRAND.primary;
@@ -354,12 +346,11 @@ function MilestoneHero() {
   return (
     <section id="inicio" aria-label="Presentación del caso de estudio"
       className="relative overflow-hidden pt-28 md:pt-32 pb-20 md:pb-24 scroll-mt-20" style={bgStyle}>
-      <style>{HERO_STYLES}</style>
 
       <div aria-hidden="true" className="pointer-events-none absolute -top-32 -left-20 h-[420px] w-[420px] rounded-full blur-3xl"
-        style={{ background: `${BRAND.primary}2e`, animation: "milestoneHeroBlob 10s ease-in-out infinite" }} />
+        style={{ background: `${BRAND.primary}2e`}} />
       <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 -right-24 h-[460px] w-[460px] rounded-full blur-3xl"
-        style={{ background: `${BRAND.primary}1e`, animation: "milestoneHeroBlob 14s ease-in-out infinite reverse" }} />
+        style={{ background: `${BRAND.primary}1e`}} />
 
       <div className="relative z-10 mx-auto max-w-3xl px-6 text-center">
         <motion.span

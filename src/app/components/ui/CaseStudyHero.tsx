@@ -3,7 +3,7 @@
  *
  * Layout (Lovable design):
  *  - Gradient-mesh background in case brand color
- *  - Two animated blob decorations
+ *  - Two static blob decorations
  *  - Centered badge pill
  *  - 2-column grid: left = title + description + tag pills / right = device mockup
  *
@@ -14,15 +14,6 @@
 
 import { motion } from "motion/react";
 import { useTheme } from "../../contexts/ThemeContext";
-
-/* ─── CSS keyframes (injected once) ─────────────────────────────────────── */
-const STYLES = `
-  @keyframes caseHeroBlob {
-    0%,100% { transform: translateY(0px)   translateX(0px);  }
-    33%     { transform: translateY(-22px)  translateX(14px); }
-    66%     { transform: translateY(12px)   translateX(-9px); }
-  }
-`;
 
 /* ─── Types ─────────────────────────────────────────────────────────────── */
 export interface CaseStudyHeroProps {
@@ -176,7 +167,6 @@ export function CaseStudyHero({
       className="relative min-h-screen overflow-hidden pt-24 md:pt-28 pb-20"
       style={bgStyle}
     >
-      <style>{STYLES}</style>
 
       {/* ── Blob top-left ── */}
       <div
@@ -184,7 +174,6 @@ export function CaseStudyHero({
         className="pointer-events-none absolute -top-32 -left-20 h-[420px] w-[420px] rounded-full blur-3xl"
         style={{
           background: `${brandColor}2e`,
-          animation: "caseHeroBlob 10s ease-in-out infinite",
         }}
       />
 
@@ -194,7 +183,6 @@ export function CaseStudyHero({
         className="pointer-events-none absolute -bottom-24 -right-24 h-[460px] w-[460px] rounded-full blur-3xl"
         style={{
           background: `${brandColor}1e`,
-          animation: "caseHeroBlob 14s ease-in-out infinite reverse",
         }}
       />
 
@@ -265,8 +253,8 @@ export function CaseStudyHero({
           />
 
           {variant === "phones" ? (
-            /* ── Dual phone layout ── */
-            <div className="flex items-center justify-center">
+            /* ── Dual phone layout (escalado en mobile para que no se corte contra el borde) ── */
+            <div className="flex items-center justify-center scale-[0.82] sm:scale-100 origin-center">
               <PhoneFrame
                 image={imageMobile1 ?? image}
                 alt={imageAlt}

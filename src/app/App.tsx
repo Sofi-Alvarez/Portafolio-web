@@ -1,25 +1,60 @@
-import { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router";
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef } from "react";
+import { Routes, Route, useLocation, useNavigationType } from "react-router";
 import { motion, AnimatePresence, MotionConfig } from "motion/react";
 import { Analytics } from "@vercel/analytics/react";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
 import { Projects } from "./components/Projects";
-import { Exploration } from "./components/Exploration";
 import { Skills } from "./components/Skills";
 import { Feedback } from "./components/Feedback";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import { IUPICaseStudy } from "./components/ui/IUPICaseStudy";
-import { BookieCaseStudy } from "./components/ui/BookieCaseStudy";
-import { BankCaseStudy } from "./components/ui/BankCaseStudy";
-import { PortfolioCaseStudy } from "./components/ui/PortfolioCaseStudy";
-import { MilestoneCaseStudy } from "./components/ui/MilestoneCaseStudy";
 import { useAnalytics } from "../hooks/useAnalytics";
+import { scrollBehavior } from "./utils/motion";
 
+/* Cada caso de estudio se descarga recién cuando se visita (code splitting por ruta) */
+const IUPICaseStudy      = lazy(() => import("./components/ui/IUPICaseStudy").then((m) => ({ default: m.IUPICaseStudy })));
+const BookieCaseStudy    = lazy(() => import("./components/ui/BookieCaseStudy").then((m) => ({ default: m.BookieCaseStudy })));
+const BankCaseStudy      = lazy(() => import("./components/ui/BankCaseStudy").then((m) => ({ default: m.BankCaseStudy })));
+const PortfolioCaseStudy = lazy(() => import("./components/ui/PortfolioCaseStudy").then((m) => ({ default: m.PortfolioCaseStudy })));
+const MilestoneCaseStudy = lazy(() => import("./components/ui/MilestoneCaseStudy").then((m) => ({ default: m.MilestoneCaseStudy })));
+
+/* Título de la pestaña por ruta: orienta en pestañas, historial y lector de pantalla */
+const PAGE_TITLES: Record<string, string> = {
+  "/":                     "Sofía Álvarez — Product Designer",
+  "/case-study/milestone": "Milestone, caso de estudio — Sofía Álvarez",
+  "/case-study/iupi":      "IUPI, caso de estudio — Sofía Álvarez",
+  "/case-study/portfolio": "Portfolio Web, caso de estudio — Sofía Álvarez",
+  "/case-study/+bank":     "Mas+ Bank, caso de estudio — Sofía Álvarez",
+  "/case-study/bookie":    "Bookie, caso de estudio — Sofía Álvarez",
+};
+
+/* Posición del scroll del home, para devolverla al volver de un caso de estudio */
+let homeScrollY = 0;
+
+/* Al montar el home: si se llegó con "atrás", vuelve a donde estaba la persona;
+   si se llegó con state.section (ej. "contact"), baja a esa sección */
 function MainPage() {
+  const navigationType = useNavigationType();
+  const { state } = useLocation();
+  useLayoutEffect(() => {
+    const section = (state as { section?: string } | null)?.section;
+    if (section) {
+      const el = document.getElementById(section);
+      if (el) {
+        el.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
+        if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+        el.focus({ preventScroll: true });
+      }
+    } else if (navigationType === "POP" && homeScrollY > 0) {
+      window.scrollTo(0, homeScrollY);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <Navbar />
@@ -27,7 +62,6 @@ function MainPage() {
       <Hero />
       <Projects />
       <About />
-      <Exploration />
       <Skills />
       {/* <Feedback /> — oculta hasta completar contenido */}
       <Contact />
@@ -55,10 +89,17 @@ function SkipLink() {
   );
 }
 
-/* Scroll al top en cada cambio de ruta */
+/* En cada cambio de ruta: guarda la posición del home al salir, actualiza el título
+   y sube al tope (el home restaura su posición o su sección al montarse) */
 function ScrollToTop() {
   const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  const prevPath = useRef(pathname);
+  useEffect(() => {
+    if (prevPath.current === "/" && pathname !== "/") homeScrollY = window.scrollY;
+    prevPath.current = pathname;
+    document.title = PAGE_TITLES[pathname] ?? PAGE_TITLES["/"];
+    if (pathname !== "/") window.scrollTo(0, 0);
+  }, [pathname]);
   return null;
 }
 
@@ -70,7 +111,9 @@ function PageTransition({ children }: { children: React.ReactNode }) {
       animate={{ opacity: 1, transition: { duration: 0.25, ease: "easeOut" } }}
       exit={{ opacity: 0, transition: { duration: 0.15, ease: "easeIn" } }}
     >
-      {children}
+      <Suspense fallback={<div className="min-h-screen bg-white dark:bg-gray-900" aria-busy="true" />}>
+        {children}
+      </Suspense>
     </motion.div>
   );
 }
