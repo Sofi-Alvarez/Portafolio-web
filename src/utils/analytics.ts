@@ -30,7 +30,7 @@ export function trackEvent(
   });
 }
 
-/** Send a page_view hit (used on HashRouter route changes) */
+/** Send a page_view hit (used on route changes) */
 export function trackPageView(path: string): void {
   if (!isGtagReady()) return;
   window.gtag("config", GA_ID, {

@@ -1,6 +1,6 @@
 /* ─── useAnalytics hook ──────────────────────────────────────────────────────
    Call once at the App root. Handles:
-     • Page views on every HashRouter route change
+     • Page views on every route change
      • Scroll depth milestones (25 / 50 / 75 / 90 %)
      • Engagement time reported on page unload
      • Click event delegation via [data-ga-action] attributes

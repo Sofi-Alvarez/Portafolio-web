@@ -712,7 +712,7 @@ export function PortfolioCaseStudy() {
                 { cat: "Framework",   items: ["React 18", "TypeScript", "Vite 6"] },
                 { cat: "Estilos",     items: ["Tailwind CSS v4", "Inline styles (custom colors)"] },
                 { cat: "Animaciones", items: ["Motion (motion/react v12)", "Radix UI"] },
-                { cat: "Routing",     items: ["React Router · HashRouter"] },
+                { cat: "Routing",     items: ["React Router · BrowserRouter"] },
                 { cat: "Deploy",      items: ["Vercel", "Vercel Web Analytics"] },
                 { cat: "AI Tools",    items: ["Claude Code", "Figma Make", "Lovable", "ChatGPT"] },
               ].map(({ cat, items }) => (

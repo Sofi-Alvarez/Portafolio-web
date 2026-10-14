@@ -78,7 +78,7 @@ function MainPage() {
   );
 }
 
-/* Salto al contenido: con HashRouter un href="#main" cambiaría la ruta, así que se mueve el foco a mano */
+/* Salto al contenido: se mueve el foco a mano para que funcione igual en todos los navegadores */
 function SkipLink() {
   return (
     <a
@@ -107,6 +107,10 @@ function ScrollToTop() {
     lastNavWasHistory = false;
     prevPath.current = pathname;
     document.title = PAGE_TITLES[pathname] ?? PAGE_TITLES["/"];
+    /* URL canónica y og:url de la página actual (ahora que cada caso tiene URL propia) */
+    const url = `https://sofialvarez.design${pathname === "/" ? "/" : pathname}`;
+    document.querySelector('link[rel="canonical"]')?.setAttribute("href", url);
+    document.querySelector('meta[property="og:url"]')?.setAttribute("content", url);
   }, [pathname]);
   return null;
 }
