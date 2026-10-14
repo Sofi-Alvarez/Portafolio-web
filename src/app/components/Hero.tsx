@@ -171,11 +171,12 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.18, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
+          Una{" "}
           <span className="text-[#025959] dark:text-[#4ecfcf]">Product Designer</span>{" "}
-          que lleva productos de la investigación{" "}
-          {/* "a producción" con subrayado SVG a mano alzada */}
+          creando experiencias digitales{" "}
+          {/* "excepcionales" with SVG hand-drawn underline */}
           <span className="relative inline-block text-[#025959] dark:text-[#FF8300]">
-            a producción
+            excepcionales
             <svg
               className="absolute -bottom-2 left-0 w-full"
               viewBox="0 0 200 12"
@@ -200,9 +201,9 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.26, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          Diseño apps fintech y mobile, las construyo con desarrollo asistido por IA
-          y las testeo con usuarios reales. Las decisiones de diseño son mías; la IA
-          implementa.
+          De la investigación a producción. Diseño y desarrollo asistido por IA
+          hasta el producto testeado con usuarios reales. Las decisiones de
+          diseño son mías; la IA implementa.
         </motion.p>
 
         {/* CTA */}

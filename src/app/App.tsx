@@ -6,6 +6,7 @@ import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
 import { Projects } from "./components/Projects";
+import { Exploration } from "./components/Exploration";
 import { Skills } from "./components/Skills";
 import { Feedback } from "./components/Feedback";
 import { Contact } from "./components/Contact";
@@ -67,6 +68,7 @@ function MainPage() {
       <Hero />
       <Projects />
       <About />
+      <Exploration />
       <Skills />
       {/* <Feedback /> — oculta hasta completar contenido */}
       <Contact />
