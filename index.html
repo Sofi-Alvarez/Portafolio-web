@@ -10,13 +10,17 @@
     <meta name="keywords" content="product designer, design engineer, diseñadora UX UI, portfolio UX UI, fintech design, mobile app design, Buenos Aires, Sofía Álvarez, case study, Figma" />
     <meta name="author" content="Sofía Álvarez" />
     <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://sofia-alvarez-ux-iu.vercel.app/" />
 
     <!-- ── Open Graph ─────────────────────────────────────────────── -->
     <meta property="og:type"        content="website" />
     <meta property="og:title"       content="Sofía Álvarez — Product Designer" />
     <meta property="og:description" content="Portfolio de Sofía Álvarez, Product Designer especializada en apps fintech, mobile y productos digitales centrados en el usuario." />
-    <meta property="og:url"         content="https://sofialvarez.design/" />
-    <meta property="og:image"       content="https://sofialvarez.design/og-cover.jpg" />
+    <meta property="og:url"         content="https://sofia-alvarez-ux-iu.vercel.app/" />
+    <meta property="og:image"       content="https://sofia-alvarez-ux-iu.vercel.app/og-cover.jpg" />
+    <meta property="og:image:width"  content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt"    content="Sofía Álvarez, Product Designer & Design Engineer" />
     <meta property="og:locale"      content="es_AR" />
     <meta property="og:site_name"   content="Sofía Álvarez · Product Designer" />
 
@@ -24,7 +28,7 @@
     <meta name="twitter:card"        content="summary_large_image" />
     <meta name="twitter:title"       content="Sofía Álvarez — Product Designer" />
     <meta name="twitter:description" content="Portfolio de Sofía Álvarez, Product Designer especializada en apps fintech, mobile y productos digitales centrados en el usuario." />
-    <meta name="twitter:image"       content="https://sofialvarez.design/og-cover.jpg" />
+    <meta name="twitter:image"       content="https://sofia-alvarez-ux-iu.vercel.app/og-cover.jpg" />
 
     <!-- ── Favicon ───────────────────────────────────────────────── -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -35,8 +39,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
 
-    <!-- ── Force Light Mode on load — prevents dark flash ────────── -->
-    <script>document.documentElement.classList.remove("dark");</script>
+    <!-- ── Tema antes de pintar (elección guardada o preferencia del sistema) — evita el destello ── -->
+    <script>
+      (function () {
+        var dark = false;
+        try {
+          var saved = localStorage.getItem("theme");
+          dark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        } catch (e) {}
+        document.documentElement.classList.toggle("dark", dark);
+      })();
+    </script>
 
     <!-- ── Google Analytics (gtag.js) ────────────────────────────── -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5713WXGF86"></script>

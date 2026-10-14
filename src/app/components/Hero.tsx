@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { motion } from "motion/react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Pause, Play } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { scrollBehavior } from "../utils/motion";
 
@@ -18,6 +19,17 @@ const WAVE_STYLES = `
 
 export function Hero() {
   const { isDark } = useTheme();
+  /* Las animaciones decorativas son infinitas: se pueden pausar (WCAG 2.2.2) */
+  const [paused, setPaused] = useState(false);
+  const playState = paused ? "paused" : "running";
+
+  const goToProjects = () => {
+    const el = document.getElementById("projects");
+    if (!el) return;
+    el.scrollIntoView({ behavior: scrollBehavior() });
+    if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+    el.focus({ preventScroll: true });
+  };
 
   /* ── Background gradient mesh ── */
   const bgStyle: React.CSSProperties = {
@@ -51,6 +63,7 @@ export function Hero() {
         style={{
           background: "rgba(2,89,89,0.18)",
           animation: "heroBlobFloat 9s ease-in-out infinite",
+          animationPlayState: playState,
         }}
       />
 
@@ -61,6 +74,7 @@ export function Hero() {
         style={{
           background: "rgba(255,131,0,0.16)",
           animation: "heroBlobFloat 12s ease-in-out infinite reverse",
+          animationPlayState: playState,
         }}
       />
 
@@ -72,7 +86,7 @@ export function Hero() {
         {/* Slowest wave — lightest teal */}
         <svg
           className="absolute bottom-0 left-0 min-w-[200%]"
-          style={{ height: "40%", animation: "heroWave 32s linear infinite" }}
+          style={{ height: "40%", animation: "heroWave 32s linear infinite", animationPlayState: playState }}
           viewBox="0 0 2880 320"
           preserveAspectRatio="none"
         >
@@ -87,7 +101,7 @@ export function Hero() {
         {/* Medium wave — mid teal */}
         <svg
           className="absolute bottom-0 left-0 min-w-[200%]"
-          style={{ height: "34%", animation: "heroWave 22s linear infinite" }}
+          style={{ height: "34%", animation: "heroWave 22s linear infinite", animationPlayState: playState }}
           viewBox="0 0 2880 320"
           preserveAspectRatio="none"
         >
@@ -101,7 +115,7 @@ export function Hero() {
         {/* Fastest wave — teal-to-orange gradient */}
         <svg
           className="absolute bottom-0 left-0 min-w-[200%]"
-          style={{ height: "26%", animation: "heroWave 14s linear infinite" }}
+          style={{ height: "26%", animation: "heroWave 14s linear infinite", animationPlayState: playState }}
           viewBox="0 0 2880 320"
           preserveAspectRatio="none"
         >
@@ -124,7 +138,6 @@ export function Hero() {
 
         {/* Status badge */}
         <motion.span
-          role="status"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -135,7 +148,7 @@ export function Hero() {
             color: isDark ? "#4ecfcf" : "#025959",
           }}
         >
-          ✦ Product Designer & Design Engineer · Disponible
+          <span aria-hidden="true">✦</span> Disponible para nuevos proyectos
         </motion.span>
 
         {/* Greeting */}
@@ -212,15 +225,12 @@ export function Hero() {
               background: "#025959",
               boxShadow: "0 10px 28px rgba(2,89,89,0.30)",
             }}
-            onClick={() =>
-              document.querySelector("#projects")?.scrollIntoView({ behavior: scrollBehavior() })
-            }
-            aria-label="Ir a la sección de proyectos"
+            onClick={goToProjects}
             data-ga-action="cta_click"
             data-ga-category="CTA"
             data-ga-label="Ver Proyectos Hero"
           >
-            Ver Proyectos →
+            Ver proyectos <span aria-hidden="true">→</span>
           </motion.button>
         </motion.div>
       </div>
@@ -234,12 +244,22 @@ export function Hero() {
         aria-hidden="true"
       >
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          animate={paused ? { y: 0 } : { y: [0, 8, 0] }}
+          transition={paused ? { duration: 0.2 } : { duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
           <ChevronDown className="w-6 h-6 text-[#025959]/70 dark:text-[#4ecfcf]/60" />
         </motion.div>
       </motion.div>
+
+      {/* ── Pausar animaciones decorativas ── */}
+      <button
+        onClick={() => setPaused((p) => !p)}
+        aria-pressed={paused}
+        aria-label={paused ? "Reanudar animaciones de fondo" : "Pausar animaciones de fondo"}
+        className="absolute bottom-6 right-6 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-white/80 dark:bg-gray-900/70 border border-[#025959]/25 text-[#025959] dark:text-[#4ecfcf] backdrop-blur-sm hover:bg-white dark:hover:bg-gray-900 transition-colors"
+      >
+        {paused ? <Play className="w-4 h-4" aria-hidden="true" /> : <Pause className="w-4 h-4" aria-hidden="true" />}
+      </button>
     </section>
   );
 }

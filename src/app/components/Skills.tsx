@@ -1,5 +1,4 @@
 import { motion } from "motion/react";
-import { useState } from "react";
 import {
   SiFigma,
   SiAdobephotoshop,
@@ -66,7 +65,7 @@ const technicalSkills = [
   "React, TypeScript y Tailwind CSS para sitios web",
   "Git y GitHub con ramas y pull requests, deploy en Vercel y Netlify",
   "Criterios de integración con RESTful APIs (desde diseño)",
-  "Performance optimization: imágenes en WebP, lazy loading y carga inicial liviana",
+  "Optimización de performance: imágenes en WebP, lazy loading y carga inicial liviana",
 ];
 
 const designTools: ToolEntry[] = [
@@ -127,7 +126,7 @@ export function Skills() {
           className="mb-20"
         >
           <h2 className="text-4xl lg:text-5xl mb-4 text-gray-800 dark:text-gray-100">
-            Habilidades UX/Diseño
+            Habilidades de UX y diseño
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 mb-12 max-w-3xl">
             Decido con evidencia, no con opinión: valido con research y testing, y reviso una
@@ -136,29 +135,29 @@ export function Skills() {
 
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             <div>
-              <h3 className="text-2xl mb-6 text-[#025959] dark:text-[#FF8300]">UX Skills</h3>
+              <h3 className="text-2xl mb-6 text-[#025959] dark:text-[#FF8300]">Investigación y UX</h3>
               <SkillList items={uxSkills} dotColor="bg-[#025959] dark:bg-[#FF8300]" />
             </div>
             <div>
-              <h3 className="text-2xl mb-6 text-[#025959] dark:text-[#4ecfcf]">Design Skills</h3>
+              <h3 className="text-2xl mb-6 text-[#025959] dark:text-[#4ecfcf]">Diseño de interfaz</h3>
               <SkillList items={designSkills} dotColor="bg-[#FF8300] dark:bg-[#025959]" />
             </div>
           </div>
 
           {/* Design tools */}
-          <h3 className="text-2xl mb-6 text-gray-800 dark:text-gray-100">Herramientas de Diseño</h3>
-          <div className="flex flex-wrap gap-4 mb-10">
+          <h3 className="text-2xl mb-6 text-gray-800 dark:text-gray-100">Herramientas de diseño</h3>
+          <ul className="flex flex-wrap gap-x-3 gap-y-5 mb-10">
             {designTools.map((tool, i) => <ToolIcon key={i} tool={tool} />)}
-          </div>
+          </ul>
 
           {/* AI tools */}
           <h3 className="text-2xl mb-2 text-gray-800 dark:text-gray-100">IA aplicada al diseño y la construcción</h3>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
             La IA ejecuta; el criterio, la arquitectura y las decisiones de diseño son míos
           </p>
-          <div className="flex flex-wrap gap-4">
+          <ul className="flex flex-wrap gap-x-3 gap-y-5">
             {aiTools.map((tool, i) => <ToolIcon key={i} tool={tool} />)}
-          </div>
+          </ul>
         </motion.div>
 
         {/* ── Technical Skills ── */}
@@ -187,10 +186,10 @@ export function Skills() {
             ))}
           </ul>
 
-          <h3 className="text-2xl mb-6 text-gray-800 dark:text-gray-100">Stack Tecnológico</h3>
-          <div className="flex flex-wrap gap-4">
+          <h3 className="text-2xl mb-6 text-gray-800 dark:text-gray-100">Stack tecnológico</h3>
+          <ul className="flex flex-wrap gap-x-3 gap-y-5">
             {techStack.map((tech, i) => <ToolIcon key={i} tool={tech} />)}
-          </div>
+          </ul>
         </motion.div>
       </div>
     </section>
@@ -214,38 +213,21 @@ function SkillList({ items, dotColor }: { items: string[]; dotColor: string }) {
   );
 }
 
+/* Ícono + nombre visible: el nombre no depende de un tooltip (que no aparece en touch ni con teclado) */
 function ToolIcon({ tool }: { tool: ToolEntry }) {
-  const [hovered, setHovered] = useState(false);
   const hasLogo = hasToolGlyph(tool.name);
 
   return (
-    <div className="relative">
-      <motion.div
-        role="img"
-        aria-label={tool.name}
-        title={tool.name}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        whileHover={{ scale: 1.1 }}
-        className="w-16 h-16 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 flex items-center justify-center cursor-pointer overflow-hidden"
-        style={{ background: hovered && !hasLogo ? tool.color : "white" }}
-      >
+    <li className="w-20 flex flex-col items-center gap-2 text-center">
+      <div className="w-16 h-16 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 bg-white flex items-center justify-center overflow-hidden">
         {hasLogo ? (
           <ToolGlyph name={tool.name} style={{ width: "1.75rem", height: "1.75rem" }} />
         ) : "icon" in tool && (
           /* Logo oficial de Simple Icons / Lucide */
-          <tool.icon aria-hidden="true" focusable="false" style={{ width: "1.75rem", height: "1.75rem", color: hovered ? "#ffffff" : tool.color }} />
+          <tool.icon aria-hidden="true" focusable="false" style={{ width: "1.75rem", height: "1.75rem", color: tool.color }} />
         )}
-      </motion.div>
-      {hovered && (
-        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-          aria-hidden="true"
-          className="absolute -bottom-9 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-3 py-1 rounded text-sm whitespace-nowrap z-10 pointer-events-none"
-        >
-          {tool.name}
-          <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45" />
-        </motion.div>
-      )}
-    </div>
+      </div>
+      <span className="text-xs font-medium leading-tight text-gray-600 dark:text-gray-300">{tool.name}</span>
+    </li>
   );
 }

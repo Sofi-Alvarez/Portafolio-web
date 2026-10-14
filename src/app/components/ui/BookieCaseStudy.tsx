@@ -290,7 +290,7 @@ function FlowDiagram() {
       <polygon points="136,314 140,320 144,314" fill="#FF8300" />
       {/* Transición */}
       <rect x="48" y="320" width="184" height="34" rx="10" fill="#FF8300" />
-      <text x="140" y="334" textAnchor="middle" fill="white" fontSize="9" fontWeight="700">Pantalla de Transición</text>
+      <text x="140" y="334" textAnchor="middle" fill="white" fontSize="9" fontWeight="700">Pantalla de transición</text>
       <text x="140" y="348" textAnchor="middle" fill="white" fontSize="7.5" opacity="0.85">mapa + distancia + preview cap.</text>
       {/* Loop arrow */}
       <path d="M 232 337 Q 262 337 262 222 Q 262 114 232 120" stroke="#FF8300" strokeWidth="1.5" fill="none" strokeDasharray="4 3" opacity="0.4" />
@@ -317,7 +317,7 @@ export function BookieCaseStudy() {
   const { isDark } = useTheme();
   const navigate = useNavigate();
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  /* El scroll al tope al entrar lo resuelve PageTransition (App.tsx) */
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -327,9 +327,9 @@ export function BookieCaseStudy() {
       {/* HERO */}
       <div id="inicio">
         <CaseStudyHero
-          badgeLabel="Caso de Estudio · Bookie"
-          titlePrefix="Bookie –"
-          titleAccent="Lectura Geolocalizada"
+          badgeLabel="Caso de estudio · Bookie"
+          titlePrefix="Bookie:"
+          titleAccent="lectura geolocalizada"
           description="Una app que transforma la lectura digital en una aventura: descubrí historias en los lugares donde cobran vida y convertí cada paseo en un capítulo nuevo."
           tags={["UX/UI Designer", "Mobile App", "2024"]}
           image={bookiePort}
@@ -350,7 +350,7 @@ export function BookieCaseStudy() {
 
               {/* Narrativa + herramientas */}
               <div className="space-y-6">
-                <SectionLabel text="Descripción del Proyecto" />
+                <SectionLabel text="Descripción del proyecto" />
                 <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">El proyecto</h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   <strong className="text-[#025959] dark:text-[#4ecfcf]">No Country</strong> es un programa de simulación
@@ -384,7 +384,7 @@ export function BookieCaseStudy() {
                 <div className="grid grid-cols-2 gap-3">
                   {[
                     { label: "Rol",       value: "UX/UI Designer" },
-                    { label: "Sector",    value: "Entretenimiento Digital · Geolocalización · Mobile App" },
+                    { label: "Sector",    value: "Entretenimiento digital · Geolocalización · Mobile App" },
                     { label: "Duración",  value: "5 semanas" },
                     { label: "Equipo",    value: "Multidisciplinario — Design · Dev · QA · PM" },
                     { label: "Resultado", value: "Equipo Finalista · Certificado No Country", full: true },
@@ -545,9 +545,14 @@ export function BookieCaseStudy() {
 
               {/* Header persona */}
               <div className="bg-gradient-to-r from-[#025959] to-[#037070] px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center gap-5">
-                <img
+                <img loading="lazy" decoding="async"
                   src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=200&q=80"
                   alt="Alejandra — User Persona"
+                  /* Imagen externa: si deja de estar disponible, se muestra la inicial en vez de una imagen rota */
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" fill="#FF8300"/><text x="40" y="52" font-family="sans-serif" font-size="34" font-weight="700" fill="#111827" text-anchor="middle">A</text></svg>');
+                  }}
                   className="w-20 h-20 rounded-full object-cover border-3 border-white/30 shadow-lg flex-shrink-0"
                 />
                 <div className="flex-1">
@@ -1042,7 +1047,7 @@ export function BookieCaseStudy() {
                     className="rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-5 flex flex-col items-center gap-4"
                   >
                     <div className="w-full flex items-center justify-center bg-white dark:bg-gray-700 rounded-xl p-6 shadow-sm min-h-[160px]">
-                      <img src={src} alt={alt} className="max-h-36 w-auto object-contain" />
+                      <img loading="lazy" decoding="async" src={src} alt={alt} className="max-h-36 w-auto object-contain" />
                     </div>
                     <div className="text-center">
                       <p className="font-semibold text-gray-800 dark:text-gray-100 mb-1">{title}</p>
@@ -1177,7 +1182,7 @@ export function BookieCaseStudy() {
             {/* Desktop: iframe centrado, ancho completo de la grid */}
             <div className="hidden md:block w-full rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg mb-8"
               style={{ height: "620px" }}>
-              <iframe
+              <iframe loading="lazy"
                 src="https://embed.figma.com/proto/hps5pgUhOIUXp7aydqOWMq/Bookie?node-id=145-3121&p=f&viewport=434%2C39%2C0.03&scaling=scale-down&content-scaling=responsive&starting-point-node-id=145%3A3121&page-id=0%3A1&show-proto-sidebar=1&embed-host=share"
                 allowFullScreen className="w-full h-full border-0"
                 title="Bookie — Prototipo interactivo Figma"
@@ -1242,7 +1247,7 @@ export function BookieCaseStudy() {
                 <span className="inline-block mb-3 px-3 py-1 rounded-full bg-white/15 text-white/90 text-xs font-semibold uppercase tracking-widest">
                   Demo Day · No Country
                 </span>
-                <h3 className="text-xl font-bold text-white mb-2">Finalistas del Hackathon</h3>
+                <h3 className="text-xl font-bold text-white mb-2">Finalistas del hackathon</h3>
                 <p className="text-white/90 text-sm leading-relaxed">
                   El prototipo fue presentado ante el cliente y el equipo de No Country. Nuestro equipo{" "}
                   <strong className="text-white">H3-14</strong> llegó a instancia de finalistas, validando los flujos
@@ -1500,13 +1505,13 @@ export function BookieCaseStudy() {
               whileHover={{ backgroundColor: "#e87500", boxShadow: "0 16px 50px rgba(255,131,0,.55)", y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: scrollBehavior() }), 500); }}
+              onClick={() => navigate("/", { state: { section: "contact" } })}
               data-ga-action="cta_click"
               data-ga-category="CTA"
               data-ga-label="Contactar - Bookie"
               className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-gray-900 font-semibold text-lg shadow-2xl transition-all"
             >
-              Coordinar reunión
+              Ir a contacto
             </motion.button>
           </FadeSection>
         </div>
@@ -1520,7 +1525,7 @@ export function BookieCaseStudy() {
           <FadeSection className="text-center">
             <SectionLabel text="Reconocimiento" />
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">
-              Certificado de Equipo Finalista
+              Certificado de equipo finalista
             </h2>
             <p className="text-gray-500 dark:text-gray-400 text-sm mb-8">
               No Country · Hackathon Bookie · Diciembre 2024
@@ -1530,9 +1535,9 @@ export function BookieCaseStudy() {
               viewport={{ once: true }} transition={{ duration: 0.6 }}
               className="rounded-3xl overflow-hidden shadow-2xl border border-gray-100 dark:border-gray-700"
             >
-              <img
+              <img loading="lazy" decoding="async"
                 src={bookieCertificado}
-                alt="Certificado de Equipo Finalista — Hackathon Bookie · No Country"
+                alt="Certificado de equipo finalista — Hackathon Bookie · No Country"
                 className="w-full h-auto object-contain"
               />
             </motion.div>

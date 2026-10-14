@@ -270,7 +270,7 @@ export function BankCaseStudy() {
   const { isDark } = useTheme();
   const navigate = useNavigate();
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  /* El scroll al tope al entrar lo resuelve PageTransition (App.tsx) */
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -280,11 +280,11 @@ export function BankCaseStudy() {
       {/* ── HERO ────────────────────────────────────────────────── */}
       <div id="inicio">
         <CaseStudyHero
-          badgeLabel="Caso de Estudio · Mas+ Bank"
-          titlePrefix="Mas+ Bank –"
-          titleAccent="App Bancaria Responsive"
+          badgeLabel="Caso de estudio · Mas+ Bank"
+          titlePrefix="Mas+ Bank:"
+          titleAccent="banca responsive"
           description="Diseño integral de una banca digital multi-dispositivo: seguridad biométrica, perfiles personalizados y una interfaz coherente entre web y mobile."
-          tags={["Proyecto Académico", "UX/UI Designer", "2025"]}
+          tags={["Proyecto académico", "UX/UI Designer", "2025"]}
           image={bankPort}
           imageAlt="Pantalla de la app Mas+ Bank"
           imageDesktop={masbank1}
@@ -301,7 +301,7 @@ export function BankCaseStudy() {
           <FadeSection>
             <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
               <div className="space-y-6">
-                <SectionLabel text="Descripción General" />
+                <SectionLabel text="Descripción general" />
                 <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">El proyecto</h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   Proyecto académico donde el punto de partida fue una hoja en blanco: sin brief de cliente, sin documentación de referencia y sin usuarios asignados.
@@ -534,7 +534,7 @@ export function BankCaseStudy() {
                 <motion.div key={num} initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
                   transition={{ duration:.5, delay: idx * .08 }} whileHover={{ y:-4 }}
                   className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
-                  <span aria-hidden="true" className="text-3xl font-black mb-3 block" style={{ color: "rgba(2,89,89,0.18)" }}>{num}</span>
+                  <span aria-hidden="true" className="text-3xl font-black mb-3 block text-[#025959]/65 dark:text-[#4ecfcf]/60">{num}</span>
                   <h4 className="font-semibold text-gray-800 dark:text-gray-100 mb-2 text-sm">{title}</h4>
                   <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{desc}</p>
                 </motion.div>
@@ -734,7 +734,7 @@ export function BankCaseStudy() {
             {/* Desktop: iframe centrado, ancho completo de la grid */}
             <div className="hidden md:block w-full rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg bg-gray-100 dark:bg-gray-900 mb-8"
               style={{ height: "620px" }}>
-              <iframe
+              <iframe loading="lazy"
                 src="https://embed.figma.com/proto/yW44WZR6kdyE271Cpys0Dp/MVP-Mas-Bank?node-id=1-12371&p=f&viewport=231%2C349%2C0.02&scaling=scale-down&content-scaling=fixed&starting-point-node-id=1%3A12371&show-proto-sidebar=1&page-id=0%3A1&embed-host=share"
                 className="w-full h-full border-0"
                 allowFullScreen
@@ -934,13 +934,13 @@ export function BankCaseStudy() {
               whileHover={{ backgroundColor: "#e87500", boxShadow: "0 16px 50px rgba(255,131,0,.55)", y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: scrollBehavior() }), 500); }}
+              onClick={() => navigate("/", { state: { section: "contact" } })}
               data-ga-action="cta_click"
               data-ga-category="CTA"
               data-ga-label="Contactar - MasBank"
               className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-gray-900 font-semibold text-lg shadow-2xl transition-all"
             >
-              Coordinar reunión
+              Ir a contacto
             </motion.button>
           </FadeSection>
         </div>

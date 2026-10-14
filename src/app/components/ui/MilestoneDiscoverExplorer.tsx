@@ -362,7 +362,7 @@ function PainCycleDiagram() {
   return (
     <div className="relative isolate flex flex-col items-center justify-center gap-4 py-4 w-[327px] max-w-full mx-auto lg:mx-0 shrink-0">
       {/* Círculo punteado — detrás de las cards (z negativo), tamaño y centrado fieles al frame de Figma (327×356) */}
-      <img src={painCycleBg} alt="" aria-hidden="true"
+      <img loading="lazy" decoding="async" src={painCycleBg} alt="" aria-hidden="true"
         className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] pointer-events-none select-none opacity-70 dark:opacity-40" />
       <PainCycleCard {...PAIN_CYCLE_TOP} />
       <div className="flex items-start gap-[27px]">

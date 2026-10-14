@@ -8,8 +8,8 @@ import { ToolGlyph } from "./ui/ToolGlyph";
 import iupiPort   from "../../imports/iupicont.webp";
 import bookiePort  from "../../imports/Bookiecont.webp";
 import bankPort    from "../../imports/Masbankcont.webp";
-import vibeDesign1 from "../../imports/Portfolio vibe-design1.jpg";
-import milestonePort from "../../imports/portadam2.png";
+import vibeDesign1 from "../../imports/Portfolio vibe-design1.webp";
+import milestonePort from "../../imports/portadam2.webp";
 
 /* ══════════════════════════════════════════════════════════
    TOOL DEFINITIONS
@@ -107,20 +107,16 @@ const PROJECTS: ProjectDef[] = [
 ];
 
 /* ══════════════════════════════════════════════════════════
-   TOOL CHIP — compact, static, no hover, title tooltip
+   TOOL CHIP — ícono + nombre visible (el tooltip no aparece en touch ni con teclado)
 ══════════════════════════════════════════════════════════ */
 function ToolChip({ toolKey }: { toolKey: string }) {
   const def = TOOLS[toolKey];
   if (!def) return null;
   return (
-    <span
-      role="img"
-      title={def.label}
-      aria-label={def.label}
-      className="w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700/85 flex items-center justify-center flex-shrink-0"
-    >
-      <ToolGlyph name={def.label} className="w-4 h-4" />
-    </span>
+    <li className="inline-flex items-center gap-1.5 h-7 px-2 rounded-md border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700/85 text-xs font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+      <ToolGlyph name={def.label} className="w-3.5 h-3.5" />
+      {def.label}
+    </li>
   );
 }
 
@@ -129,15 +125,15 @@ function ToolChip({ toolKey }: { toolKey: string }) {
 ══════════════════════════════════════════════════════════ */
 function CardFooter({ project, isDark }: { project: ProjectDef; isDark: boolean }) {
   return (
-    <div className="flex items-center justify-between gap-3 pt-3 border-t border-gray-100 dark:border-gray-700/60 mt-auto">
-      <div className="flex items-center gap-1.5 flex-wrap">
+    <div className="flex flex-wrap items-end justify-between gap-3 pt-3 border-t border-gray-100 dark:border-gray-700/60 mt-auto">
+      <ul aria-label="Herramientas" className="flex items-center gap-1.5 flex-wrap">
         {project.tools.map((key) => (
           <ToolChip key={key} toolKey={key} />
         ))}
-      </div>
-      <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#025959] dark:text-[#4ecfcf] whitespace-nowrap group-hover:gap-2 transition-all duration-200">
+      </ul>
+      <span aria-hidden="true" className="inline-flex items-center gap-1 text-sm font-semibold text-[#025959] dark:text-[#4ecfcf] whitespace-nowrap group-hover:gap-2 transition-all duration-200">
         Ver caso
-        <ArrowUpRight className="w-3.5 h-3.5" />
+        <ArrowUpRight className="w-4 h-4" />
       </span>
     </div>
   );
@@ -166,7 +162,7 @@ function PrimaryCard({ project, index }: { project: ProjectDef; index: number })
         className="relative overflow-hidden h-56 sm:h-72 md:h-auto md:w-[44%] flex-shrink-0 flex items-center justify-center"
         style={{ background: isDark ? `${project.accentColor}18` : `${project.accentColor}0d` }}
       >
-        <img
+        <img loading="lazy" decoding="async"
           src={project.image}
           alt=""
           className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]"
@@ -242,7 +238,7 @@ function SecondaryCard({ project, index }: { project: ProjectDef; index: number 
         className="relative overflow-hidden h-52 sm:h-60 flex items-center justify-center flex-shrink-0"
         style={{ background: isDark ? `${project.accentColor}18` : `${project.accentColor}0d` }}
       >
-        <img
+        <img loading="lazy" decoding="async"
           src={project.image}
           alt=""
           className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04] p-4"
@@ -311,14 +307,14 @@ function TertiaryCard({ project, index }: { project: ProjectDef; index: number }
       data-ga-action="project_click"
       data-ga-category="Projects"
       data-ga-label={project.title}
-      className="group flex mx-auto w-full max-w-2xl rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md relative cursor-pointer has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-[#025959] has-[a:focus-visible]:ring-offset-2 transition-shadow"
+      className="group flex flex-col sm:flex-row mx-auto w-full max-w-2xl rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md relative cursor-pointer has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-[#025959] has-[a:focus-visible]:ring-offset-2 transition-shadow"
     >
       {/* Square image sidebar */}
       <div
-        className="relative overflow-hidden w-28 sm:w-36 flex-shrink-0 flex items-center justify-center"
+        className="relative overflow-hidden h-44 sm:h-auto sm:w-48 flex-shrink-0 flex items-center justify-center"
         style={{ background: isDark ? `${project.accentColor}18` : `${project.accentColor}0d` }}
       >
-        <img
+        <img loading="lazy" decoding="async"
           src={project.image}
           alt=""
           className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.05] p-3"
@@ -346,7 +342,7 @@ function TertiaryCard({ project, index }: { project: ProjectDef; index: number }
         </h3>
 
         {/* Description */}
-        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-3 line-clamp-2">
+        <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-3">
           {project.description}
         </p>
 
@@ -374,12 +370,9 @@ export function Projects() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl lg:text-5xl mb-4 text-gray-800 dark:text-gray-100">
-            Proyectos Destacados
+          <h2 className="text-4xl lg:text-5xl text-gray-800 dark:text-gray-100">
+            Proyectos destacados
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Hacé clic en cualquier proyecto para ver el caso de estudio completo.
-          </p>
         </motion.div>
 
         <div className="flex flex-col gap-6 md:gap-8">

@@ -11,8 +11,8 @@ import { useTheme } from "../../contexts/ThemeContext";
 import { CaseStudyHero } from "./CaseStudyHero";
 import { CaseStudyMenuNav, type CaseStudyIndexSection } from "./CaseStudyMenuNav";
 import { portfolioPort } from "../../../imports/portfolioPortImage";
-import vibeDesign1 from "../../../imports/Portfolio vibe-design1.jpg";
-import vibeDesign2 from "../../../imports/Portfolio vibe-design2.jpg";
+import vibeDesign1 from "../../../imports/Portfolio vibe-design1.webp";
+import vibeDesign2 from "../../../imports/Portfolio vibe-design2.webp";
 import { ToolBadge as SharedToolBadge } from "./ToolGlyph";
 import { scrollBehavior } from "../../utils/motion";
 
@@ -319,7 +319,7 @@ export function PortfolioCaseStudy() {
   const { isDark } = useTheme();
   const navigate = useNavigate();
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  /* El scroll al tope al entrar lo resuelve PageTransition (App.tsx) */
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -329,11 +329,11 @@ export function PortfolioCaseStudy() {
       {/* ── HERO ────────────────────────────────────────────────── */}
       <div id="inicio">
         <CaseStudyHero
-          badgeLabel="Caso de Estudio · Portfolio Web"
-          titlePrefix="Portfolio Web –"
-          titleAccent="Diseñado y programado"
+          badgeLabel="Caso de estudio · Portfolio Web"
+          titlePrefix="Portfolio Web:"
+          titleAccent="diseñado y programado"
           description="De brief en blanco a producto publicado: un portfolio diseñado por mí e implementado con Claude Code, con desarrollo asistido por IA."
-          tags={["Proyecto Personal", "Diseño + desarrollo con IA", "2025"]}
+          tags={["Proyecto personal", "Diseño + desarrollo con IA", "2025"]}
           image={portfolioPort}
           imageAlt="Portfolio Web: vista general"
           imageDesktop={vibeDesign1}
@@ -350,7 +350,7 @@ export function PortfolioCaseStudy() {
           <FadeSection>
             <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
               <div className="space-y-6">
-                <SectionLabel text="Descripción General" />
+                <SectionLabel text="Descripción general" />
                 <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">El proyecto</h2>
                 {/* Éxito logrado — primer párrafo */}
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -567,7 +567,7 @@ export function PortfolioCaseStudy() {
                   viewport={{ once: true }} transition={{ duration: .5, delay: idx * .08 }}
                   whileHover={{ y: -4 }}
                   className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
-                  <span aria-hidden="true" className="text-3xl font-black mb-3 block" style={{ color: "rgba(2,89,89,0.15)" }}>{num}</span>
+                  <span aria-hidden="true" className="text-3xl font-black mb-3 block text-[#025959]/65 dark:text-[#4ecfcf]/60">{num}</span>
                   <h4 className="font-semibold text-gray-800 dark:text-gray-100 mb-2 text-sm">{title}</h4>
                   <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{desc}</p>
                 </motion.div>
@@ -712,7 +712,7 @@ export function PortfolioCaseStudy() {
                 { cat: "Framework",   items: ["React 18", "TypeScript", "Vite 6"] },
                 { cat: "Estilos",     items: ["Tailwind CSS v4", "Inline styles (custom colors)"] },
                 { cat: "Animaciones", items: ["Motion (motion/react v12)", "Radix UI"] },
-                { cat: "Routing",     items: ["React Router · HashRouter"] },
+                { cat: "Routing",     items: ["React Router · BrowserRouter"] },
                 { cat: "Deploy",      items: ["Vercel", "Vercel Web Analytics"] },
                 { cat: "AI Tools",    items: ["Claude Code", "Figma Make", "Lovable", "ChatGPT"] },
               ].map(({ cat, items }) => (
@@ -937,13 +937,13 @@ export function PortfolioCaseStudy() {
               whileHover={{ backgroundColor: "#e87500", boxShadow: "0 16px 50px rgba(255,131,0,.55)", y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: scrollBehavior() }), 500); }}
+              onClick={() => navigate("/", { state: { section: "contact" } })}
               data-ga-action="cta_click"
               data-ga-category="CTA"
               data-ga-label="Contactar - Portfolio"
               className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-gray-900 font-semibold text-lg shadow-2xl transition-all"
             >
-              Coordinar reunión
+              Ir a contacto
             </motion.button>
           </FadeSection>
         </div>
