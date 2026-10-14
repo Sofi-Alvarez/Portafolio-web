@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://sofialvarez.design/sitemap.xml
+Sitemap: https://sofia-alvarez-ux-iu.vercel.app/sitemap.xml

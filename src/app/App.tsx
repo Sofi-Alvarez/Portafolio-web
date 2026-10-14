@@ -108,7 +108,7 @@ function ScrollToTop() {
     prevPath.current = pathname;
     document.title = PAGE_TITLES[pathname] ?? PAGE_TITLES["/"];
     /* URL canónica y og:url de la página actual (ahora que cada caso tiene URL propia) */
-    const url = `https://sofialvarez.design${pathname === "/" ? "/" : pathname}`;
+    const url = `https://sofia-alvarez-ux-iu.vercel.app${pathname === "/" ? "/" : pathname}`;
     document.querySelector('link[rel="canonical"]')?.setAttribute("href", url);
     document.querySelector('meta[property="og:url"]')?.setAttribute("content", url);
   }, [pathname]);
