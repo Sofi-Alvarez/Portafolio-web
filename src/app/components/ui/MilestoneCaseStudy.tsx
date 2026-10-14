@@ -11,7 +11,7 @@ import { useNavigate } from "react-router";
 import {
   ArrowLeft, ArrowRight, ExternalLink, Moon, Sun, X, Menu,
   Users, Search, Lightbulb, Layers, CheckCircle,
-  PenLine, Info, Compass, Route, Github,
+  PenLine, Info, Compass, Route,
 } from "lucide-react";
 import { MilestoneDiscoverExplorer } from "./MilestoneDiscoverExplorer";
 import { MilestoneDefineExplorer } from "./MilestoneDefineExplorer";
@@ -33,10 +33,7 @@ const BRAND = {
   error: "#B3261E", warning: "#9A6B00",
 };
 
-const MILESTONE_APP_URL  = "https://milestone-cc9af.web.app/";
-const MILESTONE_REPO_URL = "https://github.com/Sofi-Alvarez/Milestone-app";
-const MILESTONE_PROTO_URL =
-  "https://www.figma.com/proto/tyqQYxiMCd4pXPxLjvSynJ/Milestone---Testing-Maze?page-id=0%3A1&node-id=26-74";
+const MILESTONE_APP_URL = "https://milestone-cc9af.web.app/";
 
 /* ─── Steps (nav de proceso, 5 etapas) ── */
 interface Step { id: string; num: string; label: string; Icon: ElementType; }
@@ -408,14 +405,6 @@ function MilestoneHero() {
             Ir a Milestone
             <ExternalLink className="w-4 h-4" />
           <span className="sr-only"> (se abre en una pestaña nueva)</span></motion.a>
-          <motion.a href={MILESTONE_REPO_URL} target="_blank" rel="noopener noreferrer"
-            whileHover={{ y: -2, borderColor: color, color }} whileTap={{ scale: 0.97 }}
-            transition={{ duration: 0.18 }}
-            data-ga-action="github_click" data-ga-category="CTA" data-ga-label="Código Milestone"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-semibold text-sm">
-            <Github className="w-4 h-4" />
-            Ver código
-          <span className="sr-only"> (se abre en una pestaña nueva)</span></motion.a>
           <motion.button onClick={() => scrollTo("empatizar")}
             whileHover={{ y: -2, borderColor: color, color }} whileTap={{ scale: 0.97 }}
             transition={{ duration: 0.18 }}
@@ -570,22 +559,6 @@ export function MilestoneCaseStudy() {
               <p className="text-gray-700 dark:text-gray-200 text-sm leading-relaxed">
                 Una meta se marcaba como lograda con un aporte parcial chico. Era un problema de integridad de datos que habría roto la confianza del usuario, justo lo que el research había identificado como el enemigo del hábito.
               </p>
-            </div>
-          </FadeSection>
-          <FadeSection delay={.1}>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              {[
-                { href: MILESTONE_APP_URL,   label: "App online",           Icon: ExternalLink, ga: "App Milestone" },
-                { href: MILESTONE_REPO_URL,  label: "Código en GitHub",     Icon: Github,       ga: "Código Milestone" },
-                { href: MILESTONE_PROTO_URL, label: "Prototipo de testing", Icon: ExternalLink, ga: "Prototipo Milestone" },
-              ].map(({ href, label, Icon, ga }) => (
-                <a key={label} href={href} target="_blank" rel="noopener noreferrer"
-                  data-ga-action="external_link" data-ga-category="Milestone" data-ga-label={ga}
-                  className="inline-flex items-center gap-2 min-h-11 px-5 py-2.5 rounded-xl border text-sm font-semibold transition-colors hover:bg-[#4A4E78]/5 dark:hover:bg-[#C3C4E8]/10 text-[#4A4E78] dark:text-[#C3C4E8] border-[#4A4E78]/30 dark:border-[#C3C4E8]/30">
-                  <Icon className="w-4 h-4" />
-                  {label}
-                <span className="sr-only"> (se abre en una pestaña nueva)</span></a>
-              ))}
             </div>
           </FadeSection>
         </div>
