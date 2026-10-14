@@ -27,6 +27,7 @@ import {
 } from "react-icons/si";
 import { FaCss3Alt } from "react-icons/fa6";
 import { PenLine } from "lucide-react";
+import { ToolGlyph, hasToolGlyph } from "./ui/ToolGlyph";
 
 /* ─── Types ─────────────────────────────────────────────────────────────── */
 type AdobeTool  = { type: "adobe";  name: string; abbr: string; color: string; bg: string };
@@ -139,7 +140,7 @@ export function Skills() {
               <SkillList items={uxSkills} dotColor="bg-[#025959] dark:bg-[#FF8300]" />
             </div>
             <div>
-              <h3 className="text-2xl mb-6 text-[#FF8300] dark:text-[#025959]">Design Skills</h3>
+              <h3 className="text-2xl mb-6 text-[#025959] dark:text-[#4ecfcf]">Design Skills</h3>
               <SkillList items={designSkills} dotColor="bg-[#FF8300] dark:bg-[#025959]" />
             </div>
           </div>
@@ -215,37 +216,30 @@ function SkillList({ items, dotColor }: { items: string[]; dotColor: string }) {
 
 function ToolIcon({ tool }: { tool: ToolEntry }) {
   const [hovered, setHovered] = useState(false);
+  const hasLogo = hasToolGlyph(tool.name);
 
   return (
     <div className="relative">
       <motion.div
+        role="img"
+        aria-label={tool.name}
+        title={tool.name}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         whileHover={{ scale: 1.1 }}
         className="w-16 h-16 rounded-xl shadow-lg border border-gray-200 dark:border-gray-600 flex items-center justify-center cursor-pointer overflow-hidden"
-        style={
-          tool.type === "adobe"
-            ? { background: hovered ? "white" : tool.bg }
-            : { background: hovered ? tool.color : "white" }
-        }
+        style={{ background: hovered && !hasLogo ? tool.color : "white" }}
       >
-        {tool.type === "adobe" ? (
-          <span className="font-bold text-sm leading-none"
-            style={{ color: hovered ? tool.color : "white" }}>
-            {tool.abbr}
-          </span>
-        ) : tool.type === "text" ? (
-          <span className="font-bold text-sm leading-none"
-            style={{ color: hovered ? "white" : tool.color }}>
-            {tool.abbr}
-          </span>
-        ) : (
-          /* si or lucide */
-          <tool.icon style={{ width: "1.75rem", height: "1.75rem", color: hovered ? "#ffffff" : tool.color }} />
+        {hasLogo ? (
+          <ToolGlyph name={tool.name} style={{ width: "1.75rem", height: "1.75rem" }} />
+        ) : "icon" in tool && (
+          /* Logo oficial de Simple Icons / Lucide */
+          <tool.icon aria-hidden="true" focusable="false" style={{ width: "1.75rem", height: "1.75rem", color: hovered ? "#ffffff" : tool.color }} />
         )}
       </motion.div>
       {hovered && (
         <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+          aria-hidden="true"
           className="absolute -bottom-9 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-3 py-1 rounded text-sm whitespace-nowrap z-10 pointer-events-none"
         >
           {tool.name}

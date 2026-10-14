@@ -153,7 +153,7 @@ function StatBox({
         style={{ backgroundColor: `${color}15` }}
       />
       <div className="relative z-10">
-        <div className="text-3xl mb-2" style={{ color }}>
+        <div className={`text-3xl mb-2 text-[#025959] ${color === "#FF8300" ? "dark:text-[#FF8300]" : "dark:text-[#4ecfcf]"}`}>
           {value}
         </div>
         <div className="text-gray-600 dark:text-gray-300">{label}</div>
@@ -185,7 +185,7 @@ function KeywordsTicker({ keywords }: { keywords: string[] }) {
         {repeated.map((keyword, index) => (
           <span key={index} className="flex items-center gap-6 text-white text-lg font-medium tracking-wide">
             {keyword}
-            <span className="text-white/30 select-none">✦</span>
+            <span aria-hidden="true" className="text-white/30 select-none">✦</span>
           </span>
         ))}
       </motion.div>

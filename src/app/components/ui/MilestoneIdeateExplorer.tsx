@@ -15,6 +15,7 @@ import wireframeEstadisticas from "../../../imports/Estadísticas (B&N Lo-Fi).pn
 import wireframeMetas        from "../../../imports/Metas (B&N Lo-Fi).png";
 import wireframePresupuesto  from "../../../imports/Presupuesto (B&N Lo-Fi).png";
 import wireframePerfil       from "../../../imports/Perfil (B&N Lo-Fi).png";
+import { scrollBehavior } from "../../utils/motion";
 
 const BRAND = { primary: "#4A4E78", secondary: "#B08B5A", tertiary: "#7C9885" };
 
@@ -61,7 +62,7 @@ function SitemapPanel() {
         ))}
       </div>
 
-      <p className="text-xs text-gray-400 dark:text-gray-500 mt-5 max-w-2xl">
+      <p className="text-xs text-gray-500 dark:text-gray-400 mt-5 max-w-2xl">
         "Tachar un gasto fijo", "editar/eliminar registro" y "filtro de historial" son acciones dentro de una pantalla, no secciones propias — el card sorting agrupa conceptos, no necesariamente navegación.
       </p>
     </div>
@@ -88,20 +89,20 @@ function UserFlowPanel() {
             <div className="flex items-center justify-center rounded-2xl mx-auto mb-2" style={{ width: 48, height: 48, background: "#4F6BF6" }}>
               <span className="text-white font-bold text-lg">F</span>
             </div>
-            <p className="text-[11px] font-mono text-gray-400">figma board · user flow</p>
+            <p className="text-xs font-mono text-gray-500 dark:text-gray-300">figma board · user flow</p>
           </div>
         </div>
         <div className="flex items-center justify-between px-5 py-4">
           <div>
             <p className="text-sm font-bold text-gray-800 dark:text-gray-100">Flujo de Usuario v6 — UX</p>
-            <p className="text-xs text-gray-400 mt-0.5">Abrir board en Figma ↗</p>
+            <p className="text-xs text-gray-500 dark:text-gray-300 mt-0.5">Abrir board en Figma ↗</p>
           </div>
           <span className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "#EDF1FE", color: "#4F6BF6" }}>→</span>
         </div>
-      </a>
+      <span className="sr-only"> (se abre en una pestaña nueva)</span></a>
 
       <div className="rounded-2xl px-6 py-5 bg-gray-900 dark:bg-black/40">
-        <p className="text-[10px] font-semibold uppercase tracking-widest mb-2" style={{ color: "#8fa0ff" }}>Navegador final</p>
+        <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: "#8fa0ff" }}>Navegador final</p>
         <p className="text-white text-base sm:text-lg italic" style={{ fontFamily: "'Instrument Serif', serif" }}>
           Home · Ahorro (Metas + Presupuestos) · Registrar · Historial (vista lista + vista gráfica) · Perfil/Configuración. El Home se rediseñó para que, en lugar de números en rojo, lo primero que viera la persona fuera una invitación a definir una meta.
         </p>
@@ -138,11 +139,11 @@ function ImageCarousel({ items }: { items: CarouselItem[] }) {
   };
   const scrollToIndex = (i: number) => {
     const clamped = Math.max(0, Math.min(i, items.length - 1));
-    scrollRef.current?.scrollTo({ left: clamped * (scrollRef.current.clientWidth), behavior: "smooth" });
+    scrollRef.current?.scrollTo({ left: clamped * (scrollRef.current.clientWidth), behavior: scrollBehavior() });
     setActiveIdx(clamped);
   };
 
-  const arrowBase = "absolute top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full shadow-md transition-all duration-200";
+  const arrowBase = "absolute top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-full shadow-md transition-all duration-200";
   const arrowEnabled = isDark ? "bg-gray-700 hover:bg-gray-600 text-gray-200" : "bg-white hover:bg-gray-50 text-gray-600";
   const arrowDisabled = "opacity-30 pointer-events-none";
 
@@ -158,7 +159,12 @@ function ImageCarousel({ items }: { items: CarouselItem[] }) {
       </button>
 
       <div ref={scrollRef} onScroll={handleScroll}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide mx-10"
+        tabIndex={0} role="region" aria-label="Carrusel de imágenes (usá las flechas del teclado)"
+        onKeyDown={(e) => {
+          if (e.key === "ArrowLeft")  { e.preventDefault(); scrollToIndex(activeIdx - 1); }
+          if (e.key === "ArrowRight") { e.preventDefault(); scrollToIndex(activeIdx + 1); }
+        }}
+        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide mx-12"
         style={{ scrollBehavior: "smooth" }}>
         {items.map(({ src, caption }, i) => (
           <div key={caption} className="snap-center flex-shrink-0 w-full px-1" role="group"
@@ -176,14 +182,18 @@ function ImageCarousel({ items }: { items: CarouselItem[] }) {
       </div>
 
       <div className="flex flex-col items-center gap-3 mt-4">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center">
           {items.map((_, i) => (
-            <button key={i} aria-label={`Ir a imagen ${i + 1}`} onClick={() => scrollToIndex(i)}
-              className="rounded-full transition-all duration-300"
-              style={{ width: activeIdx === i ? 24 : 8, height: 8, background: activeIdx === i ? BRAND.primary : (isDark ? "#4b5563" : "#d1d5db") }} />
+            /* Área táctil 36×44 px; el punto visible sigue siendo chico */
+            <button key={i} aria-label={`Ir a imagen ${i + 1}`} aria-current={activeIdx === i ? "true" : undefined}
+              onClick={() => scrollToIndex(i)}
+              className="w-9 h-11 flex items-center justify-center rounded-full">
+              <span className="block rounded-full transition-all duration-300"
+                style={{ width: activeIdx === i ? 24 : 8, height: 8, background: activeIdx === i ? BRAND.primary : (isDark ? "#4b5563" : "#d1d5db") }} />
+            </button>
           ))}
         </div>
-        <p className="text-xs text-gray-400 dark:text-gray-500" aria-live="polite">{activeIdx + 1} / {items.length}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400" aria-live="polite">{activeIdx + 1} / {items.length}</p>
       </div>
     </div>
   );
@@ -222,7 +232,7 @@ function IdeateFilterStepper({ active, onChange }: { active: IdeateFilterKey; on
               whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
               aria-pressed={isActive}
               aria-label={`${f.label} — ${f.hint}`}
-              className={`px-4 py-2 rounded-full text-sm font-semibold border transition-colors duration-200 ${
+              className={`min-h-11 px-4 py-2 rounded-full text-sm font-semibold border transition-colors duration-200 ${
                 isActive
                   ? "border-transparent text-white"
                   : "border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-[#4A4E78]/40 hover:text-[#4A4E78] dark:hover:text-[#C3C4E8]"

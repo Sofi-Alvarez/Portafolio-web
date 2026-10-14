@@ -22,6 +22,9 @@ import iupiMercado from "../../../imports/iupi-mercado.svg";
 import iupiCripto from "../../../imports/iupi-cripto.svg";
 import iupiComunidad from "../../../imports/iupi-comunidad.svg";
 import iupiCertificado from "../../../imports/iupi-certificado.png";
+import { ToolBadge as SharedToolBadge } from "./ToolGlyph";
+import { scrollBehavior } from "../../utils/motion";
+import { readableTextOn } from "../../utils/color";
 
 /* ─── Pasos del proceso ─────────────────────────────────────────────────── */
 interface Step {
@@ -62,7 +65,7 @@ const TOOLS: ToolItem[] = [
    HELPERS
 ════════════════════════════════════════════════════════════ */
 function scrollTo(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  document.getElementById(id)?.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
 }
 
 /* ─── Fade-up on scroll ─────────────────────────────────────────────────── */
@@ -88,25 +91,7 @@ function FadeSection({
 
 /* ─── Tool badge — estático, sin hover ─────────────────────────────────── */
 function ToolBadge(tool: ToolItem) {
-  const { isDark } = useTheme();
-  const bc       = tool.brandColor;
-  const tileBg   = isDark ? "rgba(55,65,81,0.9)" : "#ffffff";
-  const labelCol = isDark ? "#d1d5db" : "#4b5563";
-  return (
-    <div className="flex flex-col items-center gap-2 cursor-default select-none">
-      <div
-        className="w-14 h-14 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 flex items-center justify-center"
-        style={{ background: tileBg }}
-      >
-        {tool.type === "adobe" ? (
-          <span className="font-bold text-sm leading-none" style={{ color: bc }}>{tool.abbr}</span>
-        ) : (
-          <tool.Icon className="w-7 h-7" style={{ color: bc }} />
-        )}
-      </div>
-      <span className="text-xs font-medium text-center" style={{ color: labelCol }}>{tool.label}</span>
-    </div>
-  );
+  return <SharedToolBadge label={tool.label} />;
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -211,7 +196,7 @@ function SectionLabel({ text, accent = false }: { text: string; accent?: boolean
   return (
     <span className={`inline-block mb-3 px-3 py-1 rounded-full text-sm font-medium ${
       accent
-        ? "bg-[#FF8300]/12 dark:bg-[#FF8300]/20 text-[#FF8300]"
+        ? "bg-[#FF8300]/12 dark:bg-[#FF8300]/10 text-gray-900 dark:text-[#FF8300]"
         : "bg-[#025959]/10 dark:bg-[#4ecfcf]/15 text-[#025959] dark:text-[#4ecfcf]"
     }`}>
       {text}
@@ -238,7 +223,7 @@ function WireframeCarousel({ items }: { items: WireframeItem[] }) {
 
   const scrollToIndex = (i: number) => {
     const clamped = Math.max(0, Math.min(i, items.length - 1));
-    scrollRef.current?.scrollTo({ left: clamped * (scrollRef.current.clientWidth), behavior: "smooth" });
+    scrollRef.current?.scrollTo({ left: clamped * (scrollRef.current.clientWidth), behavior: scrollBehavior() });
     setActiveIdx(clamped);
   };
 
@@ -251,20 +236,14 @@ function WireframeCarousel({ items }: { items: WireframeItem[] }) {
   };
 
   const arrowBase =
-    "absolute top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#025959]";
+    "absolute top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-full shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#025959]";
   const arrowEnabled = isDark
     ? "bg-gray-700 hover:bg-gray-600 text-gray-200"
     : "bg-white hover:bg-gray-50 text-gray-600";
   const arrowDisabled = "opacity-30 pointer-events-none";
 
   return (
-    <div
-      className="relative"
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-      aria-label="Carrusel de wireframes"
-      role="region"
-    >
+    <div className="relative" onKeyDown={handleKeyDown}>
       {/* Previous arrow */}
       <button
         onClick={prev}
@@ -291,7 +270,10 @@ function WireframeCarousel({ items }: { items: WireframeItem[] }) {
       <div
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide mx-10"
+        tabIndex={0}
+        role="region"
+        aria-label="Carrusel de wireframes (usá las flechas del teclado)"
+        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide mx-12"
         style={{ scrollBehavior: "smooth" }}
       >
         {items.map(({ src, caption }, i) => (
@@ -315,23 +297,27 @@ function WireframeCarousel({ items }: { items: WireframeItem[] }) {
 
       {/* Dot indicators + counter */}
       <div className="flex flex-col items-center gap-3 mt-4">
-        <div className="flex items-center gap-2" role="tablist" aria-label="Navegación de wireframes">
+        <div className="flex items-center" aria-label="Navegación de wireframes">
           {items.map((_, i) => (
+            /* Área táctil 36×44 px; el punto visible sigue siendo chico */
             <button
               key={i}
-              role="tab"
-              aria-selected={activeIdx === i}
               aria-label={`Ir a wireframe ${i + 1}`}
+              aria-current={activeIdx === i ? "true" : undefined}
               onClick={() => scrollToIndex(i)}
-              className={`rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#025959] ${
-                activeIdx === i
-                  ? "w-6 h-2 bg-[#025959] dark:bg-[#4ecfcf]"
-                  : "w-2 h-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
-              }`}
-            />
+              className="w-9 h-11 flex items-center justify-center rounded-full"
+            >
+              <span
+                className={`block rounded-full transition-all duration-300 ${
+                  activeIdx === i
+                    ? "w-6 h-2 bg-[#025959] dark:bg-[#4ecfcf]"
+                    : "w-2 h-2 bg-gray-400 dark:bg-gray-500"
+                }`}
+              />
+            </button>
           ))}
         </div>
-        <p className="text-xs text-gray-400 dark:text-gray-500" aria-live="polite">
+        <p className="text-xs text-gray-500 dark:text-gray-400" aria-live="polite">
           {activeIdx + 1} / {items.length}
         </p>
       </div>
@@ -351,6 +337,7 @@ export function IUPICaseStudy() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <CaseStudyMenuNav title="IUPI" sections={INDEX_SECTIONS} primaryColor="#025959" secondaryColor="#FF8300" />
+      <main id="main" tabIndex={-1} className="outline-none">
 
       {/* ══════════════════════════════════════════
           1. HERO
@@ -400,7 +387,7 @@ export function IUPICaseStudy() {
                   navegable en Figma: la capa completa de diseño UX/UI del producto.
                 </p>
                 <div className="pt-2">
-                  <p className="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">
+                  <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-4">
                     Herramientas utilizadas
                   </p>
                   <div className="flex flex-wrap gap-3">
@@ -428,7 +415,7 @@ export function IUPICaseStudy() {
                       whileHover={{ y:-3, boxShadow:"0 8px 24px rgba(2,89,89,.12)" }}
                       className={`bg-white dark:bg-gray-700 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-600 transition-shadow ${label === "Validación" ? "col-span-2" : ""}`}
                     >
-                      <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-1.5">{label}</p>
+                      <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1.5">{label}</p>
                       <p className="text-[#025959] dark:text-[#4ecfcf] text-sm font-semibold leading-snug">{value}</p>
                     </motion.div>
                   ))}
@@ -445,7 +432,7 @@ export function IUPICaseStudy() {
       <section className="py-16 md:py-20 bg-gradient-to-br from-[#025959] to-[#014040] dark:from-[#012020] dark:to-[#010a0a]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-12 text-center">
           <FadeSection>
-            <span className="inline-block mb-6 px-3 py-1 rounded-full bg-white/10 text-white/70 text-sm">
+            <span className="inline-block mb-6 px-3 py-1 rounded-full bg-white/10 text-white/90 text-sm">
               ★ Logro del proyecto
             </span>
             <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-snug mb-8">
@@ -463,7 +450,7 @@ export function IUPICaseStudy() {
                 <div key={label}
                   className="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 p-4 text-left"
                 >
-                  <span className="text-[#FF8300] text-xs font-bold uppercase tracking-widest">{label}</span>
+                  <span className="text-white text-xs font-bold uppercase tracking-widest"><span aria-hidden="true" className="inline-block w-1.5 h-1.5 rounded-full bg-[#FF8300] mr-1.5 align-middle" />{label}</span>
                   <p className="text-white/85 text-sm mt-1 leading-snug font-semibold">{desc}</p>
                 </div>
               ))}
@@ -514,8 +501,8 @@ export function IUPICaseStudy() {
                 </p>
                 <p>
                   Analicé la competencia directa —{" "}
-                  <strong className="text-[#FF8300]">IOL Invertir</strong> y{" "}
-                  <strong className="text-[#FF8300]">Cocos Capital</strong> — y la indirecta:{" "}
+                  <strong className="text-[#025959] dark:text-[#FF8300]">IOL Invertir</strong> y{" "}
+                  <strong className="text-[#025959] dark:text-[#FF8300]">Cocos Capital</strong> — y la indirecta:{" "}
                   Uala, Naranja X, Mercado Pago. El hallazgo fue que plataformas como Cocos ya combinaban
                   ambos mercados, pero con un enfoque orientado al mundo inversor.
                 </p>
@@ -538,7 +525,7 @@ export function IUPICaseStudy() {
                 <h3 className="text-base font-semibold text-gray-700 dark:text-gray-200 mb-4 uppercase tracking-widest text-xs">
                   Benchmark competitivo
                 </h3>
-                <div className="overflow-x-auto rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                <div tabIndex={0} role="region" aria-label="Tabla de benchmark de plataformas (desplazable)" className="overflow-x-auto rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="bg-[#025959] text-white">
@@ -570,7 +557,7 @@ export function IUPICaseStudy() {
                                 : "bg-gray-50 dark:bg-gray-700/50"
                           }`}
                         >
-                          <td className={`px-4 py-3 font-medium ${row.highlight ? "text-[#FF8300]" : "text-gray-700 dark:text-gray-100"}`}>
+                          <td className={`px-4 py-3 font-medium ${row.highlight ? "text-[#025959] dark:text-[#FF8300]" : "text-gray-700 dark:text-gray-100"}`}>
                             {row.name}
                           </td>
                           <td className="px-4 py-3 text-center">
@@ -578,8 +565,8 @@ export function IUPICaseStudy() {
                               row.tipo === "Directa"
                                 ? "bg-[#025959]/10 text-[#025959] dark:bg-[#4ecfcf]/15 dark:text-[#4ecfcf]"
                                 : row.tipo === "Propuesta"
-                                ? "bg-[#FF8300]/15 text-[#FF8300] dark:bg-[#FF8300]/20 dark:text-[#FF8300]"
-                                : "bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-300"
+                                ? "bg-[#FF8300]/15 text-gray-900 dark:bg-[#FF8300]/10 dark:text-[#FF8300]"
+                                : "bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-200"
                             }`}>
                               {row.tipo}
                             </span>
@@ -587,19 +574,19 @@ export function IUPICaseStudy() {
                           <td className="px-4 py-3 text-center text-lg">
                             {row.cap
                               ? <span className="text-[#025959] dark:text-[#4ecfcf] font-bold">✓</span>
-                              : <span className="text-gray-300 dark:text-gray-600">–</span>}
+                              : <span className="text-gray-500 dark:text-gray-400">–</span>}
                           </td>
                           <td className="px-4 py-3 text-center text-lg">
                             {row.cry
                               ? <span className="text-[#025959] dark:text-[#4ecfcf] font-bold">✓</span>
-                              : <span className="text-gray-300 dark:text-gray-600">–</span>}
+                              : <span className="text-gray-500 dark:text-gray-400">–</span>}
                           </td>
                         </motion.tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-                <p className="mt-3 text-xs text-gray-400 dark:text-gray-500 italic">
+                <p className="mt-3 text-xs text-gray-500 dark:text-gray-400 italic">
                   Ninguna billetera de uso cotidiano integraba ambos ecosistemas — ese era el espacio de IUPI.
                 </p>
               </FadeSection>
@@ -625,7 +612,7 @@ export function IUPICaseStudy() {
                 El principal desafío arquitectónico fue integrar dos mundos con lógicas radicalmente
                 distintas. El{" "}
                 <strong className="text-[#025959] dark:text-[#4ecfcf]">mercado de capitales</strong> y el{" "}
-                <strong className="text-[#FF8300]">mercado cripto</strong> tienen horarios de operación
+                <strong className="text-[#025959] dark:text-[#FF8300]">mercado cripto</strong> tienen horarios de operación
                 diferentes, instrumentos distintos y perfiles de riesgo propios.
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -639,7 +626,7 @@ export function IUPICaseStudy() {
 
           {/* Diagrama IA */}
           <FadeSection delay={0.1}>
-            <p className="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-8 text-center">
+            <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-8 text-center">
               Arquitectura de la información · MVP IUPI
             </p>
 
@@ -704,7 +691,7 @@ export function IUPICaseStudy() {
                   {/* Cabecera del nodo */}
                   <div className={`rounded-t-2xl px-4 py-3 flex items-center gap-2 ${
                     accent
-                      ? "bg-[#FF8300] text-white"
+                      ? "bg-[#FF8300] text-gray-900"
                       : "bg-[#025959] text-white"
                   }`}>
                     <Icon className="w-4 h-4 flex-shrink-0" />
@@ -730,7 +717,7 @@ export function IUPICaseStudy() {
               ))}
             </div>
 
-            <p className="mt-6 text-xs text-gray-400 dark:text-gray-500 italic text-center">
+            <p className="mt-6 text-xs text-gray-500 dark:text-gray-400 italic text-center">
               El nodo Inversiones (naranja) concentra la propuesta diferencial: capitales + cripto en un solo lugar.
             </p>
           </FadeSection>
@@ -795,8 +782,8 @@ export function IUPICaseStudy() {
                         style={{ backgroundColor: hex }}
                       />
                       <p className="text-xs font-semibold text-gray-800 dark:text-gray-100">{name}</p>
-                      <p className="text-[10px] font-mono text-gray-400 dark:text-gray-500">{hex}</p>
-                      <p className="text-[10px] text-gray-400 dark:text-gray-500">{role}</p>
+                      <p className="text-xs font-mono text-gray-500 dark:text-gray-400">{hex}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{role}</p>
                     </motion.div>
                   ))}
                 </div>
@@ -821,7 +808,7 @@ export function IUPICaseStudy() {
                         className="w-full h-8 rounded-xl border border-gray-200 dark:border-gray-600"
                         style={{ backgroundColor: hex }}
                       />
-                      <p className="text-[10px] text-center text-gray-400 dark:text-gray-500">{name}</p>
+                      <p className="text-xs text-center text-gray-500 dark:text-gray-400">{name}</p>
                     </motion.div>
                   ))}
                 </div>
@@ -831,7 +818,7 @@ export function IUPICaseStudy() {
                   className="mt-5 h-12 rounded-2xl shadow-inner"
                   style={{ background: "linear-gradient(135deg, #0D1F3C 0%, #1A3560 55%, #F5A623 100%)" }}
                 />
-                <p className="mt-2 text-[10px] text-center text-gray-400 dark:text-gray-500 italic">
+                <p className="mt-2 text-xs text-center text-gray-500 dark:text-gray-400 italic">
                   Gradiente de marca — Navy → Ámbar
                 </p>
               </div>
@@ -853,9 +840,9 @@ export function IUPICaseStudy() {
                     transition={{ duration: 0.45 }}
                     className="border-l-4 border-[#F5A623] pl-4"
                   >
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Display — H1</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1">Display — H1</p>
                     <p className="text-4xl font-black tracking-tight text-gray-900 dark:text-gray-50 leading-none">IUPI</p>
-                    <p className="text-[10px] font-mono text-gray-400 mt-1">Inter · 700 · 48px · −0.02em</p>
+                    <p className="text-xs font-mono text-gray-500 dark:text-gray-300 mt-1">Inter · 700 · 48px · −0.02em</p>
                   </motion.div>
 
                   {/* Heading */}
@@ -866,9 +853,9 @@ export function IUPICaseStudy() {
                     transition={{ duration: 0.45, delay: 0.08 }}
                     className="border-l-4 border-[#0D1F3C] dark:border-[#4ecfcf]/60 pl-4"
                   >
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Heading — H2</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1">Heading — H2</p>
                     <p className="text-2xl font-bold text-gray-800 dark:text-gray-100">Tu dinero, tu futuro</p>
-                    <p className="text-[10px] font-mono text-gray-400 mt-1">Inter · 600 · 28px · −0.01em</p>
+                    <p className="text-xs font-mono text-gray-500 dark:text-gray-300 mt-1">Inter · 600 · 28px · −0.01em</p>
                   </motion.div>
 
                   {/* Body */}
@@ -879,11 +866,11 @@ export function IUPICaseStudy() {
                     transition={{ duration: 0.45, delay: 0.16 }}
                     className="border-l-4 border-gray-200 dark:border-gray-600 pl-4"
                   >
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Body</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1">Body</p>
                     <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                       Inversiones en pesos, dólares y cripto desde un solo lugar.
                     </p>
-                    <p className="text-[10px] font-mono text-gray-400 mt-1">Inter · 400 · 16px · 1.6 lh</p>
+                    <p className="text-xs font-mono text-gray-500 dark:text-gray-300 mt-1">Inter · 400 · 16px · 1.6 lh</p>
                   </motion.div>
 
                   {/* Caption */}
@@ -894,9 +881,9 @@ export function IUPICaseStudy() {
                     transition={{ duration: 0.45, delay: 0.24 }}
                     className="border-l-4 border-gray-100 dark:border-gray-700 pl-4"
                   >
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Caption / Label</p>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-400">RENDIMIENTO ANUAL ESTIMADO</p>
-                    <p className="text-[10px] font-mono text-gray-400 mt-1">Inter · 600 · 11px · 0.08em</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1">Caption / Label</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-300">RENDIMIENTO ANUAL ESTIMADO</p>
+                    <p className="text-xs font-mono text-gray-500 dark:text-gray-300 mt-1">Inter · 600 · 11px · 0.08em</p>
                   </motion.div>
                 </div>
               </div>
@@ -961,7 +948,7 @@ export function IUPICaseStudy() {
                   ))}
                 </div>
 
-                <p className="mt-5 text-xs text-gray-400 dark:text-gray-500 italic text-center">
+                <p className="mt-5 text-xs text-gray-500 dark:text-gray-400 italic text-center">
                   Los componentes atómicos garantizan coherencia visual entre la sección Capital (azul marino) y Cripto (ámbar/dorado).
                 </p>
               </div>
@@ -1094,13 +1081,13 @@ export function IUPICaseStudy() {
                       className="rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-700"
                     >
                       {/* Cabecera */}
-                      <div className="px-3 py-2.5 flex items-center justify-between" style={{ backgroundColor: color }}>
+                      <div className="px-3 py-2.5 flex items-center justify-between" style={{ backgroundColor: color, color: readableTextOn(color) }}>
                         <div className="flex items-center gap-1.5">
-                          <span className="text-white/60 text-[10px] font-mono">{num}</span>
-                          <span className="text-white text-xs font-bold">{label}</span>
+                          <span className="text-xs font-mono">{num}</span>
+                          <span className="text-xs font-bold">{label}</span>
                         </div>
                         {tag && (
-                          <span className="text-[9px] font-bold bg-white/20 text-white px-1.5 py-0.5 rounded-full">
+                          <span className="text-xs font-bold bg-white/30 px-1.5 py-0.5 rounded-full">
                             {tag}
                           </span>
                         )}
@@ -1110,7 +1097,7 @@ export function IUPICaseStudy() {
                         {steps.map((step) => (
                           <div key={step} className="flex items-center gap-2 px-3 py-2">
                             <CheckCircle className="w-3 h-3 text-[#025959] dark:text-[#4ecfcf] flex-shrink-0" />
-                            <span className="text-[11px] text-gray-600 dark:text-gray-300">{step}</span>
+                            <span className="text-xs text-gray-600 dark:text-gray-300">{step}</span>
                           </div>
                         ))}
                       </div>
@@ -1134,7 +1121,7 @@ export function IUPICaseStudy() {
             {/* Desktop: iframe embed */}
             <div className="hidden md:block rounded-3xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-xl bg-white dark:bg-gray-900">
               <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center gap-3">
-                <SiFigma className="w-4 h-4 text-[#F24E1E]" />
+                <SiFigma aria-hidden="true" className="w-4 h-4 text-[#F24E1E]" />
                 <p className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                   Prototipo navegable — IUPI · H4-03 Fintech
                 </p>
@@ -1154,7 +1141,7 @@ export function IUPICaseStudy() {
             </div>
             {/* Mobile: CTA button */}
             <div className="md:hidden flex flex-col items-center justify-center gap-4 p-10 rounded-3xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-              <SiFigma className="w-8 h-8 text-[#F24E1E]" />
+              <SiFigma aria-hidden="true" className="w-8 h-8 text-[#F24E1E]" />
               <p className="text-sm font-semibold text-gray-700 dark:text-gray-200 text-center">
                 Prototipo navegable — IUPI · H4-03 Fintech
               </p>
@@ -1166,7 +1153,7 @@ export function IUPICaseStudy() {
                 className="inline-flex items-center gap-2 px-8 py-3 bg-[#025959] text-white rounded-xl font-medium shadow-lg"
               >
                 Ver prototipo en Figma →
-              </motion.a>
+              <span className="sr-only"> (se abre en una pestaña nueva)</span></motion.a>
             </div>
           </FadeSection>
 
@@ -1261,7 +1248,7 @@ export function IUPICaseStudy() {
                   Cuadro de validación — 10 heurísticas de Nielsen aplicadas a IUPI
                 </p>
               </div>
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Tabla de evaluación heurística (desplazable)">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-gray-100 dark:border-gray-700">
@@ -1356,7 +1343,7 @@ export function IUPICaseStudy() {
                         }`}
                       >
                         <td className="px-6 py-3.5">
-                          <span className="text-xs font-mono text-gray-400 dark:text-gray-500">{num}</span>
+                          <span className="text-xs font-mono text-gray-500 dark:text-gray-400">{num}</span>
                         </td>
                         <td className="px-4 py-3.5">
                           <span className="text-xs font-semibold text-gray-700 dark:text-gray-200">{h}</span>
@@ -1365,11 +1352,11 @@ export function IUPICaseStudy() {
                         <td className="px-4 py-3.5 text-xs text-gray-500 dark:text-gray-400 max-w-xs">{find}</td>
                         <td className="px-4 py-3.5 text-center">
                           {ok ? (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 text-[10px] font-semibold">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
                               <CheckCircle className="w-3 h-3" /> Resuelto
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 text-[10px] font-semibold">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 text-xs font-semibold">
                               ⟳ V2
                             </span>
                           )}
@@ -1394,7 +1381,7 @@ export function IUPICaseStudy() {
             <div className="rounded-3xl px-8 py-12 md:px-14 md:py-14 text-center bg-[#025959]">
               <TrendingUp className="w-12 h-12 text-[#FF8300] mx-auto mb-6" />
               <h2 className="text-3xl font-bold text-white mb-5">El impacto del proyecto</h2>
-              <p className="text-xl text-white/80 leading-relaxed mb-10 max-w-2xl mx-auto">
+              <p className="text-xl text-white/90 leading-relaxed mb-10 max-w-2xl mx-auto">
                 IUPI demostró que es posible diseñar una experiencia financiera inclusiva sin sacrificar
                 potencia funcional. En 5 semanas logramos un MVP completo con flujos validados por heurísticas.
               </p>
@@ -1402,7 +1389,7 @@ export function IUPICaseStudy() {
                 <p className="text-white/90 italic leading-relaxed text-lg">
                   "El diseño no solo hace las cosas bonitas — las hace accesibles para quienes antes no tenían acceso."
                 </p>
-                <footer className="mt-3 text-white/50 text-sm">— Reflexión del equipo IUPI</footer>
+                <footer className="mt-3 text-white/90 text-sm">— Reflexión del equipo IUPI</footer>
               </blockquote>
             </div>
           </FadeSection>
@@ -1420,7 +1407,7 @@ export function IUPICaseStudy() {
               <div className="flex justify-center">
                 <div className="h-1 w-12 rounded-full bg-[#FF8300]" />
               </div>
-              <p className="text-white/50 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
+              <p className="text-white/90 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-snug">
                 ¿Querés trabajar conmigo?{" "}
                 <span className="text-[#FF8300]">Escribime.</span>
@@ -1431,11 +1418,11 @@ export function IUPICaseStudy() {
               whileHover={{ backgroundColor: "#e87500", boxShadow: "0 16px 50px rgba(255,131,0,.55)", y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }), 500); }}
+              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: scrollBehavior() }), 500); }}
               data-ga-action="cta_click"
               data-ga-category="CTA"
               data-ga-label="Contactar - IUPI"
-              className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-white font-semibold text-lg shadow-2xl transition-all"
+              className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-gray-900 font-semibold text-lg shadow-2xl transition-all"
             >
               Coordinar reunión
             </motion.button>
@@ -1462,7 +1449,7 @@ export function IUPICaseStudy() {
             </motion.div>
             <div className="flex items-center justify-center gap-3 mb-3">
               <Award className="w-5 h-5 text-[#FF8300]" />
-              <h4 className="font-semibold text-gray-800 dark:text-gray-100">No Country · Hackathon 2025</h4>
+              <h3 className="font-semibold text-gray-800 dark:text-gray-100">No Country · Hackathon 2025</h3>
             </div>
             <p className="text-gray-600 dark:text-gray-300 leading-relaxed max-w-lg mx-auto">
               Reconocimiento por participación como{" "}
@@ -1484,7 +1471,7 @@ export function IUPICaseStudy() {
               {/* Hipervínculo — sin fondo ni borde */}
               <button
                 onClick={() => navigate("/")}
-                className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 dark:text-gray-500 hover:text-[#FF8300] dark:hover:text-[#FF8300] transition-colors group"
+                className="inline-flex items-center gap-2 min-h-11 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-[#FF8300] dark:hover:text-[#FF8300] transition-colors group"
               >
                 <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                 Volver al portfolio
@@ -1508,8 +1495,9 @@ export function IUPICaseStudy() {
       {/* ══════════════════════════════════════════
           FOOTER
       ══════════════════════════════════════════ */}
+      </main>
       <footer className="py-6 bg-gray-900 dark:bg-gray-950 text-center">
-        <p className="text-gray-400 dark:text-gray-500 text-sm">
+        <p className="text-gray-400 text-sm">
           © 2026 Sofía Álvarez. Diseñado por mí, implementado con Claude Code
         </p>
       </footer>

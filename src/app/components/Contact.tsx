@@ -85,17 +85,17 @@ export function Contact() {
                 data-ga-action="download_cv"
                 data-ga-category="CTA"
                 data-ga-label="Obtener currículum"
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-[#FF8300] text-white rounded-lg hover:bg-[#FF8300]/90 transition-colors shadow-lg">
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-[#FF8300] text-gray-900 rounded-lg hover:bg-[#FF8300]/90 transition-colors shadow-lg">
                   <FileDown className="w-5 h-5" />
                   <span>Obtener currículum</span>
-</motion.a>
+<span className="sr-only"> (se abre en una pestaña nueva)</span></motion.a>
               </div>
 
               {/* Social Links */}
               <div className="flex gap-4 mt-6 justify-center md:justify-start">
                 <a
                   href="mailto:alvarez.sofib@gmail.com"
-                  className="w-10 h-10 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
+                  className="w-11 h-11 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
                   aria-label="Email"
                 >
                   <Mail className="w-5 h-5 text-gray-600 dark:text-gray-300" />
@@ -104,22 +104,22 @@ export function Contact() {
                   href="https://wa.me/541160285989"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-green-50 dark:hover:bg-gray-600 transition-colors"
-                  aria-label="WhatsApp"
+                  className="w-11 h-11 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-green-50 dark:hover:bg-gray-600 transition-colors"
+                  aria-label="WhatsApp (se abre en una pestaña nueva)"
                 >
-                  <FaWhatsapp style={{ width: "1.25rem", height: "1.25rem", color: "#25D366" }} />
+                  <FaWhatsapp aria-hidden="true" style={{ width: "1.25rem", height: "1.25rem", color: "#25D366" }} />
                 </a>
                 <a
                   href="https://github.com/Sofi-Alvarez"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
-                  aria-label="GitHub"
+                  className="w-11 h-11 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
+                  aria-label="GitHub (se abre en una pestaña nueva)"
                   data-ga-action="github_click"
                   data-ga-category="CTA"
                   data-ga-label="GitHub Contacto"
                 >
-                  <SiGithub className="w-5 h-5 text-gray-700 dark:text-gray-200" />
+                  <SiGithub aria-hidden="true" className="w-5 h-5 text-gray-700 dark:text-gray-200" />
                 </a>
               </div>
             </div>

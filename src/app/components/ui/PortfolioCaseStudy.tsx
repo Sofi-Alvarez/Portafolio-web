@@ -13,6 +13,8 @@ import { CaseStudyMenuNav, type CaseStudyIndexSection } from "./CaseStudyMenuNav
 import { portfolioPort } from "../../../imports/portfolioPortImage";
 import vibeDesign1 from "../../../imports/Portfolio vibe-design1.jpg";
 import vibeDesign2 from "../../../imports/Portfolio vibe-design2.jpg";
+import { ToolBadge as SharedToolBadge } from "./ToolGlyph";
+import { scrollBehavior } from "../../utils/motion";
 
 /* ─── Types ──────────────────────────────────────────────────────────────── */
 type LocalTool =
@@ -39,7 +41,7 @@ const LOCAL_TOOLS: LocalTool[] = [
 
 /* ─── Helpers ─────────────────────────────────────────────────────────────── */
 function scrollTo(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  document.getElementById(id)?.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
 }
 
 function FadeSection({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -54,25 +56,7 @@ function FadeSection({ children, className = "", delay = 0 }: { children: React.
 
 /* ─── LocalToolBadge — estático, sin hover ──────────────────────────────── */
 function LocalToolBadge({ tool }: { tool: LocalTool }) {
-  const { isDark } = useTheme();
-  const bc       = tool.type === "icon" ? tool.color : tool.bg;
-  const tileBg   = isDark ? "rgba(55,65,81,0.9)" : "#ffffff";
-  const labelCol = isDark ? "#d1d5db" : "#4b5563";
-  return (
-    <div className="flex flex-col items-center gap-2 cursor-default select-none">
-      <div
-        className="w-14 h-14 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 flex items-center justify-center"
-        style={{ background: tileBg }}
-      >
-        {tool.type === "icon" ? (
-          <tool.Icon className="w-7 h-7" style={{ color: bc }} />
-        ) : (
-          <span className="font-bold text-sm leading-none" style={{ color: bc }}>{tool.abbr}</span>
-        )}
-      </div>
-      <span className="text-xs font-medium text-center" style={{ color: labelCol }}>{tool.label}</span>
-    </div>
-  );
+  return <SharedToolBadge label={tool.label} />;
 }
 
 /* ─── Índice — para el menú hamburguesa compartido (CaseStudyMenuNav) ──── */
@@ -95,10 +79,9 @@ function StepNode({ step, index }: { step: Step; index: number }) {
         transition={{ duration: 0.22 }} className="w-14 h-14 rounded-full border-2 flex items-center justify-center shadow-sm">
         <step.Icon className="w-6 h-6 transition-colors duration-200" style={{ color: hov ? "#FF8300" : "#025959" }} />
       </motion.div>
-      <motion.span animate={{ color: hov ? "#FF8300" : "#025959" }} transition={{ duration: 0.2 }}
-        className="text-xs sm:text-sm font-medium text-center leading-tight dark:text-[#4ecfcf]">
+      <span className="text-xs sm:text-sm font-medium text-center leading-tight text-[#025959] dark:text-[#4ecfcf]">
         {step.label}
-      </motion.span>
+      </span>
     </motion.button>
   );
 }
@@ -133,7 +116,7 @@ function ProcessStepper() {
 function SectionLabel({ text, accent = false }: { text: string; accent?: boolean }) {
   return (
     <span className={`inline-block mb-3 px-3 py-1 rounded-full text-sm ${
-      accent ? "bg-[#FF8300]/10 text-[#FF8300]" : "bg-[#025959]/10 dark:bg-[#025959]/25 text-[#025959] dark:text-[#4ecfcf]"
+      accent ? "bg-[#FF8300]/10 text-gray-900 dark:text-[#FF8300]" : "bg-[#025959]/10 dark:bg-[#025959]/25 text-[#025959] dark:text-[#4ecfcf]"
     }`}>{text}</span>
   );
 }
@@ -341,6 +324,7 @@ export function PortfolioCaseStudy() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <CaseStudyMenuNav title="Portfolio Web" sections={INDEX_SECTIONS} primaryColor="#025959" secondaryColor="#FF8300" />
+      <main id="main" tabIndex={-1} className="outline-none">
 
       {/* ── HERO ────────────────────────────────────────────────── */}
       <div id="inicio">
@@ -381,14 +365,14 @@ export function PortfolioCaseStudy() {
                 <p>
                   <a href="https://github.com/Sofi-Alvarez/Portafolio-web" target="_blank" rel="noopener noreferrer"
                     data-ga-action="github_click" data-ga-category="CTA" data-ga-label="Código Portfolio"
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-[#025959] dark:text-[#4ecfcf] hover:underline">
+                    className="inline-flex items-center gap-2 min-h-11 text-sm font-semibold text-[#025959] dark:text-[#4ecfcf] hover:underline">
                     <Github className="w-4 h-4" />
                     Ver el código en GitHub
                     <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
+                  <span className="sr-only"> (se abre en una pestaña nueva)</span></a>
                 </p>
                 <div className="pt-2">
-                  <p className="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">Herramientas utilizadas</p>
+                  <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-4">Herramientas utilizadas</p>
                   <div className="flex flex-wrap gap-3">
                     {LOCAL_TOOLS.map((t) => <LocalToolBadge key={t.label} tool={t} />)}
                   </div>
@@ -409,7 +393,7 @@ export function PortfolioCaseStudy() {
                       viewport={{ once: true }} transition={{ duration: .55, delay: idx * .08 }}
                       whileHover={{ y: -3, boxShadow: "0 8px 24px rgba(2,89,89,.12)" }}
                       className="bg-white dark:bg-gray-700 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-600 transition-shadow">
-                      <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-1.5">{label}</p>
+                      <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1.5">{label}</p>
                       <p className="text-[#025959] dark:text-[#4ecfcf] text-sm font-semibold">{value}</p>
                     </motion.div>
                   ))}
@@ -417,7 +401,7 @@ export function PortfolioCaseStudy() {
 
                 {/* Validation note */}
                 <div className="rounded-xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 p-4 mt-2">
-                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-2">Método de validación</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-2">Método de validación</p>
                   <div className="space-y-1.5">
                     {[
                       "Heurísticas de Nielsen (10 principios)",
@@ -440,7 +424,7 @@ export function PortfolioCaseStudy() {
       <section className="py-16 md:py-20 bg-gradient-to-br from-[#025959] to-[#014040] dark:from-[#012020] dark:to-[#010a0a]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-12 text-center">
           <FadeSection>
-            <span className="inline-block mb-6 px-3 py-1 rounded-full bg-white/10 text-white/70 text-sm">
+            <span className="inline-block mb-6 px-3 py-1 rounded-full bg-white/10 text-white/90 text-sm">
               ★ Logro del proyecto
             </span>
             <blockquote className="text-2xl sm:text-3xl font-bold text-white leading-snug mb-8">
@@ -456,7 +440,7 @@ export function PortfolioCaseStudy() {
                 { label: "Resultado", desc: "5 casos de estudio · Modo oscuro · Responsive · 2 semanas" },
               ].map(({ label, desc }) => (
                 <div key={label} className="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 p-4 text-left">
-                  <span className="text-[#FF8300] text-xs font-bold uppercase tracking-widest">{label}</span>
+                  <span className="text-white text-xs font-bold uppercase tracking-widest"><span aria-hidden="true" className="inline-block w-1.5 h-1.5 rounded-full bg-[#FF8300] mr-1.5 align-middle" />{label}</span>
                   <p className="text-white/85 text-sm mt-1 leading-snug">{desc}</p>
                 </div>
               ))}
@@ -583,7 +567,7 @@ export function PortfolioCaseStudy() {
                   viewport={{ once: true }} transition={{ duration: .5, delay: idx * .08 }}
                   whileHover={{ y: -4 }}
                   className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
-                  <span className="text-3xl font-black mb-3 block" style={{ color: "rgba(2,89,89,0.15)" }}>{num}</span>
+                  <span aria-hidden="true" className="text-3xl font-black mb-3 block" style={{ color: "rgba(2,89,89,0.15)" }}>{num}</span>
                   <h4 className="font-semibold text-gray-800 dark:text-gray-100 mb-2 text-sm">{title}</h4>
                   <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{desc}</p>
                 </motion.div>
@@ -607,7 +591,7 @@ export function PortfolioCaseStudy() {
             <div className="rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 shadow-sm">
               <PortfolioIADiagram />
             </div>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
               La sección "Portfolio" dentro de Proyectos (destacada en naranja) es el meta-proyecto que estás viendo ahora.
             </p>
           </FadeSection>
@@ -635,7 +619,7 @@ export function PortfolioCaseStudy() {
             <div className="grid md:grid-cols-2 gap-8">
               {/* Colors + Typography */}
               <div className="rounded-2xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-8">
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-5">Paleta y tipografía</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-5">Paleta y tipografía</p>
                 <div className="space-y-3 mb-6">
                   {[
                     { color: "#025959", name: "Teal principal",  hex: "#025959", use: "Accents, labels, CTAs" },
@@ -647,21 +631,21 @@ export function PortfolioCaseStudy() {
                       <div className="w-10 h-10 rounded-xl flex-shrink-0 shadow-sm" style={{ background: color }} />
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-gray-700 dark:text-gray-200">{name}</p>
-                        <p className="text-xs text-gray-400 font-mono">{hex} | {use}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-300 font-mono">{hex} | {use}</p>
                       </div>
                     </div>
                   ))}
                 </div>
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">Tipografía</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-3">Tipografía</p>
                   <p className="text-3xl font-bold text-gray-800 dark:text-gray-100">Inter</p>
-                  <p className="text-[10px] uppercase tracking-widest text-gray-400 mt-0.5">Single family · Variable weight · Google Fonts</p>
+                  <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-300 mt-0.5">Single family · Variable weight · Google Fonts</p>
                 </div>
               </div>
 
               {/* Principles */}
               <div className="rounded-2xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-8">
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-5">Principios aplicados</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-5">Principios aplicados</p>
                 <div className="space-y-4">
                   {[
                     { Icon: Palette,         title: "Consistencia visual",     desc: "Mismo design system en los 5 casos de estudio y el home." },
@@ -687,7 +671,7 @@ export function PortfolioCaseStudy() {
           {/* Callout: desarrollo asistido por IA */}
           <FadeSection delay={.08}>
             <div className="border-l-4 border-[#FF8300] rounded-r-xl p-5 bg-[#FF8300]/5 dark:bg-[#FF8300]/8">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#FF8300] mb-1">Decisión de diseño clave</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-[#025959] dark:text-[#FF8300] mb-1">Decisión de diseño clave</p>
               <p className="text-gray-700 dark:text-gray-200 font-medium">
                 Desarrollo asistido por IA no es "que la IA diseñe por mí": es usar IA como herramienta de implementación mientras el criterio, la arquitectura y las decisiones de diseño son mías. El resultado es el mismo; el ciclo es mucho más corto.
               </p>
@@ -755,7 +739,7 @@ export function PortfolioCaseStudy() {
                   className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
                   <p className="text-4xl font-black text-[#025959] dark:text-[#4ecfcf] mb-1">{val}</p>
                   <p className="text-gray-800 dark:text-gray-100 font-semibold text-sm">{unit}</p>
-                  <p className="text-gray-400 text-xs mt-0.5">{sub}</p>
+                  <p className="text-gray-500 dark:text-gray-300 text-xs mt-0.5">{sub}</p>
                 </motion.div>
               ))}
             </div>
@@ -780,7 +764,7 @@ export function PortfolioCaseStudy() {
                       </span>
                       <div>
                         <p className="text-gray-700 dark:text-gray-200 text-sm font-medium">{name}</p>
-                        <p className="text-gray-400 dark:text-gray-500 text-xs">{desc}</p>
+                        <p className="text-gray-500 dark:text-gray-400 text-xs">{desc}</p>
                       </div>
                     </li>
                   ))}
@@ -847,7 +831,7 @@ export function PortfolioCaseStudy() {
                   whileHover={{ y: -3 }}
                   className="rounded-2xl border p-5 bg-white dark:bg-gray-800"
                   style={{ borderColor: `${color}25` }}>
-                  <span className="text-xs font-bold uppercase tracking-widest mb-2 block" style={{ color }}>{num}</span>
+                  <span className="text-xs font-bold uppercase tracking-widest mb-2 block text-[var(--c)] dark:text-[var(--cd)]" style={{ "--c": color === "#FF8300" ? "#025959" : color, "--cd": color === "#025959" ? "#4ecfcf" : color === "#4B5563" ? "#9CA3AF" : color } as React.CSSProperties}>{num}</span>
                   <h4 className="font-semibold text-gray-800 dark:text-gray-100 mb-2 text-sm">{title}</h4>
                   <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{desc}</p>
                 </motion.div>
@@ -903,7 +887,7 @@ export function PortfolioCaseStudy() {
           {/* Próximos pasos */}
           <FadeSection delay={.09}>
             <div className="border-l-4 border-[#FF8300] rounded-r-xl p-5 bg-[#FF8300]/5 dark:bg-[#FF8300]/8">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#FF8300] mb-1">Próximos pasos</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-[#025959] dark:text-[#FF8300] mb-1">Próximos pasos</p>
               <p className="text-gray-700 dark:text-gray-200">
                 Testeo con usuarios reales · Métricas de engagement con Vercel Web Analytics · Pasar los colores de marca a tokens en theme.css · Sección de blog o reflexiones de diseño
               </p>
@@ -916,7 +900,7 @@ export function PortfolioCaseStudy() {
               <p className="text-xl sm:text-2xl font-bold leading-relaxed">
                 5 casos de estudio · Modo oscuro · Responsive · 2 semanas · Diseñado por mí, implementado con Claude Code
               </p>
-              <p className="text-white/70 mt-3 max-w-xl mx-auto">
+              <p className="text-white/90 mt-3 max-w-xl mx-auto">
                 Un portfolio vivo, hecho con las mismas herramientas que diseño para otros.
               </p>
             </div>
@@ -943,7 +927,7 @@ export function PortfolioCaseStudy() {
               <div className="flex justify-center">
                 <div className="h-1 w-12 rounded-full bg-[#FF8300]" />
               </div>
-              <p className="text-white/50 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
+              <p className="text-white/90 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-snug">
                 ¿Querés trabajar conmigo?{" "}
                 <span className="text-[#FF8300]">Escribime.</span>
@@ -953,11 +937,11 @@ export function PortfolioCaseStudy() {
               whileHover={{ backgroundColor: "#e87500", boxShadow: "0 16px 50px rgba(255,131,0,.55)", y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }), 500); }}
+              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: scrollBehavior() }), 500); }}
               data-ga-action="cta_click"
               data-ga-category="CTA"
               data-ga-label="Contactar - Portfolio"
-              className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-white font-semibold text-lg shadow-2xl transition-all"
+              className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-gray-900 font-semibold text-lg shadow-2xl transition-all"
             >
               Coordinar reunión
             </motion.button>
@@ -975,7 +959,7 @@ export function PortfolioCaseStudy() {
               {/* Hipervínculo — sin fondo ni borde */}
               <button
                 onClick={() => navigate("/")}
-                className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 dark:text-gray-500 hover:text-[#FF8300] dark:hover:text-[#FF8300] transition-colors group"
+                className="inline-flex items-center gap-2 min-h-11 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-[#FF8300] dark:hover:text-[#FF8300] transition-colors group"
               >
                 <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                 Volver al portfolio
@@ -999,8 +983,9 @@ export function PortfolioCaseStudy() {
       {/* ══════════════════════════════════════════
           FOOTER
       ══════════════════════════════════════════ */}
+      </main>
       <footer className="py-6 bg-gray-900 dark:bg-gray-950 text-center">
-        <p className="text-gray-400 dark:text-gray-500 text-sm">
+        <p className="text-gray-400 text-sm">
           © 2026 Sofía Álvarez. Diseñado por mí, implementado con Claude Code
         </p>
       </footer>

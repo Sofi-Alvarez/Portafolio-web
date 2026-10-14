@@ -1,7 +1,8 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --font-size: 16px;
+  /* 100% = respeta el tamaño de letra que la persona configuró en su navegador (16px por defecto) */
+  --font-size: 100%;
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;
@@ -122,6 +123,18 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+  }
+
+  /* Foco visible para teclado en todo el sitio (WCAG 2.4.7) */
+  :focus-visible {
+    outline: 2px solid #025959;
+    outline-offset: 2px;
+  }
+  .dark :focus-visible {
+    outline-color: #4ecfcf;
+  }
+  [tabindex="-1"]:focus {
+    outline: none;
   }
 
   body {

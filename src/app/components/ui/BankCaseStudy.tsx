@@ -14,6 +14,8 @@ import { CaseStudyMenuNav, type CaseStudyIndexSection } from "./CaseStudyMenuNav
 import bankPort from "../../../imports/+bank port.jpg";
 import masbank1 from "../../../imports/Masbank1.svg";
 import masbank2 from "../../../imports/Masbank2.svg";
+import { ToolBadge as SharedToolBadge } from "./ToolGlyph";
+import { scrollBehavior } from "../../utils/motion";
 
 /* ─── Types ──────────────────────────────────────────────────────────────── */
 type ToolItem =
@@ -38,7 +40,7 @@ const TOOLS: ToolItem[] = [
 ];
 
 /* ─── Helpers ────────────────────────────────────────────────────────────── */
-function scrollTo(id: string) { document.getElementById(id)?.scrollIntoView({ behavior:"smooth", block:"start" }); }
+function scrollTo(id: string) { document.getElementById(id)?.scrollIntoView({ behavior: scrollBehavior(), block:"start" }); }
 
 function FadeSection({ children, className="", delay=0 }: { children:React.ReactNode; className?:string; delay?:number; }) {
   return (
@@ -51,25 +53,7 @@ function FadeSection({ children, className="", delay=0 }: { children:React.React
 
 /* ─── Tool badge — estático, sin hover ─────────────────────────────────── */
 function ToolBadge({ tool }: { tool: ToolItem }) {
-  const { isDark } = useTheme();
-  const bc       = tool.brandColor;
-  const tileBg   = isDark ? "rgba(55,65,81,0.9)" : "#ffffff";
-  const labelCol = isDark ? "#d1d5db" : "#4b5563";
-  return (
-    <div className="flex flex-col items-center gap-2 cursor-default select-none">
-      <div
-        className="w-14 h-14 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 flex items-center justify-center"
-        style={{ background: tileBg }}
-      >
-        {tool.type === "icon" ? (
-          <tool.Icon className="w-7 h-7" style={{ color: bc }} />
-        ) : (
-          <span className="font-bold text-sm leading-none" style={{ color: bc }}>{tool.abbr}</span>
-        )}
-      </div>
-      <span className="text-xs font-medium text-center" style={{ color: labelCol }}>{tool.label}</span>
-    </div>
-  );
+  return <SharedToolBadge label={tool.label} />;
 }
 
 /* ─── Índice — para el menú hamburguesa compartido (CaseStudyMenuNav) ──── */
@@ -94,10 +78,9 @@ function StepNode({ step, index }: { step: Step; index: number }) {
         className="w-14 h-14 rounded-full border-2 flex items-center justify-center shadow-sm">
         <step.Icon className="w-6 h-6 transition-colors duration-200" style={{ color: hov ? "#FF8300" : "#025959" }} />
       </motion.div>
-      <motion.span animate={{ color: hov ? "#FF8300" : "#025959" }} transition={{ duration: 0.2 }}
-        className="text-xs sm:text-sm font-medium text-center leading-tight dark:text-[#4ecfcf]">
+      <span className="text-xs sm:text-sm font-medium text-center leading-tight text-[#025959] dark:text-[#4ecfcf]">
         {step.label}
-      </motion.span>
+      </span>
     </motion.button>
   );
 }
@@ -130,7 +113,7 @@ function ProcessStepper() {
 }
 
 function SectionLabel({text,accent=false}:{text:string;accent?:boolean}){
-  return(<span className={`inline-block mb-3 px-3 py-1 rounded-full text-sm ${accent?"bg-[#FF8300]/10 text-[#FF8300]":"bg-[#025959]/10 dark:bg-[#025959]/25 text-[#025959] dark:text-[#4ecfcf]"}`}>{text}</span>);
+  return(<span className={`inline-block mb-3 px-3 py-1 rounded-full text-sm ${accent?"bg-[#FF8300]/10 text-gray-900 dark:text-[#FF8300]":"bg-[#025959]/10 dark:bg-[#025959]/25 text-[#025959] dark:text-[#4ecfcf]"}`}>{text}</span>);
 }
 
 /* ─── Bank IA Diagram ────────────────────────────────────────────────────── */
@@ -292,6 +275,7 @@ export function BankCaseStudy() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <CaseStudyMenuNav title="Mas+ Bank" sections={INDEX_SECTIONS} primaryColor="#025959" secondaryColor="#FF8300" />
+      <main id="main" tabIndex={-1} className="outline-none">
 
       {/* ── HERO ────────────────────────────────────────────────── */}
       <div id="inicio">
@@ -329,7 +313,7 @@ export function BankCaseStudy() {
                   El desafío: construir desde cero la arquitectura de información, los flujos críticos —transferencias, seguridad biométrica, gestión de perfiles múltiples— y un Design System completo sin referencias previas. El rigor en el proceso fue el brief.
                 </p>
                 <div className="pt-2">
-                  <p className="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">Herramientas utilizadas</p>
+                  <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-4">Herramientas utilizadas</p>
                   <div className="flex flex-wrap gap-3">
                     {TOOLS.map((t) => <ToolBadge key={t.label} tool={t} />)}
                   </div>
@@ -350,7 +334,7 @@ export function BankCaseStudy() {
                       transition={{ duration:.55, delay: idx * .08 }}
                       whileHover={{ y:-3, boxShadow:"0 8px 24px rgba(2,89,89,.12)" }}
                       className="bg-white dark:bg-gray-700 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-600 transition-shadow">
-                      <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-1.5">{label}</p>
+                      <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1.5">{label}</p>
                       <p className="text-[#025959] dark:text-[#4ecfcf] text-sm font-semibold">{value}</p>
                     </motion.div>
                   ))}
@@ -365,7 +349,7 @@ export function BankCaseStudy() {
       <section className="py-16 md:py-20 bg-gradient-to-br from-[#025959] to-[#014040] dark:from-[#012020] dark:to-[#010a0a]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-12 text-center">
           <FadeSection>
-            <span className="inline-block mb-6 px-3 py-1 rounded-full bg-white/10 text-white/70 text-sm">
+            <span className="inline-block mb-6 px-3 py-1 rounded-full bg-white/10 text-white/90 text-sm">
               ★ Logro del proyecto
             </span>
             <blockquote className="text-2xl sm:text-3xl font-bold text-white leading-snug mb-8">
@@ -380,7 +364,7 @@ export function BankCaseStudy() {
                 { label: "Resultado", desc: "5 flujos · 100% desde cero" },
               ].map(({ label, desc }) => (
                 <div key={label} className="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 p-4 text-left">
-                  <span className="text-[#FF8300] text-xs font-bold uppercase tracking-widest">{label}</span>
+                  <span className="text-white text-xs font-bold uppercase tracking-widest"><span aria-hidden="true" className="inline-block w-1.5 h-1.5 rounded-full bg-[#FF8300] mr-1.5 align-middle" />{label}</span>
                   <p className="text-white/85 text-sm mt-1 leading-snug">{desc}</p>
                 </div>
               ))}
@@ -496,10 +480,9 @@ export function BankCaseStudy() {
                     <tr key={app} className={i % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800"}>
                       <td className="px-4 py-3 font-semibold text-gray-800 dark:text-gray-100">{app}</td>
                       <td className="px-4 py-3">
-                        <span className="px-2 py-0.5 rounded-full text-xs" style={{
-                          background: tipo === "Local" ? "rgba(2,89,89,0.10)" : "rgba(255,131,0,0.10)",
-                          color:      tipo === "Local" ? "#025959"            : "#FF8300"
-                        }}>{tipo}</span>
+                        <span className={`px-2 py-0.5 rounded-full text-xs ${tipo === "Local"
+                          ? "bg-[#025959]/10 text-[#025959] dark:bg-[#4ecfcf]/10 dark:text-[#4ecfcf]"
+                          : "bg-[#FF8300]/10 text-gray-900 dark:text-[#FF8300]"}`}>{tipo}</span>
                       </td>
                       <td className="px-4 py-3 text-gray-600 dark:text-gray-300">{dest}</td>
                       <td className="px-4 py-3 text-gray-500 dark:text-gray-400 text-xs">{op}</td>
@@ -514,7 +497,7 @@ export function BankCaseStudy() {
           <FadeSection delay={.12}>
             <div className="rounded-2xl p-6 text-center"
               style={{ background: "linear-gradient(135deg,rgba(2,89,89,0.08),rgba(255,131,0,0.06))", border: "1px solid rgba(2,89,89,0.20)" }}>
-              <p className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#025959" }}>Hallazgo central</p>
+              <p className="text-xs font-bold uppercase tracking-widest mb-2 text-[#025959] dark:text-[#4ecfcf]">Hallazgo central</p>
               <p className="text-gray-700 dark:text-gray-200 text-lg font-semibold leading-relaxed max-w-2xl mx-auto">
                 "Las apps bancarias locales priorizan funcionalidad sobre claridad: el usuario abandona antes de completar una transferencia."
               </p>
@@ -551,7 +534,7 @@ export function BankCaseStudy() {
                 <motion.div key={num} initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
                   transition={{ duration:.5, delay: idx * .08 }} whileHover={{ y:-4 }}
                   className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
-                  <span className="text-3xl font-black mb-3 block" style={{ color: "rgba(2,89,89,0.18)" }}>{num}</span>
+                  <span aria-hidden="true" className="text-3xl font-black mb-3 block" style={{ color: "rgba(2,89,89,0.18)" }}>{num}</span>
                   <h4 className="font-semibold text-gray-800 dark:text-gray-100 mb-2 text-sm">{title}</h4>
                   <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{desc}</p>
                 </motion.div>
@@ -563,7 +546,7 @@ export function BankCaseStudy() {
           <FadeSection delay={.08}>
             <div className="border-l-4 rounded-r-xl p-5 bg-white dark:bg-gray-900"
               style={{ borderColor: "#025959", background: isDark ? "rgba(2,89,89,0.08)" : "rgba(2,89,89,0.05)" }}>
-              <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "#025959" }}>Por qué esto importa</p>
+              <p className="text-xs font-bold uppercase tracking-widest mb-1 text-[#025959] dark:text-[#4ecfcf]">Por qué esto importa</p>
               <p className="text-gray-700 dark:text-gray-200 font-medium">
                 En fintech, la confianza no se declara: se diseña. Cada decisión de arquitectura es una decisión de seguridad percibida.
               </p>
@@ -603,23 +586,23 @@ export function BankCaseStudy() {
               {/* Naming + tagline */}
               <div className="rounded-2xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-8 flex flex-col justify-between">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">Nombre y concepto</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-4">Nombre y concepto</p>
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-5xl font-black" style={{ color: "#7C3AED" }}>Mas+</span>
-                    <span className="text-2xl font-light text-gray-400">Bank</span>
+                    <span className="text-5xl font-black text-[#7C3AED] dark:text-[#A78BFA]">Mas+</span>
+                    <span className="text-2xl font-light text-gray-500 dark:text-gray-300">Bank</span>
                   </div>
                   <p className="text-gray-500 dark:text-gray-400 text-sm italic mb-6">"Con MAS, hacés más"</p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">Tipografía</p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-3">Tipografía</p>
                   <div className="flex items-end gap-4">
                     <div>
-                      <p className="text-3xl font-bold" style={{ fontFamily: "Poppins, sans-serif", color: "#7C3AED" }}>Poppins</p>
-                      <p className="text-[10px] uppercase tracking-widest text-gray-400 mt-0.5">Display · Titulares</p>
+                      <p className="text-3xl font-bold text-[#7C3AED] dark:text-[#A78BFA]" style={{ fontFamily: "Poppins, sans-serif" }}>Poppins</p>
+                      <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-300 mt-0.5">Display · Titulares</p>
                     </div>
                     <div>
                       <p className="text-xl font-normal text-gray-600 dark:text-gray-300">Inter</p>
-                      <p className="text-[10px] uppercase tracking-widest text-gray-400 mt-0.5">Body · Interfaz</p>
+                      <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-300 mt-0.5">Body · Interfaz</p>
                     </div>
                   </div>
                 </div>
@@ -627,7 +610,7 @@ export function BankCaseStudy() {
 
               {/* Color palette */}
               <div className="rounded-2xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-8">
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-5">Paleta de color</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-5">Paleta de color</p>
                 <div className="space-y-3">
                   {[
                     { color: "#7C3AED", name: "Violeta principal", hex: "#7C3AED" },
@@ -640,7 +623,7 @@ export function BankCaseStudy() {
                         style={{ background: color }} />
                       <div>
                         <p className="text-sm font-medium text-gray-700 dark:text-gray-200">{name}</p>
-                        <p className="text-xs font-mono text-gray-400">{hex}</p>
+                        <p className="text-xs font-mono text-gray-500 dark:text-gray-300">{hex}</p>
                       </div>
                     </div>
                   ))}
@@ -652,7 +635,7 @@ export function BankCaseStudy() {
           {/* Design decision callout */}
           <FadeSection delay={.08}>
             <div className="border-l-4 border-[#FF8300] rounded-r-xl p-5 bg-[#FF8300]/5 dark:bg-[#FF8300]/8">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#FF8300] mb-1">Decisión de diseño</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-[#025959] dark:text-[#FF8300] mb-1">Decisión de diseño</p>
               <p className="text-gray-700 dark:text-gray-200 font-medium">
                 Usar violeta como color primario —en lugar del azul bancario convencional— diferencia la marca y conecta con un perfil de usuario más joven y digital, sin perder credibilidad ni seriedad.
               </p>
@@ -682,7 +665,7 @@ export function BankCaseStudy() {
           <FadeSection delay={.05}>
             <div className="grid md:grid-cols-2 gap-8 items-start">
               <div className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
-                <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#025959" }}>5 flujos críticos</p>
+                <p className="text-xs font-bold uppercase tracking-widest mb-4 text-[#025959] dark:text-[#4ecfcf]">5 flujos críticos</p>
                 <ol className="space-y-3">
                   {[
                     "Acceso seguro y biométrico",
@@ -692,8 +675,7 @@ export function BankCaseStudy() {
                     "Panel de seguridad y control",
                   ].map((flow, i) => (
                     <li key={flow} className="flex items-center gap-3">
-                      <span className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
-                        style={{ background: i === 3 ? "#FF8300" : "#025959" }}>
+                      <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${i === 3 ? "bg-[#FF8300] text-gray-900" : "bg-[#025959] text-white"}`}>
                         {i + 1}
                       </span>
                       <span className="text-gray-700 dark:text-gray-200 text-sm">{flow}</span>
@@ -736,9 +718,9 @@ export function BankCaseStudy() {
               ].map(({ val, unit, sub }) => (
                 <motion.div key={unit} whileHover={{ scale: 1.04 }}
                   className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
-                  <p className="text-4xl font-black mb-1" style={{ color: "#025959" }}>{val}</p>
+                  <p className="text-4xl font-black mb-1 text-[#025959] dark:text-[#4ecfcf]">{val}</p>
                   <p className="text-gray-800 dark:text-gray-100 font-semibold text-sm">{unit}</p>
-                  <p className="text-gray-400 text-xs mt-0.5">{sub}</p>
+                  <p className="text-gray-500 dark:text-gray-300 text-xs mt-0.5">{sub}</p>
                 </motion.div>
               ))}
             </div>
@@ -769,7 +751,7 @@ export function BankCaseStudy() {
                 className="inline-flex items-center gap-2 px-8 py-3 bg-[#025959] text-white rounded-xl font-medium shadow-lg"
               >
                 Ver prototipo en Figma →
-              </motion.a>
+              <span className="sr-only"> (se abre en una pestaña nueva)</span></motion.a>
             </div>
 
             {/* Funcionalidades — debajo del embed */}
@@ -787,7 +769,7 @@ export function BankCaseStudy() {
                 <li key={feat} className="flex items-start gap-3">
                   <span className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
                     style={{ background: "rgba(2,89,89,0.12)" }}>
-                    <TrendingUp className="w-3 h-3" style={{ color: "#025959" }} />
+                    <TrendingUp className="w-3 h-3 text-[#025959] dark:text-[#4ecfcf]" />
                   </span>
                   <span className="text-gray-600 dark:text-gray-300 text-sm">{feat}</span>
                 </li>
@@ -827,7 +809,7 @@ export function BankCaseStudy() {
                   transition={{ duration:.5, delay: idx * .07 }} whileHover={{ y:-3 }}
                   className="rounded-2xl border p-5 bg-white dark:bg-gray-800"
                   style={{ borderColor: "rgba(2,89,89,0.20)", background: isDark ? "rgba(2,89,89,0.06)" : "rgba(2,89,89,0.04)" }}>
-                  <span className="text-xs font-bold uppercase tracking-widest mb-2 block" style={{ color: "#025959" }}>H{num}</span>
+                  <span className="text-xs font-bold uppercase tracking-widest mb-2 block text-[#025959] dark:text-[#4ecfcf]">H{num}</span>
                   <h4 className="font-semibold text-gray-800 dark:text-gray-100 mb-1 text-sm">{title}</h4>
                   <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{desc}</p>
                 </motion.div>
@@ -845,7 +827,7 @@ export function BankCaseStudy() {
                 { val: "≤3",   label: "pasos promedio por flujo" },
               ].map(({ val, label }) => (
                 <div key={label} className="rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-5">
-                  <p className="text-3xl font-black mb-1" style={{ color: "#025959" }}>{val}</p>
+                  <p className="text-3xl font-black mb-1 text-[#025959] dark:text-[#4ecfcf]">{val}</p>
                   <p className="text-gray-600 dark:text-gray-300 text-sm">{label}</p>
                 </div>
               ))}
@@ -856,7 +838,7 @@ export function BankCaseStudy() {
           <FadeSection delay={.08}>
             <div className="border-l-4 rounded-r-xl p-5"
               style={{ borderColor: "#025959", background: isDark ? "rgba(2,89,89,0.08)" : "rgba(2,89,89,0.05)" }}>
-              <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "#025959" }}>Aprendizaje</p>
+              <p className="text-xs font-bold uppercase tracking-widest mb-1 text-[#025959] dark:text-[#4ecfcf]">Aprendizaje</p>
               <p className="text-gray-700 dark:text-gray-200">
                 La mayor restricción fue no contar con usuarios reales para testear. La validación heurística reveló que la{" "}
                 <strong>consistencia visual</strong> es el factor clave de confianza percibida en productos fintech.
@@ -867,7 +849,7 @@ export function BankCaseStudy() {
           {/* Próximos pasos callout */}
           <FadeSection delay={.08}>
             <div className="border-l-4 border-[#FF8300] rounded-r-xl p-5 bg-[#FF8300]/5 dark:bg-[#FF8300]/8">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#FF8300] mb-1">Próximos pasos</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-[#025959] dark:text-[#FF8300] mb-1">Próximos pasos</p>
               <p className="text-gray-700 dark:text-gray-200">
                 Testeo con usuarios reales · Integración de notificaciones push · Flujo de inversiones y tarjetas
               </p>
@@ -895,7 +877,7 @@ export function BankCaseStudy() {
                     { n: "H04", h: "Reconocimiento antes que recuerdo",  f: "Acceso biométrico",      s: "Cumple" },
                   ].map(({ n, h, f, s }, i) => (
                     <tr key={n} className={i % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800/60"}>
-                      <td className="px-4 py-3 font-mono text-xs font-bold" style={{ color: "#025959" }}>{n}</td>
+                      <td className="px-4 py-3 font-mono text-xs font-bold text-[#025959] dark:text-[#4ecfcf]">{n}</td>
                       <td className="px-4 py-3 font-medium text-gray-800 dark:text-gray-100">{h}</td>
                       <td className="px-4 py-3 text-gray-600 dark:text-gray-300">{f}</td>
                       <td className="px-4 py-3">
@@ -915,7 +897,7 @@ export function BankCaseStudy() {
               <p className="text-xl sm:text-2xl font-bold leading-relaxed">
                 5 flujos críticos · 2 plataformas · 100% desde cero
               </p>
-              <p className="text-white/75 mt-3 max-w-xl mx-auto">
+              <p className="text-white/90 mt-3 max-w-xl mx-auto">
                 Mas+ Bank demostró que el rigor en el proceso es el brief cuando el cliente no existe.
               </p>
             </div>
@@ -942,7 +924,7 @@ export function BankCaseStudy() {
               <div className="flex justify-center">
                 <div className="h-1 w-12 rounded-full bg-[#FF8300]" />
               </div>
-              <p className="text-white/50 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
+              <p className="text-white/90 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-snug">
                 ¿Querés trabajar conmigo?{" "}
                 <span className="text-[#FF8300]">Escribime.</span>
@@ -952,11 +934,11 @@ export function BankCaseStudy() {
               whileHover={{ backgroundColor: "#e87500", boxShadow: "0 16px 50px rgba(255,131,0,.55)", y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }), 500); }}
+              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: scrollBehavior() }), 500); }}
               data-ga-action="cta_click"
               data-ga-category="CTA"
               data-ga-label="Contactar - MasBank"
-              className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-white font-semibold text-lg shadow-2xl transition-all"
+              className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-gray-900 font-semibold text-lg shadow-2xl transition-all"
             >
               Coordinar reunión
             </motion.button>
@@ -974,7 +956,7 @@ export function BankCaseStudy() {
               {/* Hipervínculo — sin fondo ni borde */}
               <button
                 onClick={() => navigate("/")}
-                className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 dark:text-gray-500 hover:text-[#FF8300] dark:hover:text-[#FF8300] transition-colors group"
+                className="inline-flex items-center gap-2 min-h-11 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-[#FF8300] dark:hover:text-[#FF8300] transition-colors group"
               >
                 <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                 Volver al portfolio
@@ -998,8 +980,9 @@ export function BankCaseStudy() {
       {/* ══════════════════════════════════════════
           FOOTER
       ══════════════════════════════════════════ */}
+      </main>
       <footer className="py-6 bg-gray-900 dark:bg-gray-950 text-center">
-        <p className="text-gray-400 dark:text-gray-500 text-sm">
+        <p className="text-gray-400 text-sm">
           © 2026 Sofía Álvarez. Diseñado por mí, implementado con Claude Code
         </p>
       </footer>

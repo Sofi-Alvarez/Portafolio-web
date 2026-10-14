@@ -16,6 +16,9 @@ import bookieLocalizacion from "../../../imports/bookie-localizacion.svg";
 import bookie1 from "../../../imports/Bookie1.svg";
 import bookie2 from "../../../imports/Bookie2.svg";
 import bookieCertificado  from "../../../imports/bookie-certificado.png";
+import { ToolBadge as SharedToolBadge } from "./ToolGlyph";
+import { scrollBehavior } from "../../utils/motion";
+import { readableTextOn } from "../../utils/color";
 
 /* ─── Constantes ─────────────────────────────────────────────────────────── */
 
@@ -48,7 +51,7 @@ const TOOLS: ToolItem[] = [
 
 /* ─── Helpers ────────────────────────────────────────────────────────────── */
 function scrollTo(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  document.getElementById(id)?.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
 }
 
 function FadeSection({ children, className = "", delay = 0 }: {
@@ -70,25 +73,7 @@ function FadeSection({ children, className = "", delay = 0 }: {
 
 /* ─── Tool badge — estático, sin hover ─────────────────────────────────── */
 function ToolBadge(tool: ToolItem) {
-  const { isDark } = useTheme();
-  const bc       = tool.brandColor;
-  const tileBg   = isDark ? "rgba(55,65,81,0.9)" : "#ffffff";
-  const labelCol = isDark ? "#d1d5db" : "#4b5563";
-  return (
-    <div className="flex flex-col items-center gap-2 cursor-default select-none">
-      <div
-        className="w-14 h-14 rounded-xl shadow-md border border-gray-200 dark:border-gray-700 flex items-center justify-center"
-        style={{ background: tileBg }}
-      >
-        {tool.type === "adobe" ? (
-          <span className="font-bold text-sm leading-none" style={{ color: bc }}>{tool.abbr}</span>
-        ) : (
-          <tool.Icon className="w-7 h-7" style={{ color: bc }} />
-        )}
-      </div>
-      <span className="text-xs font-medium text-center" style={{ color: labelCol }}>{tool.label}</span>
-    </div>
-  );
+  return <SharedToolBadge label={tool.label} />;
 }
 
 /* ─── Índice — para el menú hamburguesa compartido (CaseStudyMenuNav) ──── */
@@ -118,10 +103,9 @@ function StepNode({ step, index }: { step: Step; index: number }) {
       >
         <step.Icon className="w-6 h-6 transition-colors duration-200" style={{ color: hov ? "#FF8300" : "#025959" }} />
       </motion.div>
-      <motion.span animate={{ color: hov ? "#FF8300" : "#025959" }} transition={{ duration: 0.2 }}
-        className="text-xs sm:text-sm font-medium text-center leading-tight dark:text-[#4ecfcf]" style={{ color: hov ? "#FF8300" : undefined }}>
+      <span className="text-xs sm:text-sm font-medium text-center leading-tight text-[#025959] dark:text-[#4ecfcf]">
         {step.label}
-      </motion.span>
+      </span>
     </motion.button>
   );
 }
@@ -155,7 +139,7 @@ function SectionLabel({ text, accent = false }: { text: string; accent?: boolean
   return (
     <span className={`inline-block mb-3 px-3 py-1 rounded-full text-sm font-medium ${
       accent
-        ? "bg-[#FF8300]/12 dark:bg-[#FF8300]/20 text-[#FF8300]"
+        ? "bg-[#FF8300]/12 dark:bg-[#FF8300]/10 text-gray-900 dark:text-[#FF8300]"
         : "bg-[#025959]/10 dark:bg-[#4ecfcf]/15 text-[#025959] dark:text-[#4ecfcf]"
     }`}>{text}</span>
   );
@@ -338,6 +322,7 @@ export function BookieCaseStudy() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
       <CaseStudyMenuNav title="Bookie" sections={INDEX_SECTIONS} primaryColor="#025959" secondaryColor="#FF8300" />
+      <main id="main" tabIndex={-1} className="outline-none">
 
       {/* HERO */}
       <div id="inicio">
@@ -351,7 +336,7 @@ export function BookieCaseStudy() {
           imageAlt="Pantalla de la app Bookie"
           imageMobile1={bookie1}
           imageMobile2={bookie2}
-          brandColor="#906E2A"
+          brandColor="#7A5C22"
           brandColorDark="#d4a85a"
           variant="phones"
         />
@@ -379,12 +364,12 @@ export function BookieCaseStudy() {
                 </p>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   Nuestro equipo llegó a la instancia de{" "}
-                  <strong className="text-[#FF8300]">finalistas</strong>. El prototipo fue construido completamente en
+                  <strong className="text-[#025959] dark:text-[#FF8300]">finalistas</strong>. El prototipo fue construido completamente en
                   Figma y a falta de usuarios reales, las iteraciones se basaron en heurísticas de Nielsen y referentes
                   validados del diseño.
                 </p>
                 <div className="pt-2">
-                  <p className="text-xs uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-4">
+                  <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-4">
                     Herramientas utilizadas
                   </p>
                   <div className="flex flex-wrap gap-3">
@@ -410,7 +395,7 @@ export function BookieCaseStudy() {
                       whileHover={{ y:-3, boxShadow:"0 8px 24px rgba(2,89,89,.12)" }}
                       className={`bg-white dark:bg-gray-700 rounded-2xl p-4 shadow-sm border border-gray-100 dark:border-gray-600 transition-shadow ${full ? "col-span-2" : ""}`}
                     >
-                      <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-1.5">{label}</p>
+                      <p className="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1.5">{label}</p>
                       <p className="text-[#025959] dark:text-[#4ecfcf] text-sm font-semibold leading-snug">{value}</p>
                     </motion.div>
                   ))}
@@ -426,7 +411,7 @@ export function BookieCaseStudy() {
       <section className="py-16 md:py-20 bg-gradient-to-br from-[#025959] to-[#014040] dark:from-[#012020] dark:to-[#010a0a]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-12 text-center">
           <FadeSection>
-            <span className="inline-block mb-6 px-3 py-1 rounded-full bg-white/10 text-white/70 text-sm">
+            <span className="inline-block mb-6 px-3 py-1 rounded-full bg-white/10 text-white/90 text-sm">
               ★ Logro del proyecto
             </span>
             <blockquote className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-snug mb-8">
@@ -441,7 +426,7 @@ export function BookieCaseStudy() {
                 { label: "Resultado", desc: "Top 2 Finalistas" },
               ].map(({ label, desc }) => (
                 <div key={label} className="rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 p-4 text-left">
-                  <span className="text-[#FF8300] text-xs font-bold uppercase tracking-widest">{label}</span>
+                  <span className="text-white text-xs font-bold uppercase tracking-widest"><span aria-hidden="true" className="inline-block w-1.5 h-1.5 rounded-full bg-[#FF8300] mr-1.5 align-middle" />{label}</span>
                   <p className="text-white/85 text-sm mt-1 leading-snug font-semibold">{desc}</p>
                 </div>
               ))}
@@ -515,10 +500,10 @@ export function BookieCaseStudy() {
                   viewport={{ once: true }} transition={{ duration: 0.45, delay: i * 0.1 }}
                   className="rounded-3xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 overflow-hidden shadow-sm"
                 >
-                  <div className="px-6 py-4 flex items-center gap-3" style={{ backgroundColor: color }}>
+                  <div className="px-6 py-4 flex items-center gap-3" style={{ backgroundColor: color, color: readableTextOn(color) }}>
                     <div>
-                      <p className="text-white/70 text-xs font-semibold uppercase tracking-widest">{label}</p>
-                      <p className="text-white text-2xl font-black">{range}</p>
+                      <p className="text-xs font-semibold uppercase tracking-widest">{label}</p>
+                      <p className="text-2xl font-black">{range}</p>
                     </div>
                   </div>
                   <ul className="px-6 py-4 space-y-2.5">
@@ -566,10 +551,10 @@ export function BookieCaseStudy() {
                   className="w-20 h-20 rounded-full object-cover border-3 border-white/30 shadow-lg flex-shrink-0"
                 />
                 <div className="flex-1">
-                  <p className="text-white/70 text-xs font-semibold uppercase tracking-widest mb-0.5">User Persona</p>
+                  <p className="text-white/90 text-xs font-semibold uppercase tracking-widest mb-0.5">User Persona</p>
                   <h4 className="text-2xl font-black text-white">Alejandra</h4>
-                  <p className="text-white/80 text-sm">Lectora y escritora</p>
-                  <p className="text-[#FF8300] text-sm font-medium italic mt-1">"Quiero leer y escribir historias"</p>
+                  <p className="text-white/90 text-sm">Lectora y escritora</p>
+                  <p className="text-white text-sm font-medium italic mt-1">"Quiero leer y escribir historias"</p>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
                   {[
@@ -579,7 +564,7 @@ export function BookieCaseStudy() {
                     { label: "Ciudad",      value: "Bogotá"   },
                   ].map(({ label, value }) => (
                     <div key={label} className="text-center">
-                      <p className="text-white/50 text-[10px] uppercase tracking-widest">{label}</p>
+                      <p className="text-white/90 text-xs uppercase tracking-widest">{label}</p>
                       <p className="text-white text-sm font-semibold">{value}</p>
                     </div>
                   ))}
@@ -592,7 +577,7 @@ export function BookieCaseStudy() {
                   <p className="text-gray-600 dark:text-gray-300 italic text-sm leading-relaxed">
                     "Me gusta la lectura y escribir pero siempre encuentro apps con la misma estrategia de lecturas y la misma dinámica. Me gustaría conectar con otras alternativas para poder disfrutar la lectura de otra manera."
                   </p>
-                  <footer className="mt-1 text-xs text-gray-400">— Alejandra</footer>
+                  <footer className="mt-1 text-xs text-gray-500 dark:text-gray-300">— Alejandra</footer>
                 </blockquote>
                 <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                   Alejandra es psicóloga, trabaja de manera remota y aprovecha sus tiempos libres para lectura y escritura —su hobby desde pequeña. Es una persona solitaria que busca apps que la saquen de su zona de confort y le permitan experimentar nuevas cosas relacionadas con sus hobbies favoritos.
@@ -628,8 +613,8 @@ export function BookieCaseStudy() {
                   },
                 ].map(({ title, color, darkColor, items }) => (
                   <div key={title} className="px-5 py-5">
-                    <p className="text-xs font-bold uppercase tracking-widest mb-3"
-                      style={{ color }}>
+                    <p className="text-xs font-bold uppercase tracking-widest mb-3 text-[var(--c)] dark:text-[var(--cd)]"
+                      style={{ "--c": color === "#FF8300" ? "#025959" : color, "--cd": darkColor } as React.CSSProperties}>
                       {title}
                     </p>
                     <ul className="space-y-2">
@@ -658,7 +643,7 @@ export function BookieCaseStudy() {
 
             {/* Tabla */}
             <div className="rounded-3xl border border-gray-100 dark:border-gray-700 overflow-hidden shadow-sm mb-8">
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Tabla de benchmark (desplazable)">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="bg-[#025959] text-white">
@@ -698,7 +683,7 @@ export function BookieCaseStudy() {
                       >
                         <td className="px-5 py-4">
                           <p className="font-bold text-gray-800 dark:text-gray-100">{app}</p>
-                          {badge && <span className="text-[10px] font-semibold bg-[#025959]/10 dark:bg-[#4ecfcf]/15 text-[#025959] dark:text-[#4ecfcf] px-2 py-0.5 rounded-full">{badge}</span>}
+                          {badge && <span className="text-xs font-semibold bg-[#025959]/10 dark:bg-[#4ecfcf]/15 text-[#025959] dark:text-[#4ecfcf] px-2 py-0.5 rounded-full">{badge}</span>}
                         </td>
                         <td className="px-5 py-4 text-xs text-gray-600 dark:text-gray-300 leading-relaxed">{onboarding}</td>
                         <td className="px-5 py-4 text-xs text-gray-600 dark:text-gray-300 leading-relaxed">{vocab}</td>
@@ -738,7 +723,7 @@ export function BookieCaseStudy() {
                     <p className="font-bold text-gray-800 dark:text-gray-100">{app}</p>
                   </div>
                   <div className="px-4 pt-3 pb-1">
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2">Fortalezas</p>
+                    <p className="text-xs font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-400 mb-2">Fortalezas</p>
                     <ul className="space-y-1.5 mb-3">
                       {fortalezas.map((f) => (
                         <li key={f} className="flex items-start gap-1.5 text-xs text-gray-600 dark:text-gray-300">
@@ -747,7 +732,7 @@ export function BookieCaseStudy() {
                         </li>
                       ))}
                     </ul>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-rose-500 dark:text-rose-400 mb-2">Debilidades</p>
+                    <p className="text-xs font-bold uppercase tracking-widest text-rose-700 dark:text-rose-400 mb-2">Debilidades</p>
                     <ul className="space-y-1.5 pb-3">
                       {debilidades.map((d) => (
                         <li key={d} className="flex items-start gap-1.5 text-xs text-gray-600 dark:text-gray-300">
@@ -765,7 +750,7 @@ export function BookieCaseStudy() {
           {/* Diferencial de Bookie */}
           <FadeSection delay={0.25}>
             <div className="rounded-3xl bg-gradient-to-br from-[#025959] to-[#014040] dark:from-[#012020] dark:to-[#010a0a] p-8">
-              <p className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-3">
+              <p className="text-white/90 text-xs font-semibold uppercase tracking-widest mb-3">
                 Diferencial de Bookie — conclusión del benchmark
               </p>
               <p className="text-white/90 leading-relaxed mb-8 max-w-3xl">
@@ -787,7 +772,7 @@ export function BookieCaseStudy() {
                       <Icon className="w-5 h-5 text-[#FF8300]" />
                     </div>
                     <p className="text-white font-bold mb-1.5">{title}</p>
-                    <p className="text-white/70 text-xs leading-relaxed">{desc}</p>
+                    <p className="text-white/90 text-xs leading-relaxed">{desc}</p>
                   </motion.div>
                 ))}
               </div>
@@ -948,8 +933,8 @@ export function BookieCaseStudy() {
                     >
                       <div className="w-full h-20 rounded-2xl shadow-md" style={{ backgroundColor: hex }} />
                       <p className="text-sm font-bold text-gray-800 dark:text-gray-100">{name}</p>
-                      <p className="text-[10px] font-mono text-gray-400 dark:text-gray-500">{hex}</p>
-                      <p className="text-[10px] font-semibold uppercase tracking-wide text-gray-400 dark:text-gray-500">{role}</p>
+                      <p className="text-xs font-mono text-gray-500 dark:text-gray-400">{hex}</p>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">{role}</p>
                       <p className="text-xs text-gray-500 dark:text-gray-400 leading-snug">{desc}</p>
                     </motion.div>
                   ))}
@@ -969,13 +954,13 @@ export function BookieCaseStudy() {
                     >
                       <div className="w-full h-8 rounded-xl border border-gray-200 dark:border-gray-600"
                         style={{ backgroundColor: hex }} />
-                      <p className="text-[9px] text-center text-gray-400 dark:text-gray-500">{name}</p>
+                      <p className="text-xs text-center text-gray-500 dark:text-gray-400">{name}</p>
                     </motion.div>
                   ))}
                 </div>
                 <div className="mt-5 h-10 rounded-2xl shadow-inner"
                   style={{ background: "linear-gradient(135deg, #006078 0%, #906E2A 100%)" }} />
-                <p className="mt-2 text-[10px] text-center text-gray-400 dark:text-gray-500 italic">
+                <p className="mt-2 text-xs text-center text-gray-500 dark:text-gray-400 italic">
                   Gradiente de marca — Azul → Marrón dorado
                 </p>
               </div>
@@ -991,36 +976,36 @@ export function BookieCaseStudy() {
                   <motion.div initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }} transition={{ duration: 0.45 }}
                     className="border-l-4 border-[#906E2A] pl-4">
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Display — H1</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1">Display — H1</p>
                     <p className="text-4xl font-black tracking-tight text-gray-900 dark:text-gray-50 leading-none"
                       style={{ fontFamily: '"Roboto", sans-serif' }}>Bookie</p>
-                    <p className="text-[10px] font-mono text-gray-400 mt-1.5">Roboto · 700 · 48px · −0.02em</p>
+                    <p className="text-xs font-mono text-gray-500 dark:text-gray-300 mt-1.5">Roboto · 700 · 48px · −0.02em</p>
                   </motion.div>
                   <motion.div initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.08 }}
                     className="border-l-4 border-[#006078] pl-4">
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Heading — H2</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1">Heading — H2</p>
                     <p className="text-2xl font-bold text-gray-800 dark:text-gray-100"
                       style={{ fontFamily: '"Roboto", sans-serif' }}>Tu historia te espera</p>
-                    <p className="text-[10px] font-mono text-gray-400 mt-1">Roboto · 600 · 28px · −0.01em</p>
+                    <p className="text-xs font-mono text-gray-500 dark:text-gray-300 mt-1">Roboto · 600 · 28px · −0.01em</p>
                   </motion.div>
                   <motion.div initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.16 }}
                     className="border-l-4 border-gray-200 dark:border-gray-600 pl-4">
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Body — Cuerpo</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1">Body — Cuerpo</p>
                     <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed"
                       style={{ fontFamily: '"Recursive", monospace' }}>
                       Descubre capítulos al llegar a nuevos lugares del mundo real.
                     </p>
-                    <p className="text-[10px] font-mono text-gray-400 mt-1">Recursive · 400 · 16px · 1.6 lh</p>
+                    <p className="text-xs font-mono text-gray-500 dark:text-gray-300 mt-1">Recursive · 400 · 16px · 1.6 lh</p>
                   </motion.div>
                   <motion.div initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }} transition={{ duration: 0.45, delay: 0.24 }}
                     className="border-l-4 border-gray-100 dark:border-gray-700 pl-4">
-                    <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-1">Caption / Label</p>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-400"
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-300 mb-1">Caption / Label</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 dark:text-gray-300"
                       style={{ fontFamily: '"Roboto", sans-serif' }}>CAPÍTULO DESBLOQUEADO</p>
-                    <p className="text-[10px] font-mono text-gray-400 mt-1">Roboto · 600 · 11px · 0.08em</p>
+                    <p className="text-xs font-mono text-gray-500 dark:text-gray-300 mt-1">Roboto · 600 · 11px · 0.08em</p>
                   </motion.div>
                 </div>
               </div>
@@ -1067,7 +1052,7 @@ export function BookieCaseStudy() {
                       {colors.map(({ hex }) => (
                         <span key={hex} className="flex items-center gap-1.5">
                           <span className="w-3 h-3 rounded-full border border-gray-200" style={{ backgroundColor: hex }} />
-                          <span className="text-[10px] font-mono text-gray-400">{hex}</span>
+                          <span className="text-xs font-mono text-gray-500 dark:text-gray-300">{hex}</span>
                         </span>
                       ))}
                     </div>
@@ -1079,7 +1064,7 @@ export function BookieCaseStudy() {
                 <p className="text-center text-white font-bold text-lg tracking-wide">
                   Localización · Guía · Narrativa
                 </p>
-                <p className="text-center text-white/70 text-sm mt-1">
+                <p className="text-center text-white text-sm mt-1">
                   Los tres pilares del logo fusionados en el símbolo de Bookie
                 </p>
               </div>
@@ -1141,8 +1126,8 @@ export function BookieCaseStudy() {
                       viewport={{ once: true }} transition={{ duration: 0.4, delay: i * 0.08 }}
                       className="flex items-start gap-3"
                     >
-                      <span className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-sm mt-0.5"
-                        style={{ backgroundColor: color }}>{num}</span>
+                      <span className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shadow-sm mt-0.5"
+                        style={{ backgroundColor: color, color: readableTextOn(color) }}>{num}</span>
                       <div>
                         <p className="font-semibold text-sm text-gray-800 dark:text-gray-100">{label}</p>
                         <p className="text-xs text-gray-500 dark:text-gray-400 leading-snug mt-0.5">{desc}</p>
@@ -1166,7 +1151,7 @@ export function BookieCaseStudy() {
           {/* Decisión de diseño clave */}
           <FadeSection className="mb-10" delay={0.15}>
             <div className="rounded-3xl border-l-4 border-[#FF8300] bg-[#FF8300]/5 dark:bg-[#FF8300]/8 p-7">
-              <p className="text-xs font-bold uppercase tracking-widest text-[#FF8300] mb-3">
+              <p className="text-xs font-bold uppercase tracking-widest text-[#025959] dark:text-[#FF8300] mb-3">
                 Decisión de diseño clave — La pantalla de transición
               </p>
               <p className="text-gray-800 dark:text-gray-100 font-semibold leading-relaxed mb-3">
@@ -1178,7 +1163,7 @@ export function BookieCaseStudy() {
                 dedicada que mostrara la próxima ubicación en el mapa, la distancia estimada y un adelanto del
                 próximo capítulo —sin mezclar ambas experiencias en una sola vista. Esta decisión responde a la
                 heurística de Nielsen de{" "}
-                <strong className="text-[#FF8300]">"visibilidad del estado del sistema"</strong>{" "}
+                <strong className="text-[#025959] dark:text-[#FF8300]">"visibilidad del estado del sistema"</strong>{" "}
                 y al principio de reducción de carga cognitiva.
               </p>
             </div>
@@ -1208,15 +1193,15 @@ export function BookieCaseStudy() {
                 className="inline-flex items-center gap-2 px-8 py-3 bg-[#025959] text-white rounded-xl font-medium shadow-lg"
               >
                 Ver prototipo en Figma →
-              </motion.a>
+              <span className="sr-only"> (se abre en una pestaña nueva)</span></motion.a>
             </div>
             <div className="flex justify-center mb-8">
               <a href="https://github.com/Sofi-Alvarez/Bookie" target="_blank" rel="noopener noreferrer"
                 data-ga-action="github_click" data-ga-category="CTA" data-ga-label="Repo Bookie"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[#025959] dark:text-[#4ecfcf] hover:underline">
+                className="inline-flex items-center gap-2 min-h-11 text-sm font-semibold text-[#025959] dark:text-[#4ecfcf] hover:underline">
                 <Github className="w-4 h-4" />
                 Ver el repositorio en GitHub
-              </a>
+              <span className="sr-only"> (se abre en una pestaña nueva)</span></a>
             </div>
 
             {/* Funcionalidades + Demo Day — debajo del embed */}
@@ -1254,11 +1239,11 @@ export function BookieCaseStudy() {
 
               {/* Demo Day */}
               <div className="rounded-3xl p-6 text-center bg-gradient-to-br from-[#025959] to-[#014040] dark:from-[#012020] dark:to-[#010a0a]">
-                <span className="inline-block mb-3 px-3 py-1 rounded-full bg-white/15 text-white/80 text-xs font-semibold uppercase tracking-widest">
+                <span className="inline-block mb-3 px-3 py-1 rounded-full bg-white/15 text-white/90 text-xs font-semibold uppercase tracking-widest">
                   Demo Day · No Country
                 </span>
-                <h4 className="text-xl font-bold text-white mb-2">Finalistas del Hackathon</h4>
-                <p className="text-white/80 text-sm leading-relaxed">
+                <h3 className="text-xl font-bold text-white mb-2">Finalistas del Hackathon</h3>
+                <p className="text-white/90 text-sm leading-relaxed">
                   El prototipo fue presentado ante el cliente y el equipo de No Country. Nuestro equipo{" "}
                   <strong className="text-white">H3-14</strong> llegó a instancia de finalistas, validando los flujos
                   diseñados como una propuesta funcional y navegable.
@@ -1271,8 +1256,8 @@ export function BookieCaseStudy() {
                     { val: "4+",  label: "roles en el equipo" },
                   ].map(({ val, label }) => (
                     <div key={label} className="rounded-2xl bg-white/10 border border-white/15 py-3 px-2">
-                      <p className="text-lg font-black text-[#FF8300]">{val}</p>
-                      <p className="text-white/70 text-xs mt-0.5">{label}</p>
+                      <p className="text-xl font-black text-white">{val}</p>
+                      <p className="text-white/90 text-xs mt-0.5">{label}</p>
                     </div>
                   ))}
                 </div>
@@ -1337,7 +1322,7 @@ export function BookieCaseStudy() {
                       <CheckCircle className="w-4 h-4 text-[#025959] dark:text-[#4ecfcf] flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="font-semibold text-sm text-gray-800 dark:text-gray-100 leading-snug">{label}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 leading-snug">{desc}</p>
+                        <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5 leading-snug">{desc}</p>
                       </div>
                     </motion.div>
                   ))}
@@ -1347,7 +1332,7 @@ export function BookieCaseStudy() {
 
             <FadeSection delay={0.1}>
               <div className="rounded-3xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 p-6 h-full">
-                <p className="text-xs font-semibold uppercase tracking-widest text-[#FF8300] mb-5">
+                <p className="text-xs font-semibold uppercase tracking-widest text-[#025959] dark:text-[#FF8300] mb-5">
                   Criterios del cliente
                 </p>
                 <div className="space-y-3">
@@ -1403,7 +1388,7 @@ export function BookieCaseStudy() {
               Cuadro de validación heurística
             </h3>
             <div className="rounded-3xl border border-gray-100 dark:border-gray-700 overflow-hidden shadow-sm">
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Tabla de evaluación heurística (desplazable)">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="bg-[#025959] text-white">
@@ -1451,7 +1436,7 @@ export function BookieCaseStudy() {
                         </td>
                         <td className="px-5 py-4 text-xs text-gray-600 dark:text-gray-300 leading-relaxed">{apply}</td>
                         <td className="px-5 py-4">
-                          <span className={`text-xs font-bold ${status.includes("⭐") ? "text-[#FF8300]" : "text-emerald-600 dark:text-emerald-400"}`}>
+                          <span className={`text-xs font-bold ${status.includes("⭐") ? "text-[#025959] dark:text-[#FF8300]" : "text-emerald-700 dark:text-emerald-400"}`}>
                             {status}
                           </span>
                         </td>
@@ -1466,13 +1451,13 @@ export function BookieCaseStudy() {
           {/* Impact banner */}
           <FadeSection delay={0.25}>
             <div className="rounded-3xl bg-gradient-to-br from-[#025959] to-[#014040] dark:from-[#012020] dark:to-[#010a0a] p-8 text-center mb-8">
-              <p className="text-white/50 text-xs font-semibold uppercase tracking-widest mb-4">Resultado del proyecto</p>
+              <p className="text-white/90 text-xs font-semibold uppercase tracking-widest mb-4">Resultado del proyecto</p>
               <p className="text-2xl sm:text-3xl font-bold text-white leading-snug">
                 4 flujos diseñados · 5 semanas de sprint · 1 prototipo{" "}
                 <span className="text-[#FF8300]">finalista</span>{" "}
                 entre todos los equipos del hackathon
               </p>
-              <p className="text-white/50 text-sm mt-3">Hackathon Bookie · No Country · Diciembre 2024</p>
+              <p className="text-white/90 text-sm mt-3">Hackathon Bookie · No Country · Diciembre 2024</p>
             </div>
 
             {/* Quote */}
@@ -1505,7 +1490,7 @@ export function BookieCaseStudy() {
               <div className="flex justify-center">
                 <div className="h-1 w-12 rounded-full bg-[#FF8300]" />
               </div>
-              <p className="text-white/50 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
+              <p className="text-white/90 text-xs font-semibold uppercase tracking-widest">¿Siguiente paso?</p>
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-snug">
                 ¿Querés trabajar conmigo?{" "}
                 <span className="text-[#FF8300]">Escribime.</span>
@@ -1515,11 +1500,11 @@ export function BookieCaseStudy() {
               whileHover={{ backgroundColor: "#e87500", boxShadow: "0 16px 50px rgba(255,131,0,.55)", y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" }), 500); }}
+              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: scrollBehavior() }), 500); }}
               data-ga-action="cta_click"
               data-ga-category="CTA"
               data-ga-label="Contactar - Bookie"
-              className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-white font-semibold text-lg shadow-2xl transition-all"
+              className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-gray-900 font-semibold text-lg shadow-2xl transition-all"
             >
               Coordinar reunión
             </motion.button>
@@ -1565,7 +1550,7 @@ export function BookieCaseStudy() {
               {/* Hipervínculo — sin fondo ni borde */}
               <button
                 onClick={() => navigate("/")}
-                className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 dark:text-gray-500 hover:text-[#FF8300] dark:hover:text-[#FF8300] transition-colors group"
+                className="inline-flex items-center gap-2 min-h-11 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-[#FF8300] dark:hover:text-[#FF8300] transition-colors group"
               >
                 <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                 Volver al portfolio
@@ -1579,8 +1564,9 @@ export function BookieCaseStudy() {
       {/* ══════════════════════════════════════════
           FOOTER
       ══════════════════════════════════════════ */}
+      </main>
       <footer className="py-6 bg-gray-900 dark:bg-gray-950 text-center">
-        <p className="text-gray-400 dark:text-gray-500 text-sm">
+        <p className="text-gray-400 text-sm">
           © 2026 Sofía Álvarez. Diseñado por mí, implementado con Claude Code
         </p>
       </footer>

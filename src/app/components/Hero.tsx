@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
+import { scrollBehavior } from "../utils/motion";
 
 /* ─── CSS keyframes injected once ─────────────────────────────────────────── */
 const WAVE_STYLES = `
@@ -145,7 +146,7 @@ export function Hero() {
           transition={{ delay: 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           Hola, soy{" "}
-          <span className="font-bold" style={{ color: "#FF8300" }}>
+          <span className="font-bold text-[#025959] dark:text-[#FF8300]">
             ¡Sofía!
           </span>
         </motion.p>
@@ -158,10 +159,10 @@ export function Hero() {
           transition={{ delay: 0.18, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
           Una{" "}
-          <span style={{ color: "#025959" }}>Product Designer</span>{" "}
+          <span className="text-[#025959] dark:text-[#4ecfcf]">Product Designer</span>{" "}
           creando experiencias digitales{" "}
           {/* "excepcionales" with SVG hand-drawn underline */}
-          <span className="relative inline-block" style={{ color: "#FF8300" }}>
+          <span className="relative inline-block text-[#025959] dark:text-[#FF8300]">
             excepcionales
             <svg
               className="absolute -bottom-2 left-0 w-full"
@@ -212,7 +213,7 @@ export function Hero() {
               boxShadow: "0 10px 28px rgba(2,89,89,0.30)",
             }}
             onClick={() =>
-              document.querySelector("#projects")?.scrollIntoView({ behavior: "smooth" })
+              document.querySelector("#projects")?.scrollIntoView({ behavior: scrollBehavior() })
             }
             aria-label="Ir a la sección de proyectos"
             data-ga-action="cta_click"

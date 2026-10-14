@@ -1,9 +1,10 @@
 import { motion } from "motion/react";
-import { useNavigate } from "react-router";
+import { Link } from "react-router";
 import { ArrowUpRight } from "lucide-react";
 import { SiFigma, SiFlutter, SiFirebase, SiReact } from "react-icons/si";
 import { PenLine } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
+import { ToolGlyph } from "./ui/ToolGlyph";
 import iupiPort   from "../../imports/iupicont.webp";
 import bookiePort  from "../../imports/Bookiecont.webp";
 import bankPort    from "../../imports/Masbankcont.webp";
@@ -108,24 +109,17 @@ const PROJECTS: ProjectDef[] = [
 /* ══════════════════════════════════════════════════════════
    TOOL CHIP — compact, static, no hover, title tooltip
 ══════════════════════════════════════════════════════════ */
-function ToolChip({ toolKey, isDark }: { toolKey: string; isDark: boolean }) {
+function ToolChip({ toolKey }: { toolKey: string }) {
   const def = TOOLS[toolKey];
   if (!def) return null;
-  const tileBg = isDark ? "rgba(55,65,81,0.85)" : "#ffffff";
   return (
     <span
+      role="img"
       title={def.label}
       aria-label={def.label}
-      className="w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-600 flex items-center justify-center flex-shrink-0"
-      style={{ background: tileBg }}
+      className="w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700/85 flex items-center justify-center flex-shrink-0"
     >
-      {def.type === "icon" ? (
-        <def.Icon className="w-4 h-4" style={{ color: def.color }} />
-      ) : (
-        <span className="text-[9px] font-bold leading-none" style={{ color: def.color }}>
-          {def.abbr}
-        </span>
-      )}
+      <ToolGlyph name={def.label} className="w-4 h-4" />
     </span>
   );
 }
@@ -138,7 +132,7 @@ function CardFooter({ project, isDark }: { project: ProjectDef; isDark: boolean 
     <div className="flex items-center justify-between gap-3 pt-3 border-t border-gray-100 dark:border-gray-700/60 mt-auto">
       <div className="flex items-center gap-1.5 flex-wrap">
         {project.tools.map((key) => (
-          <ToolChip key={key} toolKey={key} isDark={isDark} />
+          <ToolChip key={key} toolKey={key} />
         ))}
       </div>
       <span className="inline-flex items-center gap-1 text-xs font-semibold text-[#025959] dark:text-[#4ecfcf] whitespace-nowrap group-hover:gap-2 transition-all duration-200">
@@ -153,7 +147,6 @@ function CardFooter({ project, isDark }: { project: ProjectDef; isDark: boolean 
    PRIMARY CARD — IUPI (full width, image left on desktop)
 ══════════════════════════════════════════════════════════ */
 function PrimaryCard({ project, index }: { project: ProjectDef; index: number }) {
-  const navigate = useNavigate();
   const { isDark } = useTheme();
 
   return (
@@ -163,15 +156,10 @@ function PrimaryCard({ project, index }: { project: ProjectDef; index: number })
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.07 }}
       whileHover={{ y: -4, boxShadow: `0 28px 56px ${project.accentColor}28` }}
-      onClick={() => navigate(project.slug)}
-      onKeyDown={(e) => e.key === "Enter" && navigate(project.slug)}
-      role="button"
-      tabIndex={0}
-      aria-label={`Ver caso de estudio: ${project.title}`}
       data-ga-action="project_click"
       data-ga-category="Projects"
       data-ga-label={project.title}
-      className="group flex flex-col md:flex-row rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#025959] focus:ring-offset-2 transition-shadow"
+      className="group flex flex-col md:flex-row rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md relative cursor-pointer has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-[#025959] has-[a:focus-visible]:ring-offset-2 transition-shadow"
     >
       {/* Image — full top on mobile, left 44% on desktop */}
       <div
@@ -180,7 +168,7 @@ function PrimaryCard({ project, index }: { project: ProjectDef; index: number })
       >
         <img
           src={project.image}
-          alt={project.title}
+          alt=""
           className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]"
         />
         {/* Right-edge fade into content panel on desktop */}
@@ -198,7 +186,7 @@ function PrimaryCard({ project, index }: { project: ProjectDef; index: number })
       <div className="flex-1 flex flex-col justify-center p-6 md:p-8 lg:p-10">
         {/* Badge + role */}
         <div className="flex flex-wrap items-center gap-2 mb-4">
-          <span className="px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide bg-[#FF8300] text-white shadow-sm">
+          <span className="px-3 py-1 rounded-full text-xs font-semibold tracking-wide bg-[#FF8300] text-gray-900 shadow-sm">
             {project.badge}
           </span>
           <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
@@ -208,7 +196,10 @@ function PrimaryCard({ project, index }: { project: ProjectDef; index: number })
 
         {/* Title */}
         <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 dark:text-gray-100 leading-snug mb-3">
-          {project.title}
+          {/* El link cubre toda la card (after:inset-0): una sola parada de tab, con el título como nombre accesible */}
+          <Link to={project.slug} className="outline-none after:absolute after:inset-0 after:content-['']">
+            {project.title}<span className="sr-only"> (ver caso de estudio)</span>
+          </Link>
         </h3>
 
         {/* Description */}
@@ -232,7 +223,6 @@ function PrimaryCard({ project, index }: { project: ProjectDef; index: number })
    SECONDARY CARD — Portfolio / Mas+ Bank (image top, info below)
 ══════════════════════════════════════════════════════════ */
 function SecondaryCard({ project, index }: { project: ProjectDef; index: number }) {
-  const navigate = useNavigate();
   const { isDark } = useTheme();
 
   return (
@@ -242,15 +232,10 @@ function SecondaryCard({ project, index }: { project: ProjectDef; index: number 
       viewport={{ once: true }}
       transition={{ duration: 0.55, delay: index * 0.1 }}
       whileHover={{ y: -4, boxShadow: `0 20px 44px ${project.accentColor}24` }}
-      onClick={() => navigate(project.slug)}
-      onKeyDown={(e) => e.key === "Enter" && navigate(project.slug)}
-      role="button"
-      tabIndex={0}
-      aria-label={`Ver caso de estudio: ${project.title}`}
       data-ga-action="project_click"
       data-ga-category="Projects"
       data-ga-label={project.title}
-      className="group flex flex-col rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#025959] focus:ring-offset-2 transition-shadow h-full"
+      className="group flex flex-col rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md relative cursor-pointer has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-[#025959] has-[a:focus-visible]:ring-offset-2 transition-shadow h-full"
     >
       {/* Image — contained in a padded tinted box */}
       <div
@@ -259,7 +244,7 @@ function SecondaryCard({ project, index }: { project: ProjectDef; index: number 
       >
         <img
           src={project.image}
-          alt={project.title}
+          alt=""
           className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04] p-4"
         />
         {/* Bottom edge fade into info block */}
@@ -277,7 +262,7 @@ function SecondaryCard({ project, index }: { project: ProjectDef; index: number 
       <div className="flex flex-col flex-1 p-5 md:p-6">
         {/* Badge + role */}
         <div className="flex flex-wrap items-center gap-2 mb-3">
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wide bg-[#FF8300] text-white shadow-sm">
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold tracking-wide bg-[#FF8300] text-gray-900 shadow-sm">
             {project.badge}
           </span>
           <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
@@ -287,7 +272,10 @@ function SecondaryCard({ project, index }: { project: ProjectDef; index: number 
 
         {/* Title */}
         <h3 className="text-lg sm:text-xl font-bold text-gray-800 dark:text-gray-100 leading-snug mb-2">
-          {project.title}
+          {/* El link cubre toda la card (after:inset-0): una sola parada de tab, con el título como nombre accesible */}
+          <Link to={project.slug} className="outline-none after:absolute after:inset-0 after:content-['']">
+            {project.title}<span className="sr-only"> (ver caso de estudio)</span>
+          </Link>
         </h3>
 
         {/* Description */}
@@ -311,7 +299,6 @@ function SecondaryCard({ project, index }: { project: ProjectDef; index: number 
    TERTIARY CARD — Bookie (compact horizontal, centered)
 ══════════════════════════════════════════════════════════ */
 function TertiaryCard({ project, index }: { project: ProjectDef; index: number }) {
-  const navigate = useNavigate();
   const { isDark } = useTheme();
 
   return (
@@ -321,15 +308,10 @@ function TertiaryCard({ project, index }: { project: ProjectDef; index: number }
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -3, boxShadow: `0 16px 36px ${project.accentColor}28` }}
-      onClick={() => navigate(project.slug)}
-      onKeyDown={(e) => e.key === "Enter" && navigate(project.slug)}
-      role="button"
-      tabIndex={0}
-      aria-label={`Ver caso de estudio: ${project.title}`}
       data-ga-action="project_click"
       data-ga-category="Projects"
       data-ga-label={project.title}
-      className="group flex mx-auto w-full max-w-2xl rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#025959] focus:ring-offset-2 transition-shadow"
+      className="group flex mx-auto w-full max-w-2xl rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md relative cursor-pointer has-[a:focus-visible]:ring-2 has-[a:focus-visible]:ring-[#025959] has-[a:focus-visible]:ring-offset-2 transition-shadow"
     >
       {/* Square image sidebar */}
       <div
@@ -338,7 +320,7 @@ function TertiaryCard({ project, index }: { project: ProjectDef; index: number }
       >
         <img
           src={project.image}
-          alt={project.title}
+          alt=""
           className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.05] p-3"
         />
       </div>
@@ -347,7 +329,7 @@ function TertiaryCard({ project, index }: { project: ProjectDef; index: number }
       <div className="flex flex-col flex-1 p-4 sm:p-5">
         {/* Badge + role */}
         <div className="flex flex-wrap items-center gap-2 mb-2">
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wide bg-[#FF8300] text-white shadow-sm">
+          <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold tracking-wide bg-[#FF8300] text-gray-900 shadow-sm">
             {project.badge}
           </span>
           <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
@@ -357,7 +339,10 @@ function TertiaryCard({ project, index }: { project: ProjectDef; index: number }
 
         {/* Title */}
         <h3 className="text-base sm:text-lg font-bold text-gray-800 dark:text-gray-100 leading-snug mb-1.5">
-          {project.title}
+          {/* El link cubre toda la card (after:inset-0): una sola parada de tab, con el título como nombre accesible */}
+          <Link to={project.slug} className="outline-none after:absolute after:inset-0 after:content-['']">
+            {project.title}<span className="sr-only"> (ver caso de estudio)</span>
+          </Link>
         </h3>
 
         {/* Description */}
