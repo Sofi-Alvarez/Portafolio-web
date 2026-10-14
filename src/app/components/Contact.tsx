@@ -3,18 +3,8 @@ import { Linkedin, FileDown, Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { SiGithub } from "react-icons/si";
 import sofiaPhoto from "../../imports/foto_sofia.webp";
-import cvFile from "../../imports/CV_Sofia_Alvarez_UX_UI.pdf";
 
 export function Contact() {
-  const handleLinkedIn = () => {
-    window.open("https://www.linkedin.com/in/sof%C3%ADa-%C3%A1lvarez-20/", "_blank");
-  };
-
-  const handleResume = () => {
-    // Open PDF directly — works both in localhost and production
-    window.open(cvFile, "_blank");
-  };
-
   return (
     <section id="contact" className="bg-white dark:bg-gray-900">
       {/* Banda separadora — ancho completo de pantalla */}
@@ -29,10 +19,10 @@ export function Contact() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl lg:text-5xl mb-4 text-gray-800 dark:text-gray-100">
-            Trabajemos Juntos
+            Trabajemos juntos
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300">
-            ¿Tenés un proyecto en mente? Me encantaría conocerlo
+            ¿Tenés un proyecto o una búsqueda abierta? Me encantaría conocerla.
           </p>
         </motion.div>
 
@@ -53,9 +43,6 @@ export function Contact() {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute -bottom-2 -right-2 w-12 h-12 bg-green-500 rounded-full border-4 border-white flex items-center justify-center">
-                <div className="w-3 h-3 bg-white rounded-full"></div>
-              </div>
             </div>
 
             {/* Info */}
@@ -66,15 +53,21 @@ export function Contact() {
 
               {/* Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <motion.button
+                <motion.a
+                  href="https://www.linkedin.com/in/sof%C3%ADa-%C3%A1lvarez-20/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={handleLinkedIn}
+                  data-ga-action="linkedin_click"
+                  data-ga-category="CTA"
+                  data-ga-label="LinkedIn Contacto"
                   className="flex items-center justify-center gap-2 px-6 py-3 bg-[#025959] text-white rounded-lg hover:bg-[#025959]/90 transition-colors shadow-lg"
                 >
-                  <Linkedin className="w-5 h-5" />
-                  <span>Conectar</span>
-                </motion.button>
+                  <Linkedin className="w-5 h-5" aria-hidden="true" />
+                  <span>Conectar en LinkedIn</span>
+                  <span className="sr-only"> (se abre en una pestaña nueva)</span>
+                </motion.a>
 
                 <motion.a
                 href="/CV_Sofia_Alvarez_UX_UI.pdf#view=FitV"
@@ -86,7 +79,7 @@ export function Contact() {
                 data-ga-category="CTA"
                 data-ga-label="Obtener currículum"
                 className="flex items-center justify-center gap-2 px-6 py-3 bg-[#FF8300] text-gray-900 rounded-lg hover:bg-[#FF8300]/90 transition-colors shadow-lg">
-                  <FileDown className="w-5 h-5" />
+                  <FileDown className="w-5 h-5" aria-hidden="true" />
                   <span>Obtener currículum</span>
 <span className="sr-only"> (se abre en una pestaña nueva)</span></motion.a>
               </div>
@@ -96,9 +89,12 @@ export function Contact() {
                 <a
                   href="mailto:alvarez.sofib@gmail.com"
                   className="w-11 h-11 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
-                  aria-label="Email"
+                  aria-label="Enviar un email a alvarez.sofib@gmail.com"
+                  data-ga-action="email_click"
+                  data-ga-category="CTA"
+                  data-ga-label="Email Contacto"
                 >
-                  <Mail className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                  <Mail className="w-5 h-5 text-gray-600 dark:text-gray-300" aria-hidden="true" />
                 </a>
                 <a
                   href="https://wa.me/541160285989"
@@ -106,6 +102,9 @@ export function Contact() {
                   rel="noopener noreferrer"
                   className="w-11 h-11 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-green-50 dark:hover:bg-gray-600 transition-colors"
                   aria-label="WhatsApp (se abre en una pestaña nueva)"
+                  data-ga-action="whatsapp_click"
+                  data-ga-category="CTA"
+                  data-ga-label="WhatsApp Contacto"
                 >
                   <FaWhatsapp aria-hidden="true" style={{ width: "1.25rem", height: "1.25rem", color: "#25D366" }} />
                 </a>

@@ -327,7 +327,7 @@ export function BookieCaseStudy() {
       {/* HERO */}
       <div id="inicio">
         <CaseStudyHero
-          badgeLabel="Caso de Estudio · Bookie"
+          badgeLabel="Caso de estudio · Bookie"
           titlePrefix="Bookie –"
           titleAccent="Lectura Geolocalizada"
           description="Una app que transforma la lectura digital en una aventura: descubrí historias en los lugares donde cobran vida y convertí cada paseo en un capítulo nuevo."
@@ -548,6 +548,11 @@ export function BookieCaseStudy() {
                 <img loading="lazy" decoding="async"
                   src="https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=200&q=80"
                   alt="Alejandra — User Persona"
+                  /* Imagen externa: si deja de estar disponible, se muestra la inicial en vez de una imagen rota */
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" fill="#FF8300"/><text x="40" y="52" font-family="sans-serif" font-size="34" font-weight="700" fill="#111827" text-anchor="middle">A</text></svg>');
+                  }}
                   className="w-20 h-20 rounded-full object-cover border-3 border-white/30 shadow-lg flex-shrink-0"
                 />
                 <div className="flex-1">
@@ -1500,13 +1505,13 @@ export function BookieCaseStudy() {
               whileHover={{ backgroundColor: "#e87500", boxShadow: "0 16px 50px rgba(255,131,0,.55)", y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: scrollBehavior() }), 500); }}
+              onClick={() => navigate("/", { state: { section: "contact" } })}
               data-ga-action="cta_click"
               data-ga-category="CTA"
               data-ga-label="Contactar - Bookie"
               className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-gray-900 font-semibold text-lg shadow-2xl transition-all"
             >
-              Coordinar reunión
+              Ir a contacto
             </motion.button>
           </FadeSection>
         </div>

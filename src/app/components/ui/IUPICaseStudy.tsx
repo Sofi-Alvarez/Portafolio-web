@@ -344,7 +344,7 @@ export function IUPICaseStudy() {
       ══════════════════════════════════════════ */}
       <div id="inicio">
         <CaseStudyHero
-          badgeLabel="Caso de Estudio · IUPI"
+          badgeLabel="Caso de estudio · IUPI"
           titlePrefix="IUPI –"
           titleAccent="Ahorro e Inversiones"
           description="Una experiencia fintech pensada para incluir financieramente a la población argentina: simple, segura y amigable, incluso en un contexto económico complejo."
@@ -1418,13 +1418,13 @@ export function IUPICaseStudy() {
               whileHover={{ backgroundColor: "#e87500", boxShadow: "0 16px 50px rgba(255,131,0,.55)", y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: scrollBehavior() }), 500); }}
+              onClick={() => navigate("/", { state: { section: "contact" } })}
               data-ga-action="cta_click"
               data-ga-category="CTA"
               data-ga-label="Contactar - IUPI"
               className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-gray-900 font-semibold text-lg shadow-2xl transition-all"
             >
-              Coordinar reunión
+              Ir a contacto
             </motion.button>
           </FadeSection>
         </div>

@@ -7,21 +7,30 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+const STORAGE_KEY = "theme";
+
+/* Tema inicial: la elección guardada de la persona; si no hay, la preferencia del sistema */
+function initialIsDark(): boolean {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "dark" || saved === "light") return saved === "dark";
+  } catch { /* storage bloqueado: se usa la preferencia del sistema */ }
+  return typeof window !== "undefined" && !!window.matchMedia?.("(prefers-color-scheme: dark)")?.matches;
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  // Always start in Light Mode — ignore localStorage and system preference
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(initialIsDark);
 
   useEffect(() => {
-    // Only update document class — never persist theme to localStorage
-    if (isDark) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", isDark);
   }, [isDark]);
 
   const toggleTheme = () => {
-    setIsDark((prev) => !prev);
+    setIsDark((prev) => {
+      const next = !prev;
+      try { localStorage.setItem(STORAGE_KEY, next ? "dark" : "light"); } catch { /* sin storage: no se recuerda */ }
+      return next;
+    });
   };
 
   return (

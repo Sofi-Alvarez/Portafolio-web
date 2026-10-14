@@ -329,7 +329,7 @@ export function PortfolioCaseStudy() {
       {/* ── HERO ────────────────────────────────────────────────── */}
       <div id="inicio">
         <CaseStudyHero
-          badgeLabel="Caso de Estudio · Portfolio Web"
+          badgeLabel="Caso de estudio · Portfolio Web"
           titlePrefix="Portfolio Web –"
           titleAccent="Diseñado y programado"
           description="De brief en blanco a producto publicado: un portfolio diseñado por mí e implementado con Claude Code, con desarrollo asistido por IA."
@@ -937,13 +937,13 @@ export function PortfolioCaseStudy() {
               whileHover={{ backgroundColor: "#e87500", boxShadow: "0 16px 50px rgba(255,131,0,.55)", y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: scrollBehavior() }), 500); }}
+              onClick={() => navigate("/", { state: { section: "contact" } })}
               data-ga-action="cta_click"
               data-ga-category="CTA"
               data-ga-label="Contactar - Portfolio"
               className="inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-gray-900 font-semibold text-lg shadow-2xl transition-all"
             >
-              Coordinar reunión
+              Ir a contacto
             </motion.button>
           </FadeSection>
         </div>

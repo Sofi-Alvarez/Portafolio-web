@@ -11,7 +11,12 @@ const LINKS = [
 ];
 
 function scrollTo(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
+  /* Mover el foco a la sección para que teclado y lector de pantalla sigan el salto */
+  if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
+  el.focus({ preventScroll: true });
 }
 
 export function Footer() {
@@ -24,13 +29,13 @@ export function Footer() {
           <div>
             <img src={logo2} alt="Sofía Álvarez" className="w-12 h-12 object-contain mb-4 brightness-0 invert" />
             <p className="text-white/90">
-              Product Designer & Design Engineer. Llevo productos de la investigación al código funcionando.
+              Llevo productos de la investigación al código funcionando.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg mb-4">Enlaces Rápidos</h3>
+            <h3 className="text-lg mb-4">Enlaces rápidos</h3>
             <ul>
               {LINKS.map(({ label, id }) => (
                 <li key={id}>
@@ -50,8 +55,16 @@ export function Footer() {
             <h3 className="text-lg mb-4">Contacto</h3>
             <ul className="space-y-2 text-white/90">
               <li>Buenos Aires, Argentina</li>
-              <li>alvarez.sofib@gmail.com</li>
-              <li>+54 11 6028 5989</li>
+              <li>
+                <a href="mailto:alvarez.sofib@gmail.com" className="inline-flex items-center min-h-11 hover:text-white underline-offset-4 hover:underline transition-colors">
+                  alvarez.sofib@gmail.com
+                </a>
+              </li>
+              <li>
+                <a href="tel:+541160285989" className="inline-flex items-center min-h-11 hover:text-white underline-offset-4 hover:underline transition-colors">
+                  +54 11 6028 5989
+                </a>
+              </li>
               <li>
                 <a href="https://www.linkedin.com/in/sof%C3%ADa-%C3%A1lvarez-20/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center min-h-11 hover:text-white transition-colors">
                   LinkedIn
@@ -69,7 +82,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="border-t border-white/20 pt-8 text-center text-white/90">
           <p className="flex items-center justify-center gap-2">
-            © 2026 Sofía Álvarez. Diseñado por mí con <Heart className="w-4 h-4 fill-[#FF8300] text-[#FF8300]" /> e implementado con Claude Code
+            © 2026 Sofía Álvarez. Diseñado por mí con <Heart className="w-4 h-4 fill-[#FF8300] text-[#FF8300]" aria-label="amor" /> e implementado con Claude Code
           </p>
         </div>
       </div>

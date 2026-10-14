@@ -9,7 +9,7 @@ import { ElementType, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useNavigate } from "react-router";
 import {
-  ArrowLeft, ArrowRight, ExternalLink, Moon, Sun, X, Menu,
+  ArrowLeft, ArrowRight, ArrowUp, ExternalLink, Moon, Sun, X, Menu,
   Users, Search, Lightbulb, Layers, CheckCircle,
   PenLine, Info, Compass, Route,
 } from "lucide-react";
@@ -132,7 +132,7 @@ function IndexSheet({ open, onClose, activeId, isDark, toggleTheme, title }: {
           <motion.div key="index-sheet" ref={sheetRef} initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
             transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
             className="fixed top-0 right-0 bottom-0 z-[61] w-full max-w-sm bg-white dark:bg-gray-900 shadow-2xl overflow-y-auto"
-            role="dialog" aria-modal="true" aria-label="Menú del caso de estudio">
+            id="case-study-menu" role="dialog" aria-modal="true" aria-label="Menú del caso de estudio">
             <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-gray-800">
               <p className="text-lg font-bold text-gray-800 dark:text-gray-100">Menú</p>
               <button onClick={onClose} aria-label="Cerrar menú"
@@ -173,7 +173,7 @@ function IndexSheet({ open, onClose, activeId, isDark, toggleTheme, title }: {
                   <p className="text-base font-bold text-gray-800 dark:text-gray-100">{title}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-300 mt-0.5">Ir a la portada</p>
                 </div>
-                <ExternalLink className="w-4 h-4 text-gray-300 dark:text-gray-600 flex-shrink-0" />
+                <ArrowUp aria-hidden="true" className="w-4 h-4 text-gray-400 dark:text-gray-500 flex-shrink-0" />
               </button>
 
               {/* Secciones internas del caso de estudio — anidadas bajo el nombre */}
@@ -236,7 +236,7 @@ function CaseStudyNav({ title }: { title: string }) {
 
   return (
     <>
-      <motion.nav initial={{ y: -80, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+      <motion.nav aria-label="Caso de estudio" initial={{ y: -80, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
         transition={{ duration: .5, ease: [.22, 1, .36, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled ? "bg-white/95 dark:bg-gray-900/95 shadow-md backdrop-blur-md" : "bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm"
@@ -247,14 +247,13 @@ function CaseStudyNav({ title }: { title: string }) {
             <img src={isDark ? logo2dark : logo2} alt="" className="w-9 h-9 object-contain" />
           </motion.button>
 
-          <span className="hidden sm:inline-block text-xs px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400">
-            Caso de Estudio · {title}
-          </span>
-
           {/* Botón hamburguesa — a la derecha del todo; reemplaza al Proceso, no se oculta ni cambia al scrollear */}
           <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
             onClick={() => setIndexOpen(true)}
             aria-label="Abrir menú"
+            aria-expanded={indexOpen}
+            aria-controls="case-study-menu"
+            aria-haspopup="dialog"
             className="flex items-center justify-center w-11 h-11 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/70 text-gray-500 dark:text-gray-400 hover:border-[#4A4E78]/40 hover:text-[#4A4E78] dark:hover:text-[#C3C4E8] transition-colors">
             <Menu className="w-4 h-4" />
           </motion.button>
@@ -358,7 +357,7 @@ function MilestoneHero() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="inline-flex items-center gap-2 rounded-full border bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm px-4 py-1.5 text-sm font-medium mb-8"
           style={{ borderColor: `${BRAND.primary}4d`, color }}>
-          Caso de Estudio · Milestone
+          Caso de estudio · Milestone
         </motion.span>
 
         <motion.h1
@@ -757,14 +756,14 @@ export function MilestoneCaseStudy() {
               whileHover={{ backgroundColor: "#C4A276", boxShadow: `0 16px 50px ${BRAND.secondary}55`, y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.18 }}
-              onClick={() => { navigate("/"); setTimeout(() => document.getElementById("contact")?.scrollIntoView({ behavior: scrollBehavior() }), 500); }}
+              onClick={() => navigate("/", { state: { section: "contact" } })}
               data-ga-action="cta_click"
               data-ga-category="CTA"
               data-ga-label="Contactar - Milestone"
               style={{ background: BRAND.secondary }}
               className="inline-flex items-center px-10 py-4 rounded-2xl text-gray-900 font-semibold text-lg shadow-2xl transition-all"
             >
-              Coordinar reunión
+              Ir a contacto
             </motion.button>
           </FadeSection>
         </div>
