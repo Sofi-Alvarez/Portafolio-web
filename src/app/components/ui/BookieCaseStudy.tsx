@@ -290,7 +290,7 @@ function FlowDiagram() {
       <polygon points="136,314 140,320 144,314" fill="#FF8300" />
       {/* Transición */}
       <rect x="48" y="320" width="184" height="34" rx="10" fill="#FF8300" />
-      <text x="140" y="334" textAnchor="middle" fill="white" fontSize="9" fontWeight="700">Pantalla de Transición</text>
+      <text x="140" y="334" textAnchor="middle" fill="white" fontSize="9" fontWeight="700">Pantalla de transición</text>
       <text x="140" y="348" textAnchor="middle" fill="white" fontSize="7.5" opacity="0.85">mapa + distancia + preview cap.</text>
       {/* Loop arrow */}
       <path d="M 232 337 Q 262 337 262 222 Q 262 114 232 120" stroke="#FF8300" strokeWidth="1.5" fill="none" strokeDasharray="4 3" opacity="0.4" />
@@ -317,7 +317,7 @@ export function BookieCaseStudy() {
   const { isDark } = useTheme();
   const navigate = useNavigate();
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  /* El scroll al tope al entrar lo resuelve PageTransition (App.tsx) */
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -328,8 +328,8 @@ export function BookieCaseStudy() {
       <div id="inicio">
         <CaseStudyHero
           badgeLabel="Caso de estudio · Bookie"
-          titlePrefix="Bookie –"
-          titleAccent="Lectura Geolocalizada"
+          titlePrefix="Bookie:"
+          titleAccent="lectura geolocalizada"
           description="Una app que transforma la lectura digital en una aventura: descubrí historias en los lugares donde cobran vida y convertí cada paseo en un capítulo nuevo."
           tags={["UX/UI Designer", "Mobile App", "2024"]}
           image={bookiePort}
@@ -350,7 +350,7 @@ export function BookieCaseStudy() {
 
               {/* Narrativa + herramientas */}
               <div className="space-y-6">
-                <SectionLabel text="Descripción del Proyecto" />
+                <SectionLabel text="Descripción del proyecto" />
                 <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">El proyecto</h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   <strong className="text-[#025959] dark:text-[#4ecfcf]">No Country</strong> es un programa de simulación
@@ -384,7 +384,7 @@ export function BookieCaseStudy() {
                 <div className="grid grid-cols-2 gap-3">
                   {[
                     { label: "Rol",       value: "UX/UI Designer" },
-                    { label: "Sector",    value: "Entretenimiento Digital · Geolocalización · Mobile App" },
+                    { label: "Sector",    value: "Entretenimiento digital · Geolocalización · Mobile App" },
                     { label: "Duración",  value: "5 semanas" },
                     { label: "Equipo",    value: "Multidisciplinario — Design · Dev · QA · PM" },
                     { label: "Resultado", value: "Equipo Finalista · Certificado No Country", full: true },
@@ -1247,7 +1247,7 @@ export function BookieCaseStudy() {
                 <span className="inline-block mb-3 px-3 py-1 rounded-full bg-white/15 text-white/90 text-xs font-semibold uppercase tracking-widest">
                   Demo Day · No Country
                 </span>
-                <h3 className="text-xl font-bold text-white mb-2">Finalistas del Hackathon</h3>
+                <h3 className="text-xl font-bold text-white mb-2">Finalistas del hackathon</h3>
                 <p className="text-white/90 text-sm leading-relaxed">
                   El prototipo fue presentado ante el cliente y el equipo de No Country. Nuestro equipo{" "}
                   <strong className="text-white">H3-14</strong> llegó a instancia de finalistas, validando los flujos
@@ -1525,7 +1525,7 @@ export function BookieCaseStudy() {
           <FadeSection className="text-center">
             <SectionLabel text="Reconocimiento" />
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">
-              Certificado de Equipo Finalista
+              Certificado de equipo finalista
             </h2>
             <p className="text-gray-500 dark:text-gray-400 text-sm mb-8">
               No Country · Hackathon Bookie · Diciembre 2024
@@ -1537,7 +1537,7 @@ export function BookieCaseStudy() {
             >
               <img loading="lazy" decoding="async"
                 src={bookieCertificado}
-                alt="Certificado de Equipo Finalista — Hackathon Bookie · No Country"
+                alt="Certificado de equipo finalista — Hackathon Bookie · No Country"
                 className="w-full h-auto object-contain"
               />
             </motion.div>

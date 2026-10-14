@@ -270,7 +270,7 @@ export function BankCaseStudy() {
   const { isDark } = useTheme();
   const navigate = useNavigate();
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  /* El scroll al tope al entrar lo resuelve PageTransition (App.tsx) */
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -281,10 +281,10 @@ export function BankCaseStudy() {
       <div id="inicio">
         <CaseStudyHero
           badgeLabel="Caso de estudio · Mas+ Bank"
-          titlePrefix="Mas+ Bank –"
-          titleAccent="App Bancaria Responsive"
+          titlePrefix="Mas+ Bank:"
+          titleAccent="banca responsive"
           description="Diseño integral de una banca digital multi-dispositivo: seguridad biométrica, perfiles personalizados y una interfaz coherente entre web y mobile."
-          tags={["Proyecto Académico", "UX/UI Designer", "2025"]}
+          tags={["Proyecto académico", "UX/UI Designer", "2025"]}
           image={bankPort}
           imageAlt="Pantalla de la app Mas+ Bank"
           imageDesktop={masbank1}
@@ -301,7 +301,7 @@ export function BankCaseStudy() {
           <FadeSection>
             <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
               <div className="space-y-6">
-                <SectionLabel text="Descripción General" />
+                <SectionLabel text="Descripción general" />
                 <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">El proyecto</h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   Proyecto académico donde el punto de partida fue una hoja en blanco: sin brief de cliente, sin documentación de referencia y sin usuarios asignados.
@@ -534,7 +534,7 @@ export function BankCaseStudy() {
                 <motion.div key={num} initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
                   transition={{ duration:.5, delay: idx * .08 }} whileHover={{ y:-4 }}
                   className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
-                  <span aria-hidden="true" className="text-3xl font-black mb-3 block" style={{ color: "rgba(2,89,89,0.18)" }}>{num}</span>
+                  <span aria-hidden="true" className="text-3xl font-black mb-3 block text-[#025959]/65 dark:text-[#4ecfcf]/60">{num}</span>
                   <h4 className="font-semibold text-gray-800 dark:text-gray-100 mb-2 text-sm">{title}</h4>
                   <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{desc}</p>
                 </motion.div>

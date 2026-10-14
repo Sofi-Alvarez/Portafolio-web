@@ -319,7 +319,7 @@ export function PortfolioCaseStudy() {
   const { isDark } = useTheme();
   const navigate = useNavigate();
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  /* El scroll al tope al entrar lo resuelve PageTransition (App.tsx) */
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -330,10 +330,10 @@ export function PortfolioCaseStudy() {
       <div id="inicio">
         <CaseStudyHero
           badgeLabel="Caso de estudio · Portfolio Web"
-          titlePrefix="Portfolio Web –"
-          titleAccent="Diseñado y programado"
+          titlePrefix="Portfolio Web:"
+          titleAccent="diseñado y programado"
           description="De brief en blanco a producto publicado: un portfolio diseñado por mí e implementado con Claude Code, con desarrollo asistido por IA."
-          tags={["Proyecto Personal", "Diseño + desarrollo con IA", "2025"]}
+          tags={["Proyecto personal", "Diseño + desarrollo con IA", "2025"]}
           image={portfolioPort}
           imageAlt="Portfolio Web: vista general"
           imageDesktop={vibeDesign1}
@@ -350,7 +350,7 @@ export function PortfolioCaseStudy() {
           <FadeSection>
             <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
               <div className="space-y-6">
-                <SectionLabel text="Descripción General" />
+                <SectionLabel text="Descripción general" />
                 <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">El proyecto</h2>
                 {/* Éxito logrado — primer párrafo */}
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -567,7 +567,7 @@ export function PortfolioCaseStudy() {
                   viewport={{ once: true }} transition={{ duration: .5, delay: idx * .08 }}
                   whileHover={{ y: -4 }}
                   className="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
-                  <span aria-hidden="true" className="text-3xl font-black mb-3 block" style={{ color: "rgba(2,89,89,0.15)" }}>{num}</span>
+                  <span aria-hidden="true" className="text-3xl font-black mb-3 block text-[#025959]/65 dark:text-[#4ecfcf]/60">{num}</span>
                   <h4 className="font-semibold text-gray-800 dark:text-gray-100 mb-2 text-sm">{title}</h4>
                   <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{desc}</p>
                 </motion.div>

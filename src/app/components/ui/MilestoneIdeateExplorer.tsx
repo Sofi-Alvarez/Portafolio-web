@@ -94,7 +94,7 @@ function UserFlowPanel() {
         </div>
         <div className="flex items-center justify-between px-5 py-4">
           <div>
-            <p className="text-sm font-bold text-gray-800 dark:text-gray-100">Flujo de Usuario v6 — UX</p>
+            <p className="text-sm font-bold text-gray-800 dark:text-gray-100">Flujo de usuario v6 — UX</p>
             <p className="text-xs text-gray-500 dark:text-gray-300 mt-0.5">Abrir board en Figma ↗</p>
           </div>
           <span className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: "#EDF1FE", color: "#4F6BF6" }}>→</span>

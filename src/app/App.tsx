@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useLayoutEffect, useRef } from "react";
-import { Routes, Route, useLocation, useNavigationType } from "react-router";
+import { Routes, Route, useLocation } from "react-router";
 import { motion, AnimatePresence, MotionConfig } from "motion/react";
 import { Analytics } from "@vercel/analytics/react";
 import { Navbar } from "./components/Navbar";
@@ -31,13 +31,18 @@ const PAGE_TITLES: Record<string, string> = {
   "/case-study/bookie":    "Bookie, caso de estudio — Sofía Álvarez",
 };
 
-/* Posición del scroll del home, para devolverla al volver de un caso de estudio */
+/* Posición del scroll del home, para devolverla al volver de un caso de estudio.
+   "Atrás/adelante" del navegador se detecta con popstate (los navigate() de la app no lo disparan) */
 let homeScrollY = 0;
+let lastNavWasHistory = false;
+let arrivedByHistory = false;
+if (typeof window !== "undefined") {
+  window.addEventListener("popstate", () => { lastNavWasHistory = true; });
+}
 
-/* Al montar el home: si se llegó con "atrás", vuelve a donde estaba la persona;
+/* Al montar el home: si se llegó con atrás/adelante del navegador, vuelve a donde estaba la persona;
    si se llegó con state.section (ej. "contact"), baja a esa sección */
 function MainPage() {
-  const navigationType = useNavigationType();
   const { state } = useLocation();
   useLayoutEffect(() => {
     const section = (state as { section?: string } | null)?.section;
@@ -48,10 +53,10 @@ function MainPage() {
         if (!el.hasAttribute("tabindex")) el.setAttribute("tabindex", "-1");
         el.focus({ preventScroll: true });
       }
-    } else if (navigationType === "POP" && homeScrollY > 0) {
-      window.scrollTo(0, homeScrollY);
+    } else if (arrivedByHistory && homeScrollY > 0) {
+      window.scrollTo({ top: homeScrollY, behavior: "instant" });
     } else {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: "instant" });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -89,22 +94,28 @@ function SkipLink() {
   );
 }
 
-/* En cada cambio de ruta: guarda la posición del home al salir, actualiza el título
-   y sube al tope (el home restaura su posición o su sección al montarse) */
+/* En cada cambio de ruta: guarda la posición del home al salir y actualiza el título.
+   El scroll de la página nueva se resuelve cuando se monta (ver PageTransition y MainPage) */
 function ScrollToTop() {
   const { pathname } = useLocation();
   const prevPath = useRef(pathname);
   useEffect(() => {
     if (prevPath.current === "/" && pathname !== "/") homeScrollY = window.scrollY;
+    arrivedByHistory = lastNavWasHistory;
+    lastNavWasHistory = false;
     prevPath.current = pathname;
     document.title = PAGE_TITLES[pathname] ?? PAGE_TITLES["/"];
-    if (pathname !== "/") window.scrollTo(0, 0);
   }, [pathname]);
   return null;
 }
 
 /* Wrapper con fundido entre páginas (sin desplazamiento, apto para sensibilidad al movimiento) */
 function PageTransition({ children }: { children: React.ReactNode }) {
+  const { pathname } = useLocation();
+  /* "instant": el scroll-behavior smooth global animaría el salto y quedaría a mitad de camino */
+  useLayoutEffect(() => {
+    if (pathname !== "/") window.scrollTo({ top: 0, behavior: "instant" });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <motion.div
       initial={{ opacity: 0 }}

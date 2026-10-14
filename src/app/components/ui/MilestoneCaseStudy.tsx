@@ -41,7 +41,7 @@ const STEPS: Step[] = [
   { id: "empatizar",  num: "01", label: "Discover",   Icon: Users },
   { id: "definir",    num: "02", label: "Define",     Icon: Search },
   { id: "idear",      num: "03", label: "Ideate",     Icon: Lightbulb },
-  { id: "prototipar", num: "04", label: "Prototipar", Icon: Layers },
+  { id: "prototipar", num: "04", label: "Prototype", Icon: Layers },
   { id: "prueba",     num: "05", label: "Testing",    Icon: CheckCircle },
 ];
 
@@ -55,7 +55,7 @@ const INDEX_SECTIONS: IndexSection[] = [
   { id: "empatizar",   label: "Discover",       Icon: Users },
   { id: "definir",     label: "Define",         Icon: Search },
   { id: "idear",       label: "Ideate",         Icon: Lightbulb },
-  { id: "prototipar",  label: "Prototipar",     Icon: Layers },
+  { id: "prototipar",  label: "Prototype",     Icon: Layers },
   { id: "prueba",      label: "Testing",        Icon: CheckCircle },
   { id: "reflexion",   label: "Reflexión final",Icon: Compass },
 ];
@@ -364,7 +364,7 @@ function MilestoneHero() {
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] text-gray-900 dark:text-gray-100">
-          Milestone – <span style={{ color }}>App de registro financiero</span>
+          Milestone: <span style={{ color }}>registro financiero sin culpa</span>
         </motion.h1>
 
         <motion.p
@@ -414,7 +414,7 @@ export function MilestoneCaseStudy() {
   const navigate = useNavigate();
   const { isDark } = useTheme();
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  /* El scroll al tope al entrar lo resuelve PageTransition (App.tsx) */
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -430,7 +430,7 @@ export function MilestoneCaseStudy() {
           <FadeSection>
             <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
               <div className="space-y-6">
-                <SectionLabel text="Descripción General" />
+                <SectionLabel text="Descripción general" />
                 <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">El proyecto</h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   El research encontró un patrón que ninguna app de finanzas termina de resolver: la persona vuelve a registrar sus gastos cuando se siente perdida con su plata, sostiene el hábito mientras recupera el control, y en el momento en que se siente tranquila, lo abandona.{" "}
@@ -641,7 +641,7 @@ export function MilestoneCaseStudy() {
       <section id="prototipar" className="py-16 md:py-20 scroll-mt-20 bg-gray-50 dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 space-y-12">
           <FadeSection>
-            <SectionLabel text="04 · Prototipar" accent />
+            <SectionLabel text="04 · Prototype" accent />
             <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3">De pantalla diseñada a producto vivo</h2>
             <p className="text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed">
               El branding se pensó a propósito no financiero: paleta y tipografía que alejaran a Milestone de la estética bancaria tradicional, construidas sobre los roles de color de Material Design 3, en modo claro y oscuro, con contraste verificado contra WCAG AA. En vez de subir las 30-40 pantallas de la app a alta fidelidad antes de saber si algo funcionaba, se priorizó un solo flujo completo (Metas de ahorro, el que ya se sabía que se iba a testear) para sentar ahí un sistema de componentes real; el resto se resolvió más rápido con Stitch.

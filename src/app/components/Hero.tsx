@@ -229,7 +229,7 @@ export function Hero() {
             data-ga-category="CTA"
             data-ga-label="Ver Proyectos Hero"
           >
-            Ver Proyectos →
+            Ver proyectos <span aria-hidden="true">→</span>
           </motion.button>
         </motion.div>
       </div>

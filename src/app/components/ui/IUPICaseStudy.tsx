@@ -332,7 +332,7 @@ export function IUPICaseStudy() {
   const { isDark } = useTheme();
   const navigate = useNavigate();
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
+  /* El scroll al tope al entrar lo resuelve PageTransition (App.tsx) */
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -345,8 +345,8 @@ export function IUPICaseStudy() {
       <div id="inicio">
         <CaseStudyHero
           badgeLabel="Caso de estudio · IUPI"
-          titlePrefix="IUPI –"
-          titleAccent="Ahorro e Inversiones"
+          titlePrefix="IUPI:"
+          titleAccent="fintech de ahorro e inversión"
           description="Una experiencia fintech pensada para incluir financieramente a la población argentina: simple, segura y amigable, incluso en un contexto económico complejo."
           tags={["UX/UI Designer", "Fintech", "2024"]}
           image={iupiPort}
@@ -368,7 +368,7 @@ export function IUPICaseStudy() {
             <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
               {/* Left: descripción + herramientas */}
               <div className="space-y-6">
-                <SectionLabel text="Descripción del Proyecto" />
+                <SectionLabel text="Descripción del proyecto" />
                 <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100">El proyecto</h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   <strong className="text-[#025959] dark:text-[#4ecfcf]">No Country</strong> es un programa
