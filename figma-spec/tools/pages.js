@@ -128,3 +128,36 @@ for (const [key, dom] of Object.entries(stateDoms)) {
   summary[key] = { chunks: chunks.length, KB: Math.round(size(chunks) / 1024), w: Math.round(w), h: Math.round(h) };
 }
 console.log(JSON.stringify(summary, null, 0).replace(/\},/g, '},\n'));
+
+// ---------- components (lookup-only icon mode) ----------
+const CMAP = {
+  'NavLink': ['Navbar/Link', {}], 'IconButton-Theme': ['Button/Icon Theme', {}], 'Navbar-Desktop': ['Navbar/Desktop', {}], 'Button-Primary': ['Button/Primary', {}],
+  'Badge-Status': ['Badge/Status', {}], 'IconButton-Pause': ['Button/Icon Pause', {}],
+  'Card-Project-Milestone': ['Card/Proyecto', { Proyecto: 'Milestone' }], 'Card-Project-IUPI': ['Card/Proyecto', { Proyecto: 'IUPI' }], 'Card-Project-Portfolio': ['Card/Proyecto', { Proyecto: 'Portfolio Web' }], 'Card-Project-MasBank': ['Card/Proyecto', { Proyecto: 'Mas+ Bank' }], 'Card-Project-Bookie': ['Card/Proyecto', { Proyecto: 'Bookie' }],
+  'Button-Contact-LinkedIn': ['Button/Secondary', { Color: 'Teal' }], 'Button-Contact-CV': ['Button/Secondary', { Color: 'Naranja' }],
+  'IconButton-Social-Mail': ['Button/Social', { Red: 'Email' }], 'IconButton-Social-WhatsApp': ['Button/Social', { Red: 'WhatsApp' }], 'IconButton-Social-GitHub': ['Button/Social', { Red: 'GitHub' }],
+  'FooterLink': ['Footer/Link', { Tipo: 'Navegación' }], 'FooterLink-Email': ['Footer/Link', { Tipo: 'Contacto' }], 'Footer': ['Footer', {}],
+  'Navbar-Mobile': ['Navbar/Mobile', {}], 'IconButton-Menu': ['Button/Icon Menu', {}],
+  'Case-Navbar': ['Case/Navbar', {}], 'Case-LogoButton': ['Case/Logo Button', {}],
+  'Case-MenuButton': ['Case/Menu Button', { Tema: 'Brand' }], 'Case-MenuButton-Milestone': ['Case/Menu Button', { Tema: 'Milestone' }],
+  'Case-MethodStep': ['Case/Method Step', { Tema: 'Brand' }], 'Case-MethodStep-Milestone': ['Case/Method Step', { Tema: 'Milestone' }],
+  'Case-ContactCTA': ['Case/Contact CTA', { Tema: 'Brand' }], 'Case-ContactCTA-Milestone': ['Case/Contact CTA', { Tema: 'Milestone' }],
+  'Case-BackLink': ['Case/Back Link', {}], 'Case-NextCase': ['Case/Next Case', { Tema: 'Brand' }], 'Case-NextCase-Milestone': ['Case/Next Case', { Tema: 'Milestone' }],
+  'Milestone-HeroCTA': ['Milestone/Hero CTA', {}], 'Milestone-Tab-Active': ['Milestone/Tab', { Seleccionado: 'Sí' }], 'Milestone-Tab': ['Milestone/Tab', { Seleccionado: 'No' }], 'Milestone-CarouselNext': ['Milestone/Carousel Button', {}],
+};
+function lookupIconize(spec, dom) { const m = new Map(); (function w(n) { if (n.t === 'svg' && n.svg && n.svg !== 'TRUNC') { n.svg = normSvg(n.svg); const { key, color } = svgKey(n.svg); if (icons[key]) m.set(n.svg, { key, color }); } (n.c || []).forEach(w); })(dom); return m; }
+function scaleOf(d) { const t = (d.s || {}).transform || ''; const m = t.match(/^matrix\(([^)]+)\)/); if (!m) return 1; const v = m[1].split(',').map(Number); return Math.abs(v[1]) < 1e-3 ? v[0] : 1; }
+function unscale(n, cx, cy, s) { n.x = cx + (n.x - cx) / s; n.y = cy + (n.y - cy) / s; n.w /= s; n.h /= s; if (n.tr) { n.tr = [cx + (n.tr[0] - cx) / s, cy + (n.tr[1] - cy) / s, n.tr[2] / s, n.tr[3] / s, n.tr[4]]; } (n.c || []).forEach(c => unscale(c, cx, cy, s)); (n.deco || []).forEach(c => unscale(c, cx, cy, s)); }
+const CDIR = path.join(ROOT, 'components'); const comps = {};
+if (fs.existsSync(CDIR)) for (const f of fs.readdirSync(CDIR).filter(f => f.endsWith('--default.json'))) {
+  const name = f.replace('--default.json', ''); const map = CMAP[name]; if (!map) continue;
+  const d = JSON.parse(fs.readFileSync(path.join(CDIR, f)));
+  const hf = path.join(CDIR, name + '--hover.json'); const h = fs.existsSync(hf) ? JSON.parse(fs.readFileSync(hf)) : null;
+  const build = (dom, ref) => { const svgs = lookupIconize(null, dom); let sc = scaleOf(dom); if (Math.abs(sc - 1) < 0.005) sc = 1; if (sc !== 1) unscale(dom, dom.x + dom.w / 2, dom.y + dom.h / 2, sc);
+    const spec = strip(convert(dom, { x: dom.x, y: dom.y })); iconize(spec, svgs); spec.x = 0; spec.y = 0; return { spec, dx: Math.round((dom.x - ref.x) * 100) / 100, dy: Math.round((dom.y - ref.y) * 100) / 100, sc }; };
+  const D = build(d, d); const variants = [{ props: { ...map[1], Estado: 'Default' }, ...D, W: d.w, H: d.h }];
+  if (h) { const Hh = build(h, d); variants.push({ props: { ...map[1], Estado: 'Hover' }, ...Hh, W: d.w, H: d.h }); }
+  (comps[map[0]] ||= []).push(...variants);
+}
+fs.writeFileSync(path.join(OUT, 'pl-components.json'), JSON.stringify(Object.entries(comps).map(([set, variants]) => ({ set, variants }))));
+console.log('components', Object.keys(comps).length, 'variants', Object.values(comps).reduce((a, v) => a + v.length, 0), 'KB', Math.round(fs.statSync(path.join(OUT, 'pl-components.json')).size / 1024));

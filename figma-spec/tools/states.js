@@ -18,21 +18,21 @@ async function settle(p){ const H = await p.evaluate(() => document.body.scrollH
   for (const a of job.actions || []) {
     if (a.type === 'expand') {
       const pre = p.getByRole('button', { name: new RegExp('^'+a.pre) }).first();
-      await pre.scrollIntoViewIfNeeded(); await pre.click(); await p.waitForTimeout(800);
+      await pre.scrollIntoViewIfNeeded(); await pre.click(); await p.waitForTimeout(2200);
       const secId = await pre.evaluate(e => e.closest('section[id]')?.id);
-      const n = await p.evaluate(([sid, ex]) => { const bs = [...document.querySelectorAll(`section[id="${sid}"] button`)].filter(b => !(b.getAttribute('aria-label')||'').includes('—') && !/^(Anterior|Siguiente|Ir a|Cita)/.test(b.getAttribute('aria-label')||'') && (!ex || ex.some(x => b.innerText.includes(x)))); bs.forEach(b => b.click()); return bs.length; }, [secId, a.only || null]);
-      await p.waitForTimeout(1000);
+      const n = await p.evaluate(([sid, ex]) => { const bs = [...document.querySelectorAll(`section[id="${sid}"] button`)].filter(b => !(b.getAttribute('aria-label')||'').includes('—') && !/^(Anterior|Siguiente|Ir a|Cita)/.test(b.getAttribute('aria-label')||'') && (!ex || ex.some(x => b.innerText.includes(x)))); bs.slice(1).forEach(b => b.click()); return bs.length - 1; }, [secId, a.only || null]);
+      await p.waitForTimeout(2200);
       fs.writeFileSync(`${dir}/states/${a.prefix}.json`, JSON.stringify(await dump(p, `section[id="${secId}"]`)));
       await p.locator(`section[id="${secId}"]`).screenshot({ path: `${dir}/states/${a.prefix}.png` });
       console.log('expand', a.prefix, n); continue;
     }
     if (a.type === 'rows') {
       const pre = p.getByRole('button', { name: new RegExp('^'+a.pre) }).first();
-      await pre.scrollIntoViewIfNeeded(); await pre.click(); await p.waitForTimeout(800);
+      await pre.scrollIntoViewIfNeeded(); await pre.click(); await p.waitForTimeout(2200);
       const secId = await pre.evaluate(e => e.closest('section[id]')?.id);
       for (const nm of a.names) {
         await p.evaluate(([sid, nm]) => { const b = [...document.querySelectorAll(`section[id="${sid}"] button`)].find(b => b.innerText.trim().startsWith(nm)); b && b.click(); }, [secId, nm]);
-        await p.waitForTimeout(900);
+        await p.waitForTimeout(2200);
         const file = `${a.prefix}-${nm.replace(/[^a-z0-9]+/gi, '_').toLowerCase()}`;
         fs.writeFileSync(`${dir}/states/${file}.json`, JSON.stringify(await dump(p, `section[id="${secId}"]`)));
         await p.locator(`section[id="${secId}"]`).screenshot({ path: `${dir}/states/${file}.png` });
@@ -52,7 +52,7 @@ async function settle(p){ const H = await p.evaluate(() => document.body.scrollH
         await p.reload({ waitUntil: 'networkidle' }); await p.evaluate(() => document.fonts.ready); await settle(p);
         console.log('overlay', a.prefix); continue;
       }
-      await btn.scrollIntoViewIfNeeded(); await btn.click(); await p.waitForTimeout(a.wait || 900);
+      await btn.scrollIntoViewIfNeeded(); await btn.click(); await p.waitForTimeout(a.wait || 2200);
       const secId = await btn.evaluate(e => e.closest('section[id]')?.id);
       await p.evaluate(() => {}); // noop
       const file = `${a.prefix}-${nm.replace(/[^a-z0-9]+/gi, '_').toLowerCase()}`;
@@ -72,7 +72,7 @@ async function settle(p){ const H = await p.evaluate(() => document.body.scrollH
         fs.writeFileSync(`${dir}/states/${file}.json`, JSON.stringify(await dump(p, `section[id="${secId}"]`)));
         await p.locator(`section[id="${secId}"]`).screenshot({ path: `${dir}/states/${file}.png` });
         console.log('carousel', file);
-        await btn.click(); await p.waitForTimeout(a.wait || 900);
+        await btn.click(); await p.waitForTimeout(a.wait || 2200);
       }
     }
   }

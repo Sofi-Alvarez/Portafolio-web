@@ -29,7 +29,17 @@
   "icons components",
   "image library",
   "runtime installed (sharedPluginData tofigma rt/page/icons/hashes)",
-  "7 page frames built + compared (2-5% px diff)"
+  "7 page frames built + compared (2-5% px diff)",
+  "UI Kit 23 component sets + overlays",
+  "Milestone 5 explorers (38 vistas, wired)",
+  "IUPI carrusel 8 vistas",
+  "menús overlay + copias visibles (6)",
+  "navegación scroll + navbar fija",
+  "instancias en pantallas",
+  "anotaciones de animación",
+  "Notas",
+  "Portada",
+  "sharedPluginData limpiado"
  ],
  "pages": {
   "Foundations": "0:1",
@@ -40,7 +50,8 @@
   "Portfolio Web": "17:80",
   "Mas+ Bank": "17:81",
   "Bookie": "17:82",
-  "Notas": "17:83"
+  "Notas": "17:83",
+  "Portada": "44:106"
  },
  "frames": {
   "Landing Desktop": "33:303",
@@ -57,14 +68,9 @@
   "Brand/Logo": "24:1255"
  },
  "next": [
-  "UI Kit components w/ hover variants + interactive reactions",
-  "Milestone explorer states (component sets)",
-  "IUPI wireframe carousel",
-  "menu overlays + visible copies",
-  "prototype links",
-  "swap page nodes for instances",
-  "Notas page",
-  "Portada",
-  "cleanup sharedPluginData"
- ]
+  "/links (pendiente)",
+  "casos en mobile (pendiente)",
+  "modo oscuro (pendiente)"
+ ],
+ "note": "Para retomar: los helpers (rt.js, wrap.js, states-rt.js, overlay-rt.js) se reinstalan en sharedPluginData('tofigma',...) antes de construir."
 }
