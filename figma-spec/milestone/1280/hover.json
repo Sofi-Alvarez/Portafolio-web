@@ -1,0 +1,502 @@
+[
+ {
+  "tag": "BUTTON",
+  "cls": "flex items-center justify-center w-11 h-11",
+  "txt": "",
+  "al": "Ir al inicio",
+  "y": 8,
+  "x": 46,
+  "w": 47,
+  "h": 47,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1.07, 0, 0, 1.07, 0, 0)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "flex items-center justify-center w-11 h-11 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/70 text-gray-500 dark:text-gray-400 hover:border-[#4A4E78]/40 hover:text-[",
+  "txt": "",
+  "al": "Abrir menú",
+  "y": 9,
+  "x": 1187,
+  "w": 46,
+  "h": 46,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(74, 78, 120)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "borderTopColor",
+    "from": "oklch(0.928 0.006 264.531)",
+    "to": "rgba(74, 78, 120, 0.4)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "borderLeftColor",
+    "from": "oklch(0.928 0.006 264.531)",
+    "to": "rgba(74, 78, 120, 0.4)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1.05, 0, 0, 1.05, 0, 0)"
+   },
+   {
+    "j": 1,
+    "t": "svg",
+    "txt": "",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(74, 78, 120)"
+   },
+   {
+    "j": 2,
+    "t": "line",
+    "txt": "",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(74, 78, 120)"
+   },
+   {
+    "j": 3,
+    "t": "line",
+    "txt": "",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(74, 78, 120)"
+   },
+   {
+    "j": 4,
+    "t": "line",
+    "txt": "",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(74, 78, 120)"
+   }
+  ]
+ },
+ {
+  "tag": "A",
+  "cls": "inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold text-sm shadow-lg",
+  "txt": "Ir a Milestone (se abre en una pestaña nueva)",
+  "al": null,
+  "y": 515,
+  "x": 468,
+  "w": 163,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "A",
+    "txt": "Ir a Milestone",
+    "k": "boxShadow",
+    "from": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.1) 0px 4px 6px -4px",
+    "to": "rgba(74, 78, 120, 0.333) 0px 12px 32px 0px"
+   },
+   {
+    "j": 0,
+    "t": "A",
+    "txt": "Ir a Milestone",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1, 0, 0, 1, 0, -2)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-semibold text-sm",
+  "txt": "Conocer proceso",
+  "al": null,
+  "y": 513,
+  "x": 643,
+  "w": 169,
+  "h": 48,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Conocer proceso",
+    "k": "color",
+    "from": "oklch(0.373 0.034 259.733)",
+    "to": "rgb(74, 78, 120)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Conocer proceso",
+    "k": "borderTopColor",
+    "from": "oklch(0.872 0.01 258.338)",
+    "to": "rgb(74, 78, 120)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Conocer proceso",
+    "k": "borderLeftColor",
+    "from": "oklch(0.872 0.01 258.338)",
+    "to": "rgb(74, 78, 120)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Conocer proceso",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1, 0, 0, 1, 0, -2)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "flex flex-col items-center gap-3 flex-shrink-0 w-[72px] sm:w-24 group",
+  "txt": "Discover",
+  "al": null,
+  "y": 3167,
+  "x": 109,
+  "w": 103,
+  "h": 91,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1.07, 0, 0, 1.07, 0, 0)"
+   },
+   {
+    "j": 1,
+    "t": "DIV",
+    "txt": "",
+    "k": "backgroundColor",
+    "from": "rgba(74, 78, 120, 0.08)",
+    "to": "rgba(176, 139, 90, 0.133)"
+   },
+   {
+    "j": 1,
+    "t": "DIV",
+    "txt": "",
+    "k": "borderTopColor",
+    "from": "rgba(74, 78, 120, 0.18)",
+    "to": "rgb(176, 139, 90)"
+   },
+   {
+    "j": 1,
+    "t": "DIV",
+    "txt": "",
+    "k": "borderLeftColor",
+    "from": "rgba(74, 78, 120, 0.18)",
+    "to": "rgb(176, 139, 90)"
+   },
+   {
+    "j": 2,
+    "t": "svg",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(74, 78, 120)",
+    "to": "rgb(176, 139, 90)"
+   },
+   {
+    "j": 3,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(74, 78, 120)",
+    "to": "rgb(176, 139, 90)"
+   },
+   {
+    "j": 4,
+    "t": "circle",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(74, 78, 120)",
+    "to": "rgb(176, 139, 90)"
+   },
+   {
+    "j": 5,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(74, 78, 120)",
+    "to": "rgb(176, 139, 90)"
+   },
+   {
+    "j": 6,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(74, 78, 120)",
+    "to": "rgb(176, 139, 90)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "min-h-11 px-4 py-2 rounded-full text-sm font-semibold border transition-colors duration-200 border-transparent text-white",
+  "txt": "Entrevistas",
+  "al": "Entrevistas — 10 citas",
+  "y": 3819,
+  "x": 46,
+  "w": 113,
+  "h": 45,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Entrevistas",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1.03, 0, 0, 1.03, 0, 0)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "min-h-11 px-4 py-2 rounded-full text-sm font-semibold border transition-colors duration-200 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:border-[#4A4E78]/40 hover:text-[",
+  "txt": "Benchmark",
+  "al": "Benchmark — Wallet vs Spendee",
+  "y": 3819,
+  "x": 164,
+  "w": 115,
+  "h": 45,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Benchmark",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(74, 78, 120)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Benchmark",
+    "k": "borderTopColor",
+    "from": "oklch(0.928 0.006 264.531)",
+    "to": "rgba(74, 78, 120, 0.4)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Benchmark",
+    "k": "borderLeftColor",
+    "from": "oklch(0.928 0.006 264.531)",
+    "to": "rgba(74, 78, 120, 0.4)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Benchmark",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1.03, 0, 0, 1.03, 0, 0)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "absolute top-1/2 -translate-y-1/2 z-10 w-11 h-11 flex items-center justify-center rounded-full shadow-md transition-all duration-200 right-0 sm:-right-3 bg-white hover:bg-gray-50 text-gray-600",
+  "txt": "",
+  "al": "Cita siguiente",
+  "y": 4073,
+  "x": 1200,
+  "w": 44,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "backgroundColor",
+    "from": "rgb(255, 255, 255)",
+    "to": "oklch(0.985 0.002 247.839)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "inline-flex items-center px-10 py-4 rounded-2xl text-gray-900 font-semibold text-lg shadow-2xl transition-all",
+  "txt": "Ir a contacto",
+  "al": null,
+  "y": 11328,
+  "x": 546,
+  "w": 188,
+  "h": 60,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ir a contacto",
+    "k": "backgroundColor",
+    "from": "rgb(176, 139, 90)",
+    "to": "rgb(196, 162, 118)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ir a contacto",
+    "k": "boxShadow",
+    "from": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.25) 0px 25px 50px -12px",
+    "to": "rgba(176, 139, 90, 0.333) 0px 16px 50px 0px"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ir a contacto",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1, 0, 0, 1, 0, -2)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "inline-flex items-center gap-2 min-h-11 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-[#B08B5A] dark:hover:text-[#B08B5A] transition-colors group",
+  "txt": "Volver al portfolio",
+  "al": null,
+  "y": 11543,
+  "x": 216,
+  "w": 142,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(176, 139, 90)"
+   },
+   {
+    "j": 1,
+    "t": "svg",
+    "txt": "",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(176, 139, 90)"
+   },
+   {
+    "j": 1,
+    "t": "svg",
+    "txt": "",
+    "k": "translate",
+    "from": "none",
+    "to": "-4px"
+   },
+   {
+    "j": 2,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(176, 139, 90)"
+   },
+   {
+    "j": 3,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(176, 139, 90)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "inline-flex items-center gap-2 px-6 py-2.5 rounded-xl border-2 font-medium text-sm transition-colors",
+  "txt": "Ver IUPI",
+  "al": null,
+  "y": 11543,
+  "x": 934,
+  "w": 130,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ver IUPI",
+    "k": "color",
+    "from": "rgb(74, 78, 120)",
+    "to": "rgb(17, 24, 39)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ver IUPI",
+    "k": "backgroundColor",
+    "from": "rgba(0, 0, 0, 0)",
+    "to": "rgb(176, 139, 90)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ver IUPI",
+    "k": "borderTopColor",
+    "from": "rgb(74, 78, 120)",
+    "to": "rgb(176, 139, 90)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ver IUPI",
+    "k": "borderLeftColor",
+    "from": "rgb(74, 78, 120)",
+    "to": "rgb(176, 139, 90)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ver IUPI",
+    "k": "boxShadow",
+    "from": "none",
+    "to": "rgba(176, 139, 90, 0.3) 0px 8px 24px 0px"
+   },
+   {
+    "j": 1,
+    "t": "svg",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(74, 78, 120)",
+    "to": "rgb(17, 24, 39)"
+   },
+   {
+    "j": 2,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(74, 78, 120)",
+    "to": "rgb(17, 24, 39)"
+   },
+   {
+    "j": 3,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(74, 78, 120)",
+    "to": "rgb(17, 24, 39)"
+   }
+  ]
+ }
+]

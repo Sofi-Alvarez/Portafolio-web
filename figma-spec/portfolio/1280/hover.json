@@ -1,0 +1,310 @@
+[
+ {
+  "tag": "BUTTON",
+  "cls": "flex items-center justify-center w-11 h-11",
+  "txt": "",
+  "al": "Ir al inicio",
+  "y": 8,
+  "x": 46,
+  "w": 47,
+  "h": 47,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1.07, 0, 0, 1.07, 0, 0)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "flex items-center justify-center w-11 h-11 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/70 text-gray-500 dark:text-gray-400 transition-colors",
+  "txt": "",
+  "al": "Abrir menú",
+  "y": 9,
+  "x": 1187,
+  "w": 46,
+  "h": 46,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1.05, 0, 0, 1.05, 0, 0)"
+   }
+  ]
+ },
+ {
+  "tag": "A",
+  "cls": "inline-flex items-center gap-2 min-h-11 text-sm font-semibold text-[#025959] dark:text-[#4ecfcf] hover:underline",
+  "txt": "Ver el código en GitHub (se abre en una pestaña nueva)",
+  "al": null,
+  "y": 1524,
+  "x": 48,
+  "w": 205,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "A",
+    "txt": "",
+    "k": "textDecorationLine",
+    "from": "none",
+    "to": "underline"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "flex flex-col items-center gap-3 flex-shrink-0 w-[72px] sm:w-24 group",
+  "txt": "Empatizar",
+  "al": null,
+  "y": 2641,
+  "x": 109,
+  "w": 103,
+  "h": 91,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1.07, 0, 0, 1.07, 0, 0)"
+   },
+   {
+    "j": 1,
+    "t": "DIV",
+    "txt": "",
+    "k": "backgroundColor",
+    "from": "rgba(2, 89, 89, 0.08)",
+    "to": "rgba(255, 131, 0, 0.14)"
+   },
+   {
+    "j": 1,
+    "t": "DIV",
+    "txt": "",
+    "k": "borderTopColor",
+    "from": "rgba(2, 89, 89, 0.18)",
+    "to": "rgb(255, 131, 0)"
+   },
+   {
+    "j": 1,
+    "t": "DIV",
+    "txt": "",
+    "k": "borderLeftColor",
+    "from": "rgba(2, 89, 89, 0.18)",
+    "to": "rgb(255, 131, 0)"
+   },
+   {
+    "j": 2,
+    "t": "svg",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(2, 89, 89)",
+    "to": "rgb(255, 131, 0)"
+   },
+   {
+    "j": 3,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(2, 89, 89)",
+    "to": "rgb(255, 131, 0)"
+   },
+   {
+    "j": 4,
+    "t": "circle",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(2, 89, 89)",
+    "to": "rgb(255, 131, 0)"
+   },
+   {
+    "j": 5,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(2, 89, 89)",
+    "to": "rgb(255, 131, 0)"
+   },
+   {
+    "j": 6,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(2, 89, 89)",
+    "to": "rgb(255, 131, 0)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "inline-flex items-center px-10 py-4 rounded-2xl bg-[#FF8300] text-gray-900 font-semibold text-lg shadow-2xl transition-all",
+  "txt": "Ir a contacto",
+  "al": null,
+  "y": 11202,
+  "x": 546,
+  "w": 188,
+  "h": 60,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ir a contacto",
+    "k": "backgroundColor",
+    "from": "rgb(255, 131, 0)",
+    "to": "rgb(232, 117, 0)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ir a contacto",
+    "k": "boxShadow",
+    "from": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.25) 0px 25px 50px -12px",
+    "to": "rgba(255, 131, 0, 0.55) 0px 16px 50px 0px"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ir a contacto",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1, 0, 0, 1, 0, -2)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "inline-flex items-center gap-2 min-h-11 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-[#FF8300] dark:hover:text-[#FF8300] transition-colors group",
+  "txt": "Volver al portfolio",
+  "al": null,
+  "y": 11417,
+  "x": 216,
+  "w": 142,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(255, 131, 0)"
+   },
+   {
+    "j": 1,
+    "t": "svg",
+    "txt": "",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(255, 131, 0)"
+   },
+   {
+    "j": 1,
+    "t": "svg",
+    "txt": "",
+    "k": "translate",
+    "from": "none",
+    "to": "-4px"
+   },
+   {
+    "j": 2,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(255, 131, 0)"
+   },
+   {
+    "j": 3,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "oklch(0.551 0.027 264.364)",
+    "to": "rgb(255, 131, 0)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "inline-flex items-center gap-2 px-6 py-2.5 rounded-xl border-2 border-[#025959] text-[#025959] dark:border-[#4ecfcf] dark:text-[#4ecfcf] font-medium text-sm transition-colors",
+  "txt": "Ver Mas+ Bank",
+  "al": null,
+  "y": 11417,
+  "x": 887,
+  "w": 177,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ver Mas+ Bank",
+    "k": "color",
+    "from": "rgb(2, 89, 89)",
+    "to": "rgb(255, 255, 255)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ver Mas+ Bank",
+    "k": "backgroundColor",
+    "from": "rgba(0, 0, 0, 0)",
+    "to": "rgb(255, 131, 0)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ver Mas+ Bank",
+    "k": "borderTopColor",
+    "from": "rgb(2, 89, 89)",
+    "to": "rgb(255, 131, 0)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ver Mas+ Bank",
+    "k": "borderLeftColor",
+    "from": "rgb(2, 89, 89)",
+    "to": "rgb(255, 131, 0)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ver Mas+ Bank",
+    "k": "boxShadow",
+    "from": "none",
+    "to": "rgba(255, 131, 0, 0.3) 0px 8px 24px 0px"
+   },
+   {
+    "j": 1,
+    "t": "svg",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(2, 89, 89)",
+    "to": "rgb(255, 255, 255)"
+   },
+   {
+    "j": 2,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(2, 89, 89)",
+    "to": "rgb(255, 255, 255)"
+   },
+   {
+    "j": 3,
+    "t": "path",
+    "txt": "",
+    "k": "color",
+    "from": "rgb(2, 89, 89)",
+    "to": "rgb(255, 255, 255)"
+   }
+  ]
+ }
+]

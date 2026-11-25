@@ -1,0 +1,3 @@
+const routes=['landing/1280','landing/390','bank/1280','bookie/1280','iupi/1280','milestone/1280','portfolio/1280'];
+const M={};for(const r of routes){const t=require('../'+r+'/dom.json');(function w(n){if(n.runs){const s=n.s;const k=(s.fontFamily||'').split(',')[0]+' '+s.fontSize+'/'+s.fontWeight+(s.fontStyle==='italic'?'i':'');const v=s.lineHeight+' ls:'+s.letterSpacing+(s.textTransform!=='none'?' '+s.textTransform:'');(M[k]||(M[k]={}))[v]=(M[k][v]||0)+1}(n.c||[]).forEach(w)})(t)}
+for(const [k,o] of Object.entries(M).sort()){const e=Object.entries(o).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([a,b])=>b+'×'+a).join(' | ');console.log(k.padEnd(28),e)}

@@ -1,0 +1,4 @@
+*.png
+assets/up/
+assets/files/
+build/pl-*.json

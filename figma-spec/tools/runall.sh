@@ -1,0 +1,11 @@
+cd /home/user/Portafolio-web/figma-spec/tools
+M='{"type":"overlay","name":"Abrir menú","prefix":"menu-open"}'
+node states.js "{\"route\":\"/\",\"name\":\"landing\",\"vw\":1280,\"full\":true,\"actions\":[]}" > /tmp/claude-0/r0.log 2>&1 &
+node states.js "{\"route\":\"/\",\"name\":\"landing\",\"vw\":390,\"vh\":844,\"full\":true,\"actions\":[$M]}" > /tmp/claude-0/r1.log 2>&1 &
+node states.js "{\"route\":\"/case-study/+bank\",\"name\":\"bank\",\"vw\":1280,\"full\":true,\"actions\":[$M]}" > /tmp/claude-0/r2.log 2>&1 &
+node states.js "{\"route\":\"/case-study/bookie\",\"name\":\"bookie\",\"vw\":1280,\"full\":true,\"actions\":[$M]}" > /tmp/claude-0/r3.log 2>&1 &
+node states.js "{\"route\":\"/case-study/iupi\",\"name\":\"iupi\",\"vw\":1280,\"full\":true,\"actions\":[$M,{\"names\":[\"Ir a wireframe 1\",\"Ir a wireframe 2\",\"Ir a wireframe 3\",\"Ir a wireframe 4\",\"Ir a wireframe 5\",\"Ir a wireframe 6\",\"Ir a wireframe 7\",\"Ir a wireframe 8\"],\"prefix\":\"idear-wf\"}]}" > /tmp/claude-0/r4.log 2>&1 &
+node states.js "{\"route\":\"/case-study/portfolio\",\"name\":\"portfolio\",\"vw\":1280,\"full\":true,\"actions\":[$M]}" > /tmp/claude-0/r5.log 2>&1 &
+wait
+node states.js '{"route":"/case-study/milestone","name":"milestone","vw":1280,"full":true,"actions":[{"type":"overlay","name":"Abrir menú","prefix":"menu-open"},{"names":["Entrevistas","Benchmark","Personas","Dolores"],"prefix":"empatizar"},{"names":["Entrevistas"],"prefix":"tmp"},{"repeat":"Cita siguiente","prefix":"empatizar-cita"},{"names":["How Might We","Journey Map","Alcance del MVP"],"prefix":"definir"},{"names":["Sitemap","User Flow","Wireframe Lo-Fi"],"prefix":"idear"},{"names":["Branding","Wireframe Mid-Fi","Construcción","Prototipo"],"prefix":"prototipar"},{"names":["Sesiones","Maze","Hallazgos y fixes"],"prefix":"prueba"},{"type":"expand","pre":"Alcance del MVP","prefix":"definir-alcance_del_mvp-expandido"},{"type":"expand","pre":"Dolores","prefix":"empatizar-dolores-expandido"},{"type":"rows","pre":"Benchmark","names":["Facilidad de aprendizaje","Eficiencia","Carga cognitiva","Retención del hábito","Confianza"],"prefix":"empatizar-benchmark","toggle":true}]}' > /tmp/claude-0/r6.log 2>&1
+rm -f ../milestone/1280/states/tmp-*; tail -n2 /tmp/claude-0/r*.log

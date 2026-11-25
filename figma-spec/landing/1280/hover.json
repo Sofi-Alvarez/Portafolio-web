@@ -1,0 +1,574 @@
+[
+ {
+  "tag": "BUTTON",
+  "cls": "min-h-11 px-2 rounded-lg text-gray-700 dark:text-gray-200 hover:text-[#025959] dark:hover:text-[#FF8300] transition-all motion-safe:hover:scale-110 duration-200",
+  "txt": "Inicio",
+  "al": null,
+  "y": 16,
+  "x": 434,
+  "w": 63,
+  "h": 48,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Inicio",
+    "k": "color",
+    "from": "oklch(0.373 0.034 259.733)",
+    "to": "rgb(2, 89, 89)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Inicio",
+    "k": "scale",
+    "from": "none",
+    "to": "1.1"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "w-11 h-11 flex items-center justify-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors",
+  "txt": "",
+  "al": "Activar modo oscuro",
+  "y": 18,
+  "x": 1172,
+  "w": 44,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "backgroundColor",
+    "from": "rgba(0, 0, 0, 0)",
+    "to": "oklch(0.967 0.003 264.542)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "inline-flex items-center gap-2 rounded-full px-8 py-4 text-base sm:text-lg font-semibold text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#025959] focus:ring-offset-2",
+  "txt": "Ver proyectos →",
+  "al": null,
+  "y": 648,
+  "x": 534,
+  "w": 211,
+  "h": 60,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ver proyectos",
+    "k": "backgroundColor",
+    "from": "rgb(2, 89, 89)",
+    "to": "rgb(3, 112, 112)"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ver proyectos",
+    "k": "boxShadow",
+    "from": "rgba(2, 89, 89, 0.3) 0px 10px 28px 0px",
+    "to": "rgba(2, 89, 89, 0.4) 0px 14px 32px 0px"
+   },
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Ver proyectos",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1, 0, 0, 1, 0, -2)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "absolute bottom-6 right-6 z-10 w-11 h-11 flex items-center justify-center rounded-full bg-white/80 dark:bg-gray-900/70 border border-[#025959]/25 text-[#025959] dark:text-[#4ecfcf] backdrop-blur-sm ho",
+  "txt": "",
+  "al": "Pausar animaciones de fondo",
+  "y": 832,
+  "x": 1212,
+  "w": 44,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "backgroundColor",
+    "from": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+    "to": "rgb(255, 255, 255)"
+   }
+  ]
+ },
+ {
+  "tag": "ARTICLE",
+  "cls": "group flex flex-col md:flex-row rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md relative cursor-pointer has-[a:focus-visible]:ring-2 has-[a:",
+  "txt": "App propia en producción Product Designer & Design Engineer ",
+  "al": null,
+  "y": 1088,
+  "x": 112,
+  "w": 1056,
+  "h": 516,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "ARTICLE",
+    "txt": "",
+    "k": "boxShadow",
+    "from": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.1) 0px 2px 4px -2px",
+    "to": "rgba(74, 78, 120, 0.157) 0px 28px 56px 0px"
+   },
+   {
+    "j": 0,
+    "t": "ARTICLE",
+    "txt": "",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1, 0, 0, 1, 0, -4)"
+   },
+   {
+    "j": 2,
+    "t": "IMG",
+    "txt": "",
+    "k": "scale",
+    "from": "none",
+    "to": "1.04"
+   },
+   {
+    "j": 35,
+    "t": "SPAN",
+    "txt": "Ver caso",
+    "k": "gap",
+    "from": "4px",
+    "to": "8px"
+   },
+   {
+    "j": 35,
+    "t": "SPAN",
+    "txt": "Ver caso",
+    "k": "columnGap",
+    "from": "4px",
+    "to": "8px"
+   },
+   {
+    "j": 35,
+    "t": "SPAN",
+    "txt": "Ver caso",
+    "k": "width",
+    "from": "79.2969px",
+    "to": "83.2969px"
+   }
+  ]
+ },
+ {
+  "tag": "IMG",
+  "cls": "w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04]",
+  "txt": "",
+  "al": null,
+  "y": 1079,
+  "x": 104,
+  "w": 482,
+  "h": 535,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "IMG",
+    "txt": "",
+    "k": "scale",
+    "from": "1.00317",
+    "to": "1.04"
+   }
+  ]
+ },
+ {
+  "tag": "SPAN",
+  "cls": "inline-flex items-center gap-1 text-sm font-semibold text-[#025959] dark:text-[#4ecfcf] whitespace-nowrap group-hover:gap-2 transition-all duration-200",
+  "txt": "Ver caso",
+  "al": null,
+  "y": 1543,
+  "x": 617,
+  "w": 83,
+  "h": 20,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "SPAN",
+    "txt": "Ver caso",
+    "k": "gap",
+    "from": "4px",
+    "to": "8px"
+   },
+   {
+    "j": 0,
+    "t": "SPAN",
+    "txt": "Ver caso",
+    "k": "columnGap",
+    "from": "4px",
+    "to": "8px"
+   },
+   {
+    "j": 0,
+    "t": "SPAN",
+    "txt": "Ver caso",
+    "k": "width",
+    "from": "79.2969px",
+    "to": "83.2969px"
+   }
+  ]
+ },
+ {
+  "tag": "ARTICLE",
+  "cls": "group flex flex-col rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md relative cursor-pointer has-[a:focus-visible]:ring-2 has-[a:focus-visibl",
+  "txt": "No Country · MVP en 5 semanas Diseñadora UX/UI IUPI: fintech",
+  "al": null,
+  "y": 1636,
+  "x": 256,
+  "w": 768,
+  "h": 478,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "ARTICLE",
+    "txt": "",
+    "k": "boxShadow",
+    "from": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.1) 0px 2px 4px -2px",
+    "to": "rgba(0, 74, 172, 0.14) 0px 20px 44px 0px"
+   },
+   {
+    "j": 0,
+    "t": "ARTICLE",
+    "txt": "",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1, 0, 0, 1, 0, -3.99991)"
+   },
+   {
+    "j": 2,
+    "t": "IMG",
+    "txt": "",
+    "k": "scale",
+    "from": "none",
+    "to": "1.04"
+   },
+   {
+    "j": 30,
+    "t": "SPAN",
+    "txt": "Ver caso",
+    "k": "gap",
+    "from": "4px",
+    "to": "8px"
+   },
+   {
+    "j": 30,
+    "t": "SPAN",
+    "txt": "Ver caso",
+    "k": "columnGap",
+    "from": "4px",
+    "to": "8px"
+   },
+   {
+    "j": 30,
+    "t": "SPAN",
+    "txt": "Ver caso",
+    "k": "width",
+    "from": "79.2969px",
+    "to": "83.2969px"
+   }
+  ]
+ },
+ {
+  "tag": "IMG",
+  "cls": "w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.04] p-4",
+  "txt": "",
+  "al": null,
+  "y": 1632,
+  "x": 242,
+  "w": 797,
+  "h": 250,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "IMG",
+    "txt": "",
+    "k": "scale",
+    "from": "1.00317",
+    "to": "1.04"
+   }
+  ]
+ },
+ {
+  "tag": "ARTICLE",
+  "cls": "group flex flex-col sm:flex-row mx-auto w-full max-w-2xl rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md relative cursor-pointer has-[a:focu",
+  "txt": "Desarrollo asistido por IA Product Designer & Design Enginee",
+  "al": null,
+  "y": 2147,
+  "x": 304,
+  "w": 672,
+  "h": 311,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "ARTICLE",
+    "txt": "",
+    "k": "boxShadow",
+    "from": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.1) 0px 2px 4px -2px",
+    "to": "rgba(2, 89, 89, 0.157) 0px 16px 36px 0px"
+   },
+   {
+    "j": 0,
+    "t": "ARTICLE",
+    "txt": "",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1, 0, 0, 1, 0, -2.94504)"
+   },
+   {
+    "j": 2,
+    "t": "IMG",
+    "txt": "",
+    "k": "scale",
+    "from": "none",
+    "to": "1.05"
+   },
+   {
+    "j": 33,
+    "t": "SPAN",
+    "txt": "Ver caso",
+    "k": "gap",
+    "from": "4px",
+    "to": "8px"
+   },
+   {
+    "j": 33,
+    "t": "SPAN",
+    "txt": "Ver caso",
+    "k": "columnGap",
+    "from": "4px",
+    "to": "8px"
+   },
+   {
+    "j": 33,
+    "t": "SPAN",
+    "txt": "Ver caso",
+    "k": "width",
+    "from": "79.2969px",
+    "to": "83.2969px"
+   }
+  ]
+ },
+ {
+  "tag": "IMG",
+  "cls": "w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.05] p-3",
+  "txt": "",
+  "al": null,
+  "y": 2140,
+  "x": 300,
+  "w": 202,
+  "h": 324,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "IMG",
+    "txt": "",
+    "k": "scale",
+    "from": "1.00396",
+    "to": "1.05"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-full bg-[#025959] text-white border border-white/40 hover:bg-white/15 transition-colors focus-visible:outli",
+  "txt": "",
+  "al": "Pausar animación de palabras clave",
+  "y": 4042,
+  "x": 1224,
+  "w": 44,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "",
+    "k": "backgroundColor",
+    "from": "rgb(2, 89, 89)",
+    "to": "oklab(0.999994 0.0000455678 0.0000200868 / 0.15)"
+   }
+  ]
+ },
+ {
+  "tag": "A",
+  "cls": "flex items-center justify-center gap-2 px-6 py-3 bg-[#025959] text-white rounded-lg hover:bg-[#025959]/90 transition-colors shadow-lg",
+  "txt": "Conectar en LinkedIn (se abre en una pestaña nueva)",
+  "al": null,
+  "y": 7064,
+  "x": 474,
+  "w": 249,
+  "h": 50,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "A",
+    "txt": "",
+    "k": "backgroundColor",
+    "from": "rgb(2, 89, 89)",
+    "to": "rgba(2, 89, 89, 0.9)"
+   },
+   {
+    "j": 0,
+    "t": "A",
+    "txt": "",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1.05, 0, 0, 1.05, 0, 0)"
+   }
+  ]
+ },
+ {
+  "tag": "A",
+  "cls": "flex items-center justify-center gap-2 px-6 py-3 bg-[#FF8300] text-gray-900 rounded-lg hover:bg-[#FF8300]/90 transition-colors shadow-lg",
+  "txt": "Obtener currículum (se abre en una pestaña nueva)",
+  "al": null,
+  "y": 7064,
+  "x": 727,
+  "w": 234,
+  "h": 50,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "A",
+    "txt": "",
+    "k": "backgroundColor",
+    "from": "rgb(255, 131, 0)",
+    "to": "rgba(255, 131, 0, 0.9)"
+   },
+   {
+    "j": 0,
+    "t": "A",
+    "txt": "",
+    "k": "transform",
+    "from": "none",
+    "to": "matrix(1.05, 0, 0, 1.05, 0, 0)"
+   }
+  ]
+ },
+ {
+  "tag": "A",
+  "cls": "w-11 h-11 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors",
+  "txt": "",
+  "al": "Enviar un email a alvarez.sofib@gmail.com",
+  "y": 7137,
+  "x": 480,
+  "w": 44,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "A",
+    "txt": "",
+    "k": "backgroundColor",
+    "from": "rgb(255, 255, 255)",
+    "to": "oklch(0.985 0.002 247.839)"
+   }
+  ]
+ },
+ {
+  "tag": "A",
+  "cls": "w-11 h-11 bg-white dark:bg-gray-700 rounded-lg shadow flex items-center justify-center hover:bg-green-50 dark:hover:bg-gray-600 transition-colors",
+  "txt": "",
+  "al": "WhatsApp (se abre en una pestaña nueva)",
+  "y": 7137,
+  "x": 540,
+  "w": 44,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "A",
+    "txt": "",
+    "k": "backgroundColor",
+    "from": "rgb(255, 255, 255)",
+    "to": "oklch(0.982 0.018 155.826)"
+   }
+  ]
+ },
+ {
+  "tag": "BUTTON",
+  "cls": "min-h-11 text-white/90 hover:text-white transition-colors text-left",
+  "txt": "Inicio",
+  "al": null,
+  "y": 7417,
+  "x": 453,
+  "w": 41,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "BUTTON",
+    "txt": "Inicio",
+    "k": "color",
+    "from": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+    "to": "rgb(255, 255, 255)"
+   }
+  ]
+ },
+ {
+  "tag": "A",
+  "cls": "inline-flex items-center min-h-11 hover:text-white underline-offset-4 hover:underline transition-colors",
+  "txt": "alvarez.sofib@gmail.com",
+  "al": null,
+  "y": 7449,
+  "x": 859,
+  "w": 190,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "A",
+    "txt": "alvarez.sofib@gmail.",
+    "k": "color",
+    "from": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+    "to": "rgb(255, 255, 255)"
+   },
+   {
+    "j": 0,
+    "t": "A",
+    "txt": "alvarez.sofib@gmail.",
+    "k": "textDecorationLine",
+    "from": "none",
+    "to": "underline"
+   }
+  ]
+ },
+ {
+  "tag": "A",
+  "cls": "inline-flex items-center min-h-11 hover:text-white transition-colors",
+  "txt": "LinkedIn (se abre en una pestaña nueva)",
+  "al": null,
+  "y": 7553,
+  "x": 859,
+  "w": 64,
+  "h": 44,
+  "diffs": [
+   {
+    "j": 0,
+    "t": "A",
+    "txt": "LinkedIn",
+    "k": "color",
+    "from": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+    "to": "rgb(255, 255, 255)"
+   },
+   {
+    "j": 1,
+    "t": "SPAN",
+    "txt": "(se abre en una pest",
+    "k": "color",
+    "from": "oklab(0.999994 0.0000455678 0.0000200868 / 0.9)",
+    "to": "rgb(255, 255, 255)"
+   }
+  ]
+ }
+]

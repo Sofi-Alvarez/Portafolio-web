@@ -1,0 +1,70 @@
+{
+ "runId": "portfolio-tofigma-2026-11-25",
+ "fileKey": "ijBJawhgQMa1nhRPWbsl2W",
+ "decisions": {
+  "font": "Inter (sitio usa system-ui)",
+  "mono": "JetBrains Mono",
+  "imgRule": ">200KB placeholder (todas las servidas <200KB)",
+  "modals": "overlay prototipo + copia visible",
+  "links": "pendiente /links"
+ },
+ "collections": {
+  "Spacing": "VariableCollectionId:14:134",
+  "Radius": "VariableCollectionId:14:155",
+  "Typography": "VariableCollectionId:14:163",
+  "Motion": "VariableCollectionId:14:187",
+  "Primitives": "VariableCollectionId:14:194",
+  "Color": "VariableCollectionId:14:265",
+  "Case theme": "VariableCollectionId:14:301"
+ },
+ "caseThemeModes": {
+  "Brand": "14:11",
+  "Milestone": "14:12"
+ },
+ "completedSteps": [
+  "extract",
+  "variables",
+  "text+effect+paint+grid styles",
+  "foundations doc page",
+  "icons components",
+  "image library",
+  "runtime installed (sharedPluginData tofigma rt/page/icons/hashes)",
+  "7 page frames built + compared (2-5% px diff)"
+ ],
+ "pages": {
+  "Foundations": "0:1",
+  "UI Kit": "17:76",
+  "Landing": "17:77",
+  "Milestone": "17:78",
+  "IUPI": "17:79",
+  "Portfolio Web": "17:80",
+  "Mas+ Bank": "17:81",
+  "Bookie": "17:82",
+  "Notas": "17:83"
+ },
+ "frames": {
+  "Landing Desktop": "33:303",
+  "Landing Mobile": "33:1179",
+  "Milestone": "33:2047",
+  "IUPI": "33:2819",
+  "Portfolio": "33:4044",
+  "Bank": "33:4817",
+  "Bookie": "33:5792"
+ },
+ "uikit": {
+  "Icons board": "24:17",
+  "Images board": "30:2",
+  "Brand/Logo": "24:1255"
+ },
+ "next": [
+  "UI Kit components w/ hover variants + interactive reactions",
+  "Milestone explorer states (component sets)",
+  "IUPI wireframe carousel",
+  "menu overlays + visible copies",
+  "prototype links",
+  "swap page nodes for instances",
+  "Notas page",
+  "Portada",
+  "cleanup sharedPluginData"
+ ]
+}
